@@ -19,6 +19,7 @@ namespace SystemLibrary.Repository
         void Add();
         IEnumerable<User> GetUsers();
         User GetUserById(int userId);
+        User GetUserByUsername(string userName);
         void Update(User user);
         void Delete(int userId);
         void getSubject();
@@ -47,6 +48,11 @@ namespace SystemLibrary.Repository
         {
             return null;
         }
+        public User GetUserByUsername(string userName)
+        {
+            User user = null;
+            return user;
+        }
         public void Update(User user)
         {
 
@@ -59,8 +65,7 @@ namespace SystemLibrary.Repository
         public void getSubject()
         {
             string sqlQuery = "SELECT * FROM Subjects";
-            command = new SqlCommand(sqlQuery);
-            DataTable dt=_DBContext.Query(command);
+            DataTable dt=_DBContext.Query(sqlQuery);
             foreach (DataRow row in dt.Rows)
             {
                 Debug.WriteLine(row[1].ToString());

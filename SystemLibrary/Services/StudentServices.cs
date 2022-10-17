@@ -14,7 +14,12 @@ namespace SystemLibrary.Services
     }
     public class StudentServices:IStudentServices
     {
-       
+        private readonly IUserServices _userServices;
+        public StudentServices(IUserServices userServices)
+        {
+            _userServices = userServices;
+        }
+
         public void RegisterStudent()
         {
 

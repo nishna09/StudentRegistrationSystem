@@ -19,6 +19,7 @@ namespace SystemLibrary.Entities
                     
                 Password = value;
             }
+            get { return Password; }
         }
 
         public Student _student=null;

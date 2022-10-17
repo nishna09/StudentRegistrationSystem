@@ -28,7 +28,14 @@ namespace SystemLibrary.Services
 
         public void Login(string username, string password)
         {
-            _userRepository.getSubject();
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new ArgumentNullException("Username must be entered!");
+            }
+
+            _userRepository.GetUserByUsername(username);
+            
+            
         }
         public void Logout()
         {
