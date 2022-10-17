@@ -8,7 +8,6 @@ namespace SystemLibrary.Entities
 {
     public class User
     {
-        public int UserId { get; private set; }
         public string UserName { get; set; } 
         public string Password {
             set

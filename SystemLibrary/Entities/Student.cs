@@ -18,7 +18,7 @@ namespace SystemLibrary.Entities
 
         //readonly
         public int MaxSubjects = 3;
-        public Dictionary<Subject, Grade> Result { get; set; }
+        public List<Results> Results { get; set; }
         public Status StudentStatus { get; set; }
         public Address UserAddress;
 

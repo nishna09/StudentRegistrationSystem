@@ -13,6 +13,7 @@ namespace SystemLibrary.Services
         void Login(string username, string password);
         void Logout();
         void Register();
+        void CheckUserName(string userName);
         
     }
 
@@ -27,7 +28,7 @@ namespace SystemLibrary.Services
 
         public void Login(string username, string password)
         {
-
+            _userRepository.getSubject();
         }
         public void Logout()
         {
@@ -37,6 +38,10 @@ namespace SystemLibrary.Services
         {
             User user = new User();
             
+        }
+        public void CheckUserName(string userName)
+        {
+
         }
 
     }

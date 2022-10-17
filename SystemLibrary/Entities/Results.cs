@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SystemLibrary.Entities
 {
-    public class Address
+    public class Results
     {
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
+        public int ResultId { get; private set; }
+        public int SubjectId { get; set; }
+        public int GradeId { get; set; }
     }
 }

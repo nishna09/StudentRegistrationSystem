@@ -3,7 +3,7 @@ using Unity;
 using Unity.Mvc5;
 using SystemLibrary.Repository;
 using SystemLibrary.Services;
-using ResgistrationApplication.App_Start;
+using SystemLibrary.Helper;
 
 namespace StudentRegistrationSystem
 {
