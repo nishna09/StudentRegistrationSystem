@@ -18,12 +18,16 @@ namespace ResgistrationApplication.Controllers
             _userServices = userServices;
         }
 
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    Debug.WriteLine("Ok");
+        //    logger.Debug("Ok!");
+        //    _userServices.Login("Name","Name");
+        //    return View();
+        //}
+        public string Index()
         {
-            Debug.WriteLine("Ok");
-            logger.Debug("Ok!");
-            _userServices.Login("Name","Name");
-            return View();
+            return "Hello World, this is ASP.Net MVC Tutorials";
         }
     }
 }

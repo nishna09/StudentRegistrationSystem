@@ -20,6 +20,7 @@ namespace SystemLibrary.Repository
         IEnumerable<User> GetUsers();
         User GetUserById(int userId);
         User GetUserByUsername(string userName);
+        List<Role> getRoles(int userId);    
         void Update(User user);
         void Delete(int userId);
         void getSubject();
@@ -51,7 +52,27 @@ namespace SystemLibrary.Repository
         public User GetUserByUsername(string userName)
         {
             User user = null;
+            string query = $"SELECT * FROM Users WHERE UserName='{userName}'";
+            DataTable result=_DBContext.Query(query);
+            if (result.Rows.Count > 0)
+            {
+                DataRow getRow=result.Rows[0];
+                user = new User();
+                user.UserName = getRow["UserName"].ToString();
+                user.Password = getRow["UserPassword"].ToString();
+                user.SetDeleted((bool)getRow["Deleted"]);
+            }
             return user;
+        }
+        public List<Role> getRoles(int userId)
+        {
+            List<Role> roles = new List<Role>();
+            string query = $"SELECT r.RoleId FROM Roles r" +
+                $"INNER JOIN UserRoles ur on (r.RoleId=ur.RoleId)"+
+                $"INNER JOIN Users u on (ur.UserId=u.UserId)" +
+                $"WHERE u.UserId={userId}";
+            //continue to get execute command
+            return roles;
         }
         public void Update(User user)
         {

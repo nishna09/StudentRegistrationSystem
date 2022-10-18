@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Web;
+using SystemLibrary.Entities;
 
 namespace SystemLibrary.Helper
 {
@@ -15,7 +16,7 @@ namespace SystemLibrary.Helper
     {
         void NonQuery(string command);
         DataTable Query(string command);
-        //DataTable Query2();
+        DataTable Query2(string command);
     }
     public class DatabaseConnect: IDatabaseConnect
     {
@@ -73,40 +74,38 @@ namespace SystemLibrary.Helper
             return data;
         }
 
-        //public DataTable Query2()
-        //{
-        //    DataTable data = null ;
-        //    try
-        //    {
-        //        
-        //        Open();
-        //        Console.WriteLine("Hi");
-        //        string sqlQuery = "SELECT * FROM Subjects";
-        //        Console.WriteLine("Hi 2");
-        //        SqlCommand command = new SqlCommand(sqlQuery,conn);
-        //        Console.WriteLine("Hi 3");
-        //        adapter = new SqlDataAdapter(command);
-        //        data=new DataTable();
-        //        
-        //        adapter.Fill(data);
-        //        Console.WriteLine("Hi 5");
-        //
-         //       foreach (DataRow row in data.Rows)
-         //       {
-         //           Console.WriteLine(row[1].ToString());
-         //       }
-         //
-         //   }
-         //   catch (Exception ex)
-         //   {
-         //       logger.Error(ex.Message, ex.InnerException, "Query sql");
-          //      Console.WriteLine(ex.InnerException);
-          //  }
-          //  finally
-          //  {
-          //      Close();
-          //  }
-          //  return data;
-        //}
+        public DataTable Query2(string  command)
+        {
+            DataTable data = null ;
+            try
+            {
+
+                Open();
+                adapter = new SqlDataAdapter(command, conn);
+                data = new DataTable();
+                adapter.Fill(data);
+                if (data.Rows.Count > 0) { 
+                    Console.WriteLine("Getting user!");
+                DataRow row = data.Rows[0];
+                Console.WriteLine(row["UserName"]);
+            }
+                //foreach (DataRow row in data.Rows)
+                //{
+                //Console.WriteLine(row[1].ToString());
+                //   Console.WriteLine(row[2].ToString());
+                //   }
+        
+         }
+         catch (Exception ex)
+         {
+             logger.Error(ex.Message, ex.InnerException, "Query sql");
+             Console.WriteLine(ex.InnerException);
+         }
+            finally
+            {
+                Close();
+            }
+            return data;
+        }
     }
 }

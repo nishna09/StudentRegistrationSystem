@@ -16,9 +16,10 @@ namespace ConsoleApp2
         static void Main(string[] args)
         {
             DatabaseConnect db=new DatabaseConnect();
-            //db.Query2();
+            string userName = "Admin";
+            db.Query2($"SELECT * FROM Users WHERE UserName='{userName}'");
             string password = BCrypt.Net.BCrypt.HashPassword("admin");
-            Console.WriteLine(password);
+           // Console.WriteLine(password);
             Console.ReadLine();
         }
     }
