@@ -2,8 +2,8 @@ using System.Web.Mvc;
 using Unity;
 using Unity.Mvc5;
 using SystemLibrary.Repository;
+using SystemLibrary.Repository.Database;
 using SystemLibrary.Services;
-using SystemLibrary.Helper;
 
 namespace StudentRegistrationSystem
 {
@@ -15,7 +15,7 @@ namespace StudentRegistrationSystem
 
             container.RegisterType<IUserServices, UserServices>();
             container.RegisterType<IUserRepository, UserRepository>();
-            container.RegisterType<IDatabaseConnect, DatabaseConnect>();
+            container.RegisterType<IDatabaseCommand, DatabaseCommand>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

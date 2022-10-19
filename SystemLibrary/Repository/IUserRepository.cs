@@ -4,12 +4,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using SystemLibrary.Entities;
-using SystemLibrary.Helper;
+using SystemLibrary.Repository.Database;
 
 
 namespace SystemLibrary.Repository
@@ -23,15 +24,14 @@ namespace SystemLibrary.Repository
         List<Role> getRoles(int userId);    
         void Update(User user);
         void Delete(int userId);
-        void getSubject();
     }
 
     public class UserRepository : IUserRepository
     {
-        private readonly IDatabaseConnect _DBContext;
+        private readonly IDatabaseCommand _DBContext;
         SqlCommand command=null;
 
-        public UserRepository(IDatabaseConnect dBContext)
+        public UserRepository(IDatabaseCommand dBContext)
         {
             _DBContext = dBContext;
             
@@ -52,8 +52,10 @@ namespace SystemLibrary.Repository
         public User GetUserByUsername(string userName)
         {
             User user = null;
-            string query = $"SELECT * FROM Users WHERE UserName='{userName}'";
-            DataTable result=_DBContext.Query(query);
+            string query = @"SELECT * FROM Users WHERE UserName=@UserName";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@UserName", userName));
+            DataTable result=_DBContext.QueryWithConditions(query,parameters);
             if (result.Rows.Count > 0)
             {
                 DataRow getRow=result.Rows[0];
@@ -83,14 +85,6 @@ namespace SystemLibrary.Repository
 
         }
 
-        public void getSubject()
-        {
-            string sqlQuery = "SELECT * FROM Subjects";
-            DataTable dt=_DBContext.Query(sqlQuery);
-            foreach (DataRow row in dt.Rows)
-            {
-                Debug.WriteLine(row[1].ToString());
-            }
-        }
+       
     }
 }

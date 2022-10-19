@@ -21,5 +21,9 @@ namespace StudentRegistrationSystem.Controllers
             bool res=_userServices.Login("Admin", "admin1");
             return res;
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
     }
 }
