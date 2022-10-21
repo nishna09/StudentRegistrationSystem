@@ -1,6 +1,5 @@
 ﻿body {
-    background-image:url("../Images/login.webp");
-    background-color:black;
+    background-image: url("/Content/Images/log.jpg");
     background-size: cover;
     font-family: Gabriola;
     color: whitesmoke;
@@ -8,7 +7,7 @@
     font-weight: bolder;
 }
 
-legend {
+h1 {
     text-align: center;
     font-size: xx-large;
     font-weight: bolder;
@@ -43,6 +42,7 @@ input, select, textarea {
     box-sizing: border-box;
     color: black;
     width: 50%;
+    height:50px;
     margin-left: 2%;
 }
 
@@ -64,6 +64,7 @@ label, a {
     border-radius: 50px 10px;
     width: 60%;
     display: grid;
-    margin: 15%;
+    margin-top:5%;
+    margin-left:20%;
     padding-left: 2%;
 }

@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using SystemLibrary.Entities;
 using SystemLibrary.Repository;
+using SystemLibrary.Models;
 
 namespace SystemLibrary.Services
 {
     public interface IUserServices
     {
-        bool Login(string username, string password);
+        bool Authenticate(LoginView model);
         void Logout();
         void Register();
         void CheckUserName(string userName);
@@ -26,32 +27,25 @@ namespace SystemLibrary.Services
             _userRepository = userRepository;
         }
 
-        public bool Login(string username, string password)
+        public bool Authenticate(LoginView model)
         {
-            if (string.IsNullOrEmpty(username))
+            bool verify = false;
+            if (string.IsNullOrEmpty(model.UserName))
             {
                 throw new ArgumentNullException("Username must be entered!");
             }
 
-            User user=_userRepository.GetUserByUsername(username);
-            if (user == null)
+            User user=_userRepository.GetUserByUsername(model.UserName);
+            if (user != null)
             {
-                throw new ArgumentException("Incorrect credentials!");
-            }
-            if (user.Deleted == true)
-            {
-                throw new Exception("This user has been deleted!");
-            }
+                if (user.Deleted == true)
+                {
+                    throw new Exception("This user has been deleted!");
+                }
 
-            bool verify = BCrypt.Net.BCrypt.Verify(password, user.Password);
-
-            //if (!verify)
-            //{
-            //    throw new Exception("Incorrect credentials!");
-            //}
+                verify = BCrypt.Net.BCrypt.Verify(model.Password, user.Password);
+            }
             
-
-
             return verify;
             
         }
