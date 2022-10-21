@@ -9,19 +9,20 @@ using SystemLibrary.Entities;
 
 namespace StudentRegistrationSystem.Controllers
 {
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
         private readonly IUserServices _userServices;
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        public HomeController(IUserServices userServices)
+        public LoginController(IUserServices userServices)
         {
+
             _userServices = userServices;
         }
-        public bool Index(){
-            bool res=_userServices.Login("Admin", "admin1");
-            return res;
-        }
-        public ActionResult Login()
+       //public bool Index(){
+       //    bool res=_userServices.Login("Admin", "admin1");
+       //    return res;
+       //}
+        public ActionResult Index()
         {
             return View();
         }

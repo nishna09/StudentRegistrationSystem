@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<head>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+    <link rel="stylesheet" href="~/Content/css/login.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    @*https://codeseven.github.io/toastr/*@
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    @*<script type="text/javascript" src="~/Scripts/loginScript.js"></script>*@>
+    <link rel="stylesheet" href="~/Content/css/LoginRegister.css">
+    <script type="text/javascript" src="~/Scripts/LoginRegister.js"></script>
+    <title>Login form</title>
+
+</head>
+<body>
+    <legend>
+        LOGIN FORM
+    </legend>
+    <form class="container">
+
+        <div class="row">
+            <div class="form-group">
+                <label for="name">Username:  </label>
+                <input id="username" type="text" placeholder="Username">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="password">Password: </label>
+                <input id="password" type="password" placeholder="********">
+            </div>
+        </div>
+
+
+        <div class="center pointer">
+            <button onclick="signIn()">Sign In</button>
+            <span class="link">Don't have an account? Register</span>
+        </div>
+    </form>
+
+
+
+
+</body>
+</html>
