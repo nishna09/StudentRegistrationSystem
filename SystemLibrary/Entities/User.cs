@@ -8,7 +8,8 @@ namespace SystemLibrary.Entities
 {
     public class User
     {
-        public string UserName { get; set; } 
+        public int UserId { get; private set; }
+        public string EmailAddress { get; set; } 
         //public string Password {
         //    set
         //    {
@@ -21,18 +22,22 @@ namespace SystemLibrary.Entities
         //    }
         //    get { return Password; }
         //}
-
+        
         public string Password { get; set; }
-
-        public Student _student=null;
+        public Student Stud { get; set; }
+        
         public List<Role> roles { get; set; }
 
-        public void CreateStudent()
-        {
-            _student = new Student();
-        }
-        
+      
         public bool Deleted { get; private set; }
+        public User():this(0)
+        {
+
+        }
+        public User(int id)
+        {
+            UserId = id;
+        }
         public void SetDeleted(bool deleted)
         {
             Deleted=deleted;

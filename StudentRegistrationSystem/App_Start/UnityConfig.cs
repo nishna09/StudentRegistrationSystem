@@ -14,7 +14,9 @@ namespace StudentRegistrationSystem
 			var container = new UnityContainer();
 
             container.RegisterType<IUserServices, UserServices>();
+            container.RegisterType<IStudentServices, StudentServices>();
             container.RegisterType<IUserRepository, UserRepository>();
+            container.RegisterType<IStudentRepository, StudentRepository>();
             container.RegisterType<IDatabaseCommand, DatabaseCommand>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

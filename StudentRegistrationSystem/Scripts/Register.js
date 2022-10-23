@@ -12,8 +12,11 @@ $(function () {
         return false;
     });
 
+    var passwordMatch = false;
+    var emailAddressAvailable = false;
 
-    $("span#btnRegister").click(function () {
+
+    $("button#btnRegister").click(function () {
         var validValues = true;
         var phone = phoneInput.getNumber();
         var today = new Date();
@@ -27,45 +30,80 @@ $(function () {
             validValues = false;
             toastr.error("Invalid date of birth!");
         }
-
-        if (!passwordEquality()) {
-            validValues = false;
+        if (!passwordMatch) {
             toastr.error("Passwords do not match!");
         }
 
-        if (validValues) {
+        if (!emailAddressAvailable) {
+            toastr.error("This email address is already registered!");
+        }
+
+        if (validValues && passwordMatch && emailAddressAvailable) {
+            var student = {
+                FirstName: $("#firstname").val(),
+                LastName: $("#lastname").val(),
+                NationalID: $("#NID").val(),
+                DateOfBirth: dob,
+                ContactNumber: phone,
+            };
+            var user={
+                EmailAddress: $("#emailAddress").val(),
+                Password: $("#password").val(),
+                Stud: student
+            }
+
+            postData(user, "/Users/RegisterStudent").then((response) => {
+                alert(response.result);
+            }).catch((error) => {
+                console.log(error);
+            })
 
         }
+        
 
     //end of $("button#btnRegister").click function
     });
 
     $("#confirmPassword").keyup(function () {
-        var check = passwordEquality();
-        
-        if (!check) {
-            $("span.passwordErr").html("Passwords do not match!");
-            $("span.passwordErr").css("color", "#D2691E");
+
+        if ($("#confirmPassword").val() != '') {
+            var check = passwordEquality();
+
+            if (!check) {
+                $("span.passwordErr").html("Passwords do not match!");
+                $("span.passwordErr").css("color", "#D2691E");
+                passwordMatch = false;
+            }
+            else {
+                $("span.passwordErr").html("Passwords match!");
+                $("span.passwordErr").css("color", "#FFD700");
+                passwordMatch = true;
+            }
         }
         else {
-            $("span.passwordErr").html("Passwords match!");
-            $("span.passwordErr").css("color", "#FFD700");
+            $("span.passwordErr").html("");
         }
     });
 
-    $("#username").keyup(function () {
-        usernameCheck().then((response) => {
-            if (response.result) {
-                $("span.usernameErr").html("Username available!");
-                $("span.usernameErr").css("color", "#FFD700");
-            }
-            else {
-                $("span.usernameErr").html("Username not available!");
-                $("span.usernameErr").css("color", "#D2691E");
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
+    $("#emailAddress").keyup(function () {
+        if ($("#emailAddress").val() != '') {
+            emailCheck().then((response) => {
+                if (response.result) {
+                    $("span.emailErr").html("");
+                    emailAddressAvailable = true;
+                }
+                else {
+                    $("span.emailErr").html("This email address is already registered!");
+                    $("span.emailErr").css("color", "#D2691E");
+                    emailAddressAvailable = false;
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+        else {
+            $("span.emailErr").html("");
+        }
       
     });
 
@@ -81,10 +119,10 @@ function passwordEquality() {
     return match;
 }
 
-function usernameCheck() {
-    var userName = $("#username").val();
-    if (userName.trim() != '') {
-        return postData({ userName: userName }, "UserNameAvailability");
+function emailCheck() {
+    var email = $("#emailAddress").val();
+    if (email.trim() != '') {
+        return postData({ emailAddress: email }, "/Users/EmailAvailability");
     
     }
 }

@@ -38,17 +38,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group">
-                <label for="emailAddress">EmailAddress: </label>
-                <input id="emailAddress" type="email" placeholder="joe@gmail.com" required>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label for="username">Username:  </label>
-                    <input id="username" type="text" placeholder="Username" required>
-                    <span class="error usernameErr"></span>
+                    <label for="emailAddress">EmailAddress: </label>
+                    <input id="emailAddress" type="email" placeholder="joe@gmail.com" required>
+                    <span class="error emailErr"></span>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -71,12 +65,7 @@
                 <input id="NID" type="text" placeholder="National Id" required>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group">
-                <label for="guardianName">Guardian Name: </label>
-                <input id="guardianName" type="text" placeholder="Guardian Name" required>
-            </div>
-        </div>
+        
         <div class="row">
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
@@ -91,11 +80,10 @@
                 </div>
             </div>
         </div>
-       
+
         <div class="center pointer">
             <button id="btnRegister">Register</button>
             <span class="link" onclick="window.location = '@Url.Action("Index", "Login")'">Already have an account? Sign In</span>
-            <span class="reg" id="btnRegister">gxuh</span>
         </div>
     </form>
 

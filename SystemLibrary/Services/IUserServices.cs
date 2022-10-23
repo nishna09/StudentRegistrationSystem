@@ -12,11 +12,12 @@ namespace SystemLibrary.Services
 {
     public interface IUserServices
     {
-        bool Authenticate(LoginView model);
+        User Authenticate(User model);
         void Logout();
-        void Register();
-        bool UserNameAvailable(string userName);
-        
+        int Register(User model);
+        bool EmailAvailable(string emailName);
+
+
     }
 
     public class UserServices : IUserServices
@@ -28,49 +29,64 @@ namespace SystemLibrary.Services
             _userRepository = userRepository;
         }
 
-        public bool Authenticate(LoginView model)
+        public User Authenticate(User model)
         {
             bool verify = false;
-            if (string.IsNullOrEmpty(model.UserName))
+            if (string.IsNullOrEmpty(model.EmailAddress))
             {
-                throw new ArgumentNullException("Username must be entered!");
+                throw new ArgumentNullException("Email Address must be entered!");
             }
 
-            User user=_userRepository.GetUserByUsername(model.UserName);
+            User user=_userRepository.GetUserByUsername(model.EmailAddress);
             if (user != null)
             {
                 if (user.Deleted == true)
                 {
-                    throw new Exception($"Deleted user {user.UserName} trying to login!");
+                    throw new Exception($"Deleted user {user.EmailAddress} trying to login!");
                 }
 
                 verify = BCrypt.Net.BCrypt.Verify(model.Password, user.Password);
             }
-            
-            return verify;
+            if (!verify)
+                return null;
+
+            user.Password = null;
+            return user;
             
         }
         public void Logout()
         {
 
         }
-        public void Register()
+        public int Register(User model)
         {
-            User user = new User();
+            if (string.IsNullOrEmpty(model.EmailAddress) || string.IsNullOrEmpty(model.Password))
+            {
+                throw new Exception("Email Address and passwords need to be specified!");
+            }
+            if (model.Password.Length < 6)
+            {
+                throw new Exception("Passwords need to be at least 6 characters long!");
+            }
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+            model.Password = hashedPassword;
+            var UserId=_userRepository.Register(model);
+            return UserId;
             
         }
-        public bool UserNameAvailable(string userName)
+        public bool EmailAvailable(string emailAddress)
         {
-            if (string.IsNullOrEmpty(userName))
+            if (string.IsNullOrEmpty(emailAddress))
             {
-                throw new ArgumentNullException("Username must first be entered!");
+                throw new ArgumentNullException("Email Address must first be entered!");
             }
-            User user = _userRepository.GetUserByUsername(userName);
+            User user = _userRepository.GetUserByUsername(emailAddress);
             if (user != null)
                 return false;
             else
                 return true;
         }
+
 
     }
 }

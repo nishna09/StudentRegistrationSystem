@@ -21,21 +21,22 @@ namespace StudentRegistrationSystem.Controllers
 
             _userServices = userServices;
         }
-     
+        
         public ActionResult Index()
         {
             return View();
         }
-       
-        public JsonResult AuthenticateUser(LoginView model)
+
+        [HttpPost]
+        public JsonResult AuthenticateUser(User model)
         {
-            var validUser = false;
+            User validUser = null;
             try
             {
                 validUser = _userServices.Authenticate(model);
-                if (validUser)
+                if (validUser!=null)
                 {
-                    this.Session["CurrentUser"] = model.UserName;
+                    this.Session["CurrentUser"] = validUser.UserId;
                     //add role to session
                 }
             }

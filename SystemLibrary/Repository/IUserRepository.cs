@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Reflection;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
@@ -17,7 +18,7 @@ namespace SystemLibrary.Repository
 {
     public interface IUserRepository
     {
-        void Add();
+        int Register(User user);
         IEnumerable<User> GetUsers();
         User GetUserById(int userId);
         User GetUserByUsername(string userName);
@@ -29,7 +30,6 @@ namespace SystemLibrary.Repository
     public class UserRepository : IUserRepository
     {
         private readonly IDatabaseCommand _DBContext;
-        SqlCommand command=null;
 
         public UserRepository(IDatabaseCommand dBContext)
         {
@@ -37,9 +37,22 @@ namespace SystemLibrary.Repository
             
         }
 
-        public void Add()
+        public int Register(User user)
         {
+            int UserId=0;
 
+            string query = @"INSERT INTO Users(EmailAddress, UserPassword)";
+            query+="VALUES(@EmailAddress, @UserPassword)";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@EmailAddress", user.EmailAddress));
+            parameters.Add(new SqlParameter("@UserPassword",user.Password));
+
+            _DBContext.InsertUpdateDelete(query,parameters);
+            query = "SELECT UserId FROM Users WHERE EmailAddress=@EmailAddress";
+            DataTable result=_DBContext.QueryWithConditions(query, parameters);
+            UserId = (int)result.Rows[0]["UserId"];
+
+            return UserId;
         }
         public IEnumerable<User> GetUsers()
         {
@@ -49,23 +62,25 @@ namespace SystemLibrary.Repository
         {
             return null;
         }
-        public User GetUserByUsername(string userName)
+        public User GetUserByUsername(string emailAddress)
         {
             User user = null;
-            string query = @"SELECT * FROM Users WHERE UserName=@UserName";
+            string query = @"SELECT * FROM Users WHERE EmailAddress=@EmailAddress";
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@UserName", userName));
+            parameters.Add(new SqlParameter("@EmailAddress", emailAddress));
             DataTable result=_DBContext.QueryWithConditions(query,parameters);
             if (result.Rows.Count > 0)
             {
                 DataRow getRow=result.Rows[0];
-                user = new User();
-                user.UserName = getRow["UserName"].ToString();
+                user = new User((int)getRow["UserId"]);
+                user.EmailAddress = getRow["EmailAddress"].ToString();
                 user.Password = getRow["UserPassword"].ToString();
                 user.SetDeleted((bool)getRow["Deleted"]);
             }
             return user;
         }
+
+       
         public List<Role> getRoles(int userId)
         {
             List<Role> roles = new List<Role>();
