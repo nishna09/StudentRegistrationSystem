@@ -123,7 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="nlog.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup Condition="$(VisualStudioVersion) == '17.0'">

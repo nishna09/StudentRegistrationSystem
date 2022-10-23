@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SystemLibrary.Services;
+using SystemLibrary.Models;
 
 namespace ResgistrationApplication.Controllers
 {
@@ -18,16 +19,30 @@ namespace ResgistrationApplication.Controllers
             _userServices = userServices;
         }
 
-        //public ActionResult Index()
-        //{
-        //    Debug.WriteLine("Ok");
-        //    logger.Debug("Ok!");
-        //    _userServices.Login("Name","Name");
-        //    return View();
-        //}
-        public string Index()
+        public ActionResult Register()
         {
-            return "Hello World, this is ASP.Net MVC Tutorials";
+            return View();
         }
+
+        public JsonResult RegisterUser()
+        {
+            return Json(true);
+        }
+
+        public JsonResult UserNameAvailability(string userName)
+        {
+            logger.Error(userName);
+            var available = false;
+            try
+            {
+                available = _userServices.UserNameAvailable(userName);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error {err} with inner exception {ex}", ex.Message, ex.InnerException);
+            }
+            return Json(new { result = available });
+        }
+
     }
 }

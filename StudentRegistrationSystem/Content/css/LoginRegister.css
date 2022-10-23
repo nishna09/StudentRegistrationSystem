@@ -7,8 +7,8 @@
     font-weight: bolder;
 }
 
-h1 {
-    text-align: center;
+legend {
+    text-align:center;
     font-size: xx-large;
     font-weight: bolder;
     color: whitesmoke;
@@ -46,6 +46,7 @@ input, select, textarea {
     margin-left: 2%;
 }
 
+
 label, a {
     color: white;
 }
@@ -67,4 +68,8 @@ label, a {
     margin-top:5%;
     margin-left:20%;
     padding-left: 2%;
+}
+
+.error{
+    color:darkred;
 }

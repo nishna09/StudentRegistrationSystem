@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<head>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <link rel="stylesheet" href="~/Content/css/LoginRegister.css">
+    <script type="text/javascript" src="~/Scripts/Register.js"></script>
+    <script type="text/javascript" src="~/Scripts/AjaxScript.js"></script>
+    <link rel="stylesheet" href="~/Content/css/login.css">
+    <title>University Registration</title>
+</head>
+<body>
+
+    <form class="container">
+        <legend>
+            Student Registration
+        </legend>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <label for="firstname">Firstname:  </label>
+                    <input id="firstname" type="text" placeholder="Firstname" required>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <label for="lastname">Lastname:  </label>
+                    <input id="lastname" type="text" placeholder="Lastname" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="emailAddress">EmailAddress: </label>
+                <input id="emailAddress" type="email" placeholder="joe@gmail.com" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="username">Username:  </label>
+                    <input id="username" type="text" placeholder="Username" required>
+                    <span class="error usernameErr"></span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="password">Password:  </label>
+                    <input id="password" type="password" placeholder="******" required>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password:  </label>
+                    <input id="confirmPassword" type="password" placeholder="******" required>
+                    <span class="error passwordErr"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="NID">National Identity Number: </label>
+                <input id="NID" type="text" placeholder="National Id" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="guardianName">Guardian Name: </label>
+                <input id="guardianName" type="text" placeholder="Guardian Name" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <label for="dob">Date of Birth:  </label>
+                    <input id="dob" type="date" required>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number:  </label>
+                    <input id="phoneNumber" type="tel" required>
+                </div>
+            </div>
+        </div>
+       
+        <div class="center pointer">
+            <button id="btnRegister">Register</button>
+            <span class="link" onclick="window.location = '@Url.Action("Index", "Login")'">Already have an account? Sign In</span>
+            <span class="reg" id="btnRegister">gxuh</span>
+        </div>
+    </form>
+
+</body>
+</html>
+

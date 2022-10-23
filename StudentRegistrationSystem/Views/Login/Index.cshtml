@@ -8,19 +8,19 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/css/LoginRegister.css">
-    <script type="text/javascript" src="~/Scripts/LoginRegister.js"></script>
+    <script type="text/javascript" src="~/Scripts/Login.js"></script>
     <script type="text/javascript" src="~/Scripts/AjaxScript.js"></script>
-    <title>Login form</title>
+    <title>University Registration</title>
 
 </head>
 <body>
-    <h1>
-        LOGIN FORM
-    </h1>
+    
     <form class="container">
-
+        <legend>
+            Login
+        </legend>
         <div class="row">
             <div class="form-group">
                 <label for="username">Username:  </label>
@@ -36,8 +36,8 @@
 
 
         <div class="center pointer">
-            <button onclick="signIn()">Sign In</button>
-            <span class="link">Don't have an account? Register</span>
+            <button id="signupBtn">Sign In</button>
+            <span class="link" onclick="window.location = '@Url.Action("Register", "Users")'">Don't have an account? Register</span>
         </div>
     </form>
 
