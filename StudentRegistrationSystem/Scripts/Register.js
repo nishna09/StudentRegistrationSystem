@@ -43,7 +43,7 @@ $(function () {
                 FirstName: $("#firstname").val(),
                 LastName: $("#lastname").val(),
                 NationalID: $("#NID").val(),
-                DateOfBirth: dob,
+                DateOfBirth: $("#dob").val(),
                 ContactNumber: phone,
             };
             var user={
