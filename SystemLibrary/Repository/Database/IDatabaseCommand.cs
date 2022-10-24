@@ -20,7 +20,6 @@ namespace SystemLibrary.Repository.Database
         void Commit();
         void Rollback();
         void InsertUpdateDelete(string query, List<SqlParameter> parameters);
-        DataTable QueryWithoutConditions(string query);
         DataTable QueryWithConditions(string query, List<SqlParameter> parameters);
     }
     public class DatabaseCommand: IDatabaseCommand
@@ -99,30 +98,7 @@ namespace SystemLibrary.Repository.Database
             return data;
         }
 
-        public DataTable QueryWithoutConditions(string query)
-        {
-            DataTable data = new DataTable();
-            try
-            {
-                using (SqlCommand command = new SqlCommand(query, conn))
-                {
-                    command.CommandType = CommandType.Text;
-                    command.Transaction = Transaction;
-
-                    using (SqlDataAdapter sda = new SqlDataAdapter(command))
-                    {
-                        sda.Fill(data);
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                throw ex;
-            }
-            return data;
-        }
-
-        
+       
         public void InsertUpdateDelete(string query, List<SqlParameter> parameters)
         {
             DataTable data = new DataTable();

@@ -10,5 +10,10 @@ namespace SystemLibrary.Entities
     {
         public int SubjectId { get; private set; }
         public string SubjectName { get; set; }
+
+        public Subject(int subjectId)
+        {
+            SubjectId = subjectId;
+        }
     }
 }

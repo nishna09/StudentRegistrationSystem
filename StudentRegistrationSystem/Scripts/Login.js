@@ -16,6 +16,7 @@ $(function () {
             
             if (response.result) {
                 toastr.success("Welcome!");
+                window.location.href = response.url;
             }
             else {
                 toastr.error("Incorrect credentials");

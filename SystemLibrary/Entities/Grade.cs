@@ -8,8 +8,13 @@ namespace SystemLibrary.Entities
 {
     public class Grade
     {
-        public int GradeId { get; private set; }
+        public int GradeId { get;  private set; }
         public Char GradeName { get; set; }
         public int Point { get; set; }
+
+        public Grade(int gradeId)
+        {
+            GradeId = gradeId;
+        }
     }
 }

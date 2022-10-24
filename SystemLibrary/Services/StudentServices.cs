@@ -48,13 +48,19 @@ namespace SystemLibrary.Services
                 mssg = "Passwords need to be at least 6 characters long!";
                 proceed = false;
             }
+            Response res;
 
+            if (proceed){
 
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
-            model.Password = hashedPassword;
+                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+                model.Password = hashedPassword;
 
-           
-            Response res=_studentRepository.RegisterStudent(model);
+                res = _studentRepository.RegisterStudent(model);
+            }
+            else
+            {
+                res = new Response(proceed, mssg);
+            }
             
             return res;
         }

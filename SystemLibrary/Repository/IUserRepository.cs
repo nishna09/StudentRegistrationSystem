@@ -40,6 +40,13 @@ namespace SystemLibrary.Repository
 
         public int Register(User user, IDatabaseCommand db)
         {
+            bool setDb = false;
+            if (db== null)
+            {
+                setDb = true;
+                db = _DBContext;
+                db.OpenDbConnection();
+            }
             int UserId=0;
             string query = @"INSERT INTO Users(EmailAddress, UserPassword)";
             query+="VALUES(@EmailAddress, @UserPassword)";
@@ -50,6 +57,10 @@ namespace SystemLibrary.Repository
             query = "SELECT UserId FROM Users WHERE EmailAddress=@EmailAddress";
             DataTable result=db.QueryWithConditions(query, parameters);
             UserId = (int)result.Rows[0]["UserId"];
+            if (setDb)
+            {
+                db.CloseDbConnection();
+            }
             return UserId;
         }
         public IEnumerable<User> GetUsers()
@@ -85,11 +96,23 @@ namespace SystemLibrary.Repository
         public List<Role> getRoles(int userId)
         {
             List<Role> roles = new List<Role>();
-            string query = $"SELECT r.RoleId FROM Roles r" +
-                $"INNER JOIN UserRoles ur on (r.RoleId=ur.RoleId)"+
-                $"INNER JOIN Users u on (ur.UserId=u.UserId)" +
-                $"WHERE u.UserId={userId}";
-            //continue to get execute command
+            string query = @"SELECT RoleId FROM UserRoles WHERE UserId=@UserId";
+
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@UserId", userId));
+
+            _DBContext.OpenDbConnection();
+            DataTable results= _DBContext.QueryWithConditions(query, parameters);
+
+            if (results.Rows.Count > 0)
+            {
+                foreach (DataRow row in results.Rows)
+                {
+                    int roleId = (int)row["RoleId"];
+                    roles.Add((Role)roleId);
+                }
+            }
+            _DBContext.CloseDbConnection();
             return roles;
         }
         public void Update(User user)

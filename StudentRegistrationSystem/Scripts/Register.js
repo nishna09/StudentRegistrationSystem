@@ -38,6 +38,13 @@ $(function () {
             toastr.error("This email address is already registered!");
         }
 
+        if ($("#password").val().length < 6) {
+            validValues = false;
+            toastr.error("Password must be at least 6 characters long!");
+        }
+
+        
+
         if (validValues && passwordMatch && emailAddressAvailable) {
             var student = {
                 FirstName: $("#firstname").val(),
@@ -53,7 +60,14 @@ $(function () {
             }
 
             postData(user, "/Users/RegisterStudent").then((response) => {
-                alert(response.message);
+                if (response.Success) {
+                    toastr.success("Successful registration!")
+                    setTimeout(redirect, 3000);
+                    
+                }
+                else {
+                    toastr.error(response.Message);
+                }
             }).catch((error) => {
                 console.log(error);
             })
@@ -71,12 +85,29 @@ $(function () {
 
             if (!check) {
                 $("span.passwordErr").html("Passwords do not match!");
-                $("span.passwordErr").css("color", "#D2691E");
                 passwordMatch = false;
             }
             else {
-                $("span.passwordErr").html("Passwords match!");
-                $("span.passwordErr").css("color", "#FFD700");
+                $("span.passwordErr").html("");
+                passwordMatch = true;
+            }
+        }
+        else {
+            $("span.passwordErr").html("");
+        }
+    });
+
+    $("#password").change(function () {
+
+        if ($("#confirmPassword").val() != '') {
+            var check = passwordEquality();
+
+            if (!check) {
+                $("span.passwordErr").html("Passwords do not match!");
+                passwordMatch = false;
+            }
+            else {
+                $("span.passwordErr").html("");
                 passwordMatch = true;
             }
         }
@@ -94,7 +125,6 @@ $(function () {
                 }
                 else {
                     $("span.emailErr").html("This email address is already registered!");
-                    $("span.emailErr").css("color", "#D2691E");
                     emailAddressAvailable = false;
                 }
             }).catch((error) => {
@@ -125,5 +155,9 @@ function emailCheck() {
         return postData({ emailAddress: email }, "/Users/EmailAvailability");
     
     }
+}
+
+function redirect() {
+    window.location.href = "/Login/Index";
 }
 

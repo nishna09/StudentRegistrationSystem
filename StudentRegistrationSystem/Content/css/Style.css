@@ -1,0 +1,100 @@
+﻿body {
+    font-family: 'Times New Roman', serif;
+    color: black;
+    font-size: large;
+    font-weight: normal;
+}
+
+legend {
+    text-align: center;
+    font-size: x-large;
+    font-weight: bolder;
+    color: black;
+}
+
+button {
+    background-color: darkslategray;
+    color: white;
+    margin: 8px 0;
+    font-family: 'Times New Roman', serif;
+    font-size: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgb(252, 252, 252);
+    border-radius: 15px 10px;
+}
+
+.center {
+    align-items: center;
+    justify-content: center;
+    display: grid;
+}
+
+button:hover {
+    background-color: black;
+}
+
+input, select, textarea {
+    margin: 2% 0;
+    border: 3px solid black;
+    border-radius: 15px 10px;
+    box-sizing: border-box;
+    color: black;
+    width: 50%;
+    margin-left: 2%;
+}
+
+label, a {
+    color: black;
+    font-weight: bold;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.link:hover {
+    color: red;
+}
+
+.container {
+    box-sizing: border-box;
+    border: 3px solid black;
+    border-radius: 50px 10px;
+    width: 60%;
+    display: grid;
+    margin: 15%;
+    padding-left: 2%;
+}
+
+.topnav {
+    overflow: hidden;
+    background-color: darkslategrey;
+}
+
+    .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: black;
+            color: white;
+        }
+        /* Create a right-aligned (split) link inside the navigation bar */
+        .topnav a.split {
+            float: right;
+            color: white;
+        }
+
+            .topnav a.split:hover {
+                color: black;
+            }

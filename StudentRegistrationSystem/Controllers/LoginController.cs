@@ -21,7 +21,7 @@ namespace StudentRegistrationSystem.Controllers
 
             _userServices = userServices;
         }
-        
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
@@ -31,13 +31,22 @@ namespace StudentRegistrationSystem.Controllers
         public JsonResult AuthenticateUser(User model)
         {
             User validUser = null;
+            string url = "";
             try
             {
                 validUser = _userServices.Authenticate(model);
                 if (validUser!=null)
                 {
                     this.Session["CurrentUser"] = validUser.UserId;
-                    //add role to session
+                    this.Session["Roles"] = validUser.Roles;
+                    if (validUser.Roles.Contains(Role.Admin))
+                    {
+                        url = "/Home/HomeAdmin";
+                    }
+                    else
+                    {
+                        url = "/Home/HomeStudent";
+                    }
                 }
             }
             catch (Exception ex)
@@ -45,7 +54,13 @@ namespace StudentRegistrationSystem.Controllers
                 logger.Error("Error {err} with inner exception {ex}",ex.Message, ex.InnerException);
             }
           
-            return Json(new { result = validUser, url = Url.Action("actionName", "ControllerName") });
+            return Json(new { result = validUser, url = url });
+        }
+
+        [HttpGet]
+        public void Logout()
+        {
+            this.Session.Clear();
         }
     }
 }

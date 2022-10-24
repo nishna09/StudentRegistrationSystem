@@ -185,8 +185,10 @@
     <Compile Include="Models\RegisterUser.cs" />
     <Compile Include="Repository\Database\IDatabaseCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IResultRepository.cs" />
     <Compile Include="Repository\IStudentRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
+    <Compile Include="Services\IResultServices.cs" />
     <Compile Include="Services\IUserServices.cs" />
     <Compile Include="Services\StudentServices.cs" />
   </ItemGroup>

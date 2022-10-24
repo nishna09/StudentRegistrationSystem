@@ -26,7 +26,7 @@ namespace SystemLibrary.Entities
         public string Password { get; set; }
         public Student Stud { get; set; }
         
-        public List<Role> roles { get; set; }
+        public List<Role> Roles { get; set; }
 
       
         public bool Deleted { get; private set; }
@@ -37,6 +37,7 @@ namespace SystemLibrary.Entities
         public User(int id)
         {
             UserId = id;
+            Roles = new List<Role>();
         }
         public void SetDeleted(bool deleted)
         {

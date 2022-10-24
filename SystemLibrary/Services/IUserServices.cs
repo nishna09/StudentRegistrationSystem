@@ -13,7 +13,6 @@ namespace SystemLibrary.Services
     public interface IUserServices
     {
         User Authenticate(User model);
-        void Logout();
         bool EmailAvailable(string emailName);
 
 
@@ -50,12 +49,15 @@ namespace SystemLibrary.Services
                 return null;
 
             user.Password = null;
+            user.Roles = GetRoles(user.UserId);
             return user;
             
         }
-        public void Logout()
+        private List<Role> GetRoles(int userId)
         {
-
+            List<Role> roles = new List<Role>();
+            roles=_userRepository.getRoles(userId);
+            return roles;
         }
         
         public bool EmailAvailable(string emailAddress)

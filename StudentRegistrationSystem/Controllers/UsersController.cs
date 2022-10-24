@@ -22,25 +22,36 @@ namespace ResgistrationApplication.Controllers
             _studentServices = studentServices;
         }
 
+        [HttpGet]
         public ActionResult Register()
         {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult UpdateProfile()
+        {
+            if (this.Session["UserId"] == null)
+            {
+                RedirectToAction("Index", "Login");
+            }
+            //CHECK WHETHER USER IS A STUDENT FIRST
             return View();
         }
 
         [HttpPost]
         public JsonResult RegisterStudent(User model)
         {
-            var succcess = false;
+            Response res=new Response();
             try
             {
-                _studentServices.RegisterStudent(model);
-                succcess = true;
+                res=_studentServices.RegisterStudent(model);
             }
             catch (Exception ex)
             {
                 logger.Error("Error {err} with inner exception {ex}", ex.Message, ex.InnerException);
             }
-            return Json(new { result = succcess });
+            return Json(res);
         }
 
 
