@@ -14,7 +14,6 @@ namespace SystemLibrary.Services
     {
         User Authenticate(User model);
         void Logout();
-        int Register(User model);
         bool EmailAvailable(string emailName);
 
 
@@ -37,7 +36,7 @@ namespace SystemLibrary.Services
                 throw new ArgumentNullException("Email Address must be entered!");
             }
 
-            User user=_userRepository.GetUserByUsername(model.EmailAddress);
+            User user=_userRepository.GetUserByEmail(model.EmailAddress);
             if (user != null)
             {
                 if (user.Deleted == true)
@@ -58,29 +57,14 @@ namespace SystemLibrary.Services
         {
 
         }
-        public int Register(User model)
-        {
-            if (string.IsNullOrEmpty(model.EmailAddress) || string.IsNullOrEmpty(model.Password))
-            {
-                throw new Exception("Email Address and passwords need to be specified!");
-            }
-            if (model.Password.Length < 6)
-            {
-                throw new Exception("Passwords need to be at least 6 characters long!");
-            }
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
-            model.Password = hashedPassword;
-            var UserId=_userRepository.Register(model);
-            return UserId;
-            
-        }
+        
         public bool EmailAvailable(string emailAddress)
         {
             if (string.IsNullOrEmpty(emailAddress))
             {
                 throw new ArgumentNullException("Email Address must first be entered!");
             }
-            User user = _userRepository.GetUserByUsername(emailAddress);
+            User user = _userRepository.GetUserByEmail(emailAddress);
             if (user != null)
                 return false;
             else

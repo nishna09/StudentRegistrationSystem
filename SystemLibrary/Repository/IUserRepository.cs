@@ -10,6 +10,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using SystemLibrary.Entities;
 using SystemLibrary.Repository.Database;
 
@@ -18,10 +19,10 @@ namespace SystemLibrary.Repository
 {
     public interface IUserRepository
     {
-        int Register(User user);
+        int Register(User user, IDatabaseCommand db);
         IEnumerable<User> GetUsers();
         User GetUserById(int userId);
-        User GetUserByUsername(string userName);
+        User GetUserByEmail(string email);
         List<Role> getRoles(int userId);    
         void Update(User user);
         void Delete(int userId);
@@ -37,21 +38,18 @@ namespace SystemLibrary.Repository
             
         }
 
-        public int Register(User user)
+        public int Register(User user, IDatabaseCommand db)
         {
             int UserId=0;
-
             string query = @"INSERT INTO Users(EmailAddress, UserPassword)";
             query+="VALUES(@EmailAddress, @UserPassword)";
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@EmailAddress", user.EmailAddress));
             parameters.Add(new SqlParameter("@UserPassword",user.Password));
-
-            _DBContext.InsertUpdateDelete(query,parameters);
+            db.InsertUpdateDelete(query,parameters);
             query = "SELECT UserId FROM Users WHERE EmailAddress=@EmailAddress";
-            DataTable result=_DBContext.QueryWithConditions(query, parameters);
+            DataTable result=db.QueryWithConditions(query, parameters);
             UserId = (int)result.Rows[0]["UserId"];
-
             return UserId;
         }
         public IEnumerable<User> GetUsers()
@@ -62,12 +60,14 @@ namespace SystemLibrary.Repository
         {
             return null;
         }
-        public User GetUserByUsername(string emailAddress)
+        public User GetUserByEmail(string emailAddress)
         {
+            _DBContext.OpenDbConnection();
             User user = null;
             string query = @"SELECT * FROM Users WHERE EmailAddress=@EmailAddress";
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@EmailAddress", emailAddress));
+            
             DataTable result=_DBContext.QueryWithConditions(query,parameters);
             if (result.Rows.Count > 0)
             {
@@ -77,6 +77,7 @@ namespace SystemLibrary.Repository
                 user.Password = getRow["UserPassword"].ToString();
                 user.SetDeleted((bool)getRow["Deleted"]);
             }
+            _DBContext.CloseDbConnection();
             return user;
         }
 

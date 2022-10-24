@@ -53,7 +53,7 @@ $(function () {
             }
 
             postData(user, "/Users/RegisterStudent").then((response) => {
-                alert(response.result);
+                alert(response.message);
             }).catch((error) => {
                 console.log(error);
             })
@@ -64,7 +64,7 @@ $(function () {
     //end of $("button#btnRegister").click function
     });
 
-    $("#confirmPassword").keyup(function () {
+    $("#confirmPassword").change(function () {
 
         if ($("#confirmPassword").val() != '') {
             var check = passwordEquality();
@@ -85,7 +85,7 @@ $(function () {
         }
     });
 
-    $("#emailAddress").keyup(function () {
+    $("#emailAddress").change(function () {
         if ($("#emailAddress").val() != '') {
             emailCheck().then((response) => {
                 if (response.result) {

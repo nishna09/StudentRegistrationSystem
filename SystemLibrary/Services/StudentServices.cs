@@ -5,32 +5,58 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SystemLibrary.Repository;
+using System.Web.Mvc;
+using System.Web.Helpers;
+using System.Security.Policy;
 
 namespace SystemLibrary.Services
 {
     public interface IStudentServices
     {
-        void RegisterStudent(User model);
+        Response RegisterStudent(User model);
         void AssignStatus();
     }
     public class StudentServices:IStudentServices
     {
         private readonly IUserServices _userServices;
         private readonly IStudentRepository _studentRepository;
-        public StudentServices(IUserServices userServices, IStudentRepository studentRepository)
+        private readonly IUserRepository _userRepository;
+        public StudentServices(IUserServices userServices, IStudentRepository studentRepository, IUserRepository userRepository)
         {
             _userServices = userServices;
             _studentRepository = studentRepository;
+            _userRepository = userRepository;
         }
 
-        public void RegisterStudent(User model)
+        public Response RegisterStudent(User model)
         {
+            var proceed = true;
+            string mssg = "";
             if (string.IsNullOrEmpty(model.Stud.FirstName) || string.IsNullOrEmpty(model.Stud.LastName) || string.IsNullOrEmpty(model.Stud.NationalID) || model.Stud.DateOfBirth.Year >= DateTime.Now.Year)
             {
-                throw new ArgumentException("Valid values were not entered!");
+                mssg = "Valid values should be entered!";
+                proceed = false;
             }
-           int value= _userServices.Register(model);
-            _studentRepository.RegisterStudent(model,value);
+            if (string.IsNullOrEmpty(model.EmailAddress) || string.IsNullOrEmpty(model.Password))
+            {
+                mssg = "Email Address and passwords need to be specified!";
+                proceed = false;
+            }
+            
+            if (model.Password.Length < 6)
+            {
+                mssg = "Passwords need to be at least 6 characters long!";
+                proceed = false;
+            }
+
+
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+            model.Password = hashedPassword;
+
+           
+            Response res=_studentRepository.RegisterStudent(model);
+            
+            return res;
         }
 
         public void AssignStatus()
