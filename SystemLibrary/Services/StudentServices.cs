@@ -8,12 +8,14 @@ using SystemLibrary.Repository;
 using System.Web.Mvc;
 using System.Web.Helpers;
 using System.Security.Policy;
+using SystemLibrary.Models;
 
 namespace SystemLibrary.Services
 {
     public interface IStudentServices
     {
         Response RegisterStudent(User model);
+        Response UpdateDetails(UpdateStudent model, int StudenId);
         void AssignStatus();
     }
     public class StudentServices:IStudentServices
@@ -64,6 +66,12 @@ namespace SystemLibrary.Services
             
             return res;
         }
+
+        public Response UpdateDetails(UpdateStudent model, int StudenId)
+        {
+            return _studentRepository.UpdateDetails(model, StudenId);
+        }
+
 
         public void AssignStatus()
         {

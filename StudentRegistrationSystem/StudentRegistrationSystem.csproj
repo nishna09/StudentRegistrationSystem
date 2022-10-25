@@ -162,7 +162,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Resuly\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SystemLibrary\SystemLibrary.csproj">

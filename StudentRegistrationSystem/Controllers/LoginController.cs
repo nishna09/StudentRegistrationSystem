@@ -37,7 +37,7 @@ namespace StudentRegistrationSystem.Controllers
                 validUser = _userServices.Authenticate(model);
                 if (validUser!=null)
                 {
-                    this.Session["CurrentUser"] = validUser.UserId;
+                    this.Session["UserId"] = validUser.UserId;
                     this.Session["Roles"] = validUser.Roles;
                     if (validUser.Roles.Contains(Role.Admin))
                     {
@@ -58,9 +58,10 @@ namespace StudentRegistrationSystem.Controllers
         }
 
         [HttpGet]
-        public void Logout()
+        public ActionResult Logout()
         {
             this.Session.Clear();
+            return RedirectToAction("Index", "Login");
         }
     }
 }

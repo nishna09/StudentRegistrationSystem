@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using SystemLibrary.Entities;
 using SystemLibrary.Repository.Database;
+using SystemLibrary.Models;
 
 namespace SystemLibrary.Repository
 {
     public interface IStudentRepository
     {
         Response RegisterStudent(User user);
+        Response UpdateDetails(UpdateStudent model, int userId);
     }
 
     public class StudentRepository : IStudentRepository
@@ -65,5 +67,64 @@ namespace SystemLibrary.Repository
             return new Response(success, mssg);
 
         }
+
+        public Response UpdateDetails(UpdateStudent model, int studentId)
+        {
+            var success = true;
+            var mssg = "";
+            _DBContext.OpenDbConnection();
+
+            _DBContext.OpenDbConnection();
+            try
+            {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                string query = @"UPDATE Students SET GuardianName=@GuardianName WHERE StudentId=@StudentId";
+                parameters.Add(new SqlParameter("@GuardianName", model.GuardianName));
+                parameters.Add(new SqlParameter("@StudentId", studentId));
+                
+                _DBContext.InsertUpdateDelete(query, parameters);
+
+                query = "";
+                parameters = new List<SqlParameter>();
+                query = @"INSERT INTO Addresses(Street, City, Country, StudentId) ";
+                query += @"VALUES(@Street,@City, @Country,@StudentId)";
+                parameters.Add(new SqlParameter("@Street", model.Address.Street));
+                parameters.Add(new SqlParameter("@City",  model.Address.City));
+                parameters.Add(new SqlParameter("@Country", model.Address.Country));
+                parameters.Add(new SqlParameter("@StudentId", studentId));
+
+                _DBContext.InsertUpdateDelete(query,parameters);
+
+                for (int i = 0; i < model.Results.Count; i++)
+                {
+                    var result = model.Results[i];
+                    query = "";
+                    parameters = new List<SqlParameter>();
+                    query = @"INSERT INTO Results(StudenId,SubjectId, GradeId) ";
+                    query += @"VALUES(@StudenId,@SubjectId, @GradeId)";
+                    parameters.Add(new SqlParameter("@StudentId", studentId));
+                    parameters.Add(new SqlParameter("@SubjectId", result.SubjectId));
+                    parameters.Add(new SqlParameter("@GradeId", result.GradeId));
+
+                    _DBContext.InsertUpdateDelete(query, parameters);
+
+                }
+
+                _DBContext.Commit();
+                mssg = "Details added successfully";
+            }
+            catch
+            {
+                _DBContext.Rollback();
+                success = false;
+                mssg = "Error while adding details. Please try again!";
+            }
+
+            _DBContext.CloseDbConnection();
+            return new Response(success, mssg);
+        }
+
+
+
     }
 }

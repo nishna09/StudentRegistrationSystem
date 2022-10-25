@@ -11,9 +11,9 @@ namespace StudentRegistrationSystem.Controllers
         [HttpGet]
         public ActionResult HomeAdmin()
         {
-            if (this.Session["UserId"] == null)
+            if (Session["UserId"] == null)
             {
-                RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login");
             }
 
             return View();
@@ -22,9 +22,9 @@ namespace StudentRegistrationSystem.Controllers
         [HttpGet]
         public ActionResult HomeStudent()
         {
-            if (this.Session["UserId"] == null)
+            if (Session["UserId"]==null)
             {
-                RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login");
             }
             return View();
         }

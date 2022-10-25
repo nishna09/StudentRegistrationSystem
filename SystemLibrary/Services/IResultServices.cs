@@ -24,12 +24,14 @@ namespace SystemLibrary.Services
 
         public List<Grade> GetAllGrades()
         {
+
             return _resultRepository.GetAllGrades();
         }
 
         public List<Subject> GetAllSubjects()
         {
-            return _resultRepository.GetAllSubjects();
+            List<Subject> subjects = _resultRepository.GetAllSubjects();
+            return subjects;
         }
 
         public Grade GetGrade(int id)

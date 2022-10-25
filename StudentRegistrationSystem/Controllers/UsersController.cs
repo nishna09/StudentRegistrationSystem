@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using SystemLibrary.Services;
 using SystemLibrary.Entities;
 using System.Net.Mail;
+using SystemLibrary.Models;
 
 namespace ResgistrationApplication.Controllers
 {
@@ -33,7 +34,7 @@ namespace ResgistrationApplication.Controllers
         {
             if (this.Session["UserId"] == null)
             {
-                RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login");
             }
             //CHECK WHETHER USER IS A STUDENT FIRST
             return View();
@@ -68,6 +69,25 @@ namespace ResgistrationApplication.Controllers
                 logger.Error("Error {err} with inner exception {ex}", ex.Message, ex.InnerException);
             }
             return Json(new { result = available });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateStudentDetails(UpdateStudent model)
+        {
+            Response res = new Response(false,"Unable to update details");
+            if (this.Session["UserId"] != null)
+            {
+                try
+                {
+                    res = _studentServices.UpdateDetails(model, (int)this.Session["UserId"]);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error("Error {err} with inner exception {ex}", ex.Message, ex.InnerException);
+                }
+            }
+            
+            return Json(res);
         }
 
     }
