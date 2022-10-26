@@ -10,6 +10,6 @@ namespace SystemLibrary.Entities
     {
         public int ResultId { get; private set; }
         public int SubjectId { get; set; }
-        public int GradeId { get; set; }
+        public  char Grade { get; set; }
     }
 }

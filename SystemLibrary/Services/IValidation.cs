@@ -7,13 +7,8 @@ using SystemLibrary.Entities;
 
 namespace SystemLibrary.Services
 {
-    public interface IUserServices
+    public interface IValidation
     {
-        User Authenticate(User model);
-        bool EmailAvailable(string emailName);
-
-
+        Response ValidateEmail(string email);
     }
-
-    
 }

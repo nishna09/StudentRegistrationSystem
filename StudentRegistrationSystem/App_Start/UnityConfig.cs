@@ -1,8 +1,8 @@
 using System.Web.Mvc;
 using Unity;
 using Unity.Mvc5;
-using SystemLibrary.Repository;
-using SystemLibrary.Repository.Database;
+using SystemLibrary.DAL;
+using SystemLibrary.DAL.Database;
 using SystemLibrary.Services;
 
 namespace StudentRegistrationSystem
@@ -16,10 +16,11 @@ namespace StudentRegistrationSystem
             container.RegisterType<IUserServices, UserServices>();
             container.RegisterType<IStudentServices, StudentServices>();
             container.RegisterType<IResultServices, ResultServices>();
-            container.RegisterType<IUserRepository, UserRepository>();
-            container.RegisterType<IStudentRepository, StudentRepository>();
-            container.RegisterType<IResultRepository, ResultRepository>();
+            container.RegisterType<IUserDAL, UserRepository>();
+            container.RegisterType<IStudentDAL, StudentRepository>();
+            container.RegisterType<IResultDAL, ResultDAL>();
             container.RegisterType<IDatabaseCommand, DatabaseCommand>();
+            container.RegisterType<IValidation, Validation>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

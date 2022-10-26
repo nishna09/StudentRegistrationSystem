@@ -41,20 +41,5 @@ namespace StudentRegistrationSystem.Controllers
             return Json(new { result = subjects });
         }
 
-        [HttpGet]
-        public JsonResult GetAllGrades()
-        {
-            List<Grade> grades=new List<Grade>();
-            try
-            {
-                grades = _resultServices.GetAllGrades();
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Error {err} with inner exception {ex}", ex.Message, ex.InnerException);
-            }
-
-            return Json(new { result = grades });
-        }
     }
 }

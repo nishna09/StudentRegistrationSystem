@@ -8,16 +8,16 @@ namespace SystemLibrary.Entities
 {
     public class Response
     {
-        public bool Success { get; set; }
+        public bool Flag { get; set; }
         public string Message { get; set; }
 
         public Response()
         {
 
         }
-        public Response(bool success, string message)
+        public Response(bool flag, string message)
         {
-            Success = success;
+            Flag = flag;
             Message = message;
         }
     }

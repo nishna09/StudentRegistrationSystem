@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SystemLibrary.Entities;
 
-namespace SystemLibrary.Repository.Database
+namespace SystemLibrary.DAL.Database
 {
     public interface IDatabaseCommand
     {

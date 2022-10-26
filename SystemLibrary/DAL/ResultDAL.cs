@@ -1,40 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SystemLibrary.Entities;
-using SystemLibrary.Repository.Database;
+using SystemLibrary.DAL.Database;
 
-namespace SystemLibrary.Repository
+namespace SystemLibrary.DAL
 {
-    public interface IResultRepository
-    {
-        List<Subject> GetAllSubjects();
-        List<Grade> GetAllGrades();
-        Grade GetGrade(int id);
-    }
-
-    public class ResultRepository : IResultRepository
+    public class ResultDAL : IResultDAL
     {
         private readonly IDatabaseCommand _dbContext;
-        public ResultRepository(IDatabaseCommand dbContext)
+        public ResultDAL(IDatabaseCommand dbContext)
         {
             _dbContext = dbContext;
         }
         public List<Grade> GetAllGrades()
         {
-            var grades=new List<Grade>();
+            var grades = new List<Grade>();
             _dbContext.OpenDbConnection();
 
             string query = "SELECT * FROM Grades";
-            DataTable results= _dbContext.QueryWithConditions(query, null);
+            DataTable results = _dbContext.QueryWithConditions(query, null);
 
             if (results.Rows.Count > 0)
             {
-                foreach(DataRow row in results.Rows)
+                foreach (DataRow row in results.Rows)
                 {
                     var grade = new Grade((int)row["GradeId"]);
                     grade.GradeName = (Char)row["GradeName"];
@@ -48,12 +41,12 @@ namespace SystemLibrary.Repository
 
         public Grade GetGrade(int id)
         {
-            Grade grade=new Grade(id);
+            Grade grade = new Grade(id);
             _dbContext.OpenDbConnection();
 
             string query = @"SELECT * FROM Grades WHERE GradeId=@GradeId";
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@GradeId",id));
+            parameters.Add(new SqlParameter("@GradeId", id));
             DataTable results = _dbContext.QueryWithConditions(query, parameters);
 
             if (results.Rows.Count > 0)
@@ -81,6 +74,7 @@ namespace SystemLibrary.Repository
                 {
                     var subject = new Subject((int)row["SubjectId"]);
                     subject.SubjectName = row["SubjectName"].ToString();
+                    subjects.Add(subject);
                 }
             }
 

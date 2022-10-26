@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using SystemLibrary.Entities;
 
-namespace SystemLibrary.Services
+namespace SystemLibrary.DAL
 {
-    public interface IResultServices
+    public interface IResultDAL
     {
         List<Subject> GetAllSubjects();
+        List<Grade> GetAllGrades();
+        Grade GetGrade(int id);
     }
-    
 
+    
 }

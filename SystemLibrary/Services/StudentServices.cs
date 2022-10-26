@@ -1,29 +1,20 @@
-﻿using SystemLibrary.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.Repository;
-using System.Web.Mvc;
-using System.Web.Helpers;
-using System.Security.Policy;
+using SystemLibrary.DAL;
+using SystemLibrary.Entities;
 using SystemLibrary.Models;
 
 namespace SystemLibrary.Services
 {
-    public interface IStudentServices
-    {
-        Response RegisterStudent(User model);
-        Response UpdateDetails(UpdateStudent model, int StudenId);
-        void AssignStatus();
-    }
-    public class StudentServices:IStudentServices
+    public class StudentServices : IStudentServices
     {
         private readonly IUserServices _userServices;
-        private readonly IStudentRepository _studentRepository;
-        private readonly IUserRepository _userRepository;
-        public StudentServices(IUserServices userServices, IStudentRepository studentRepository, IUserRepository userRepository)
+        private readonly IStudentDAL _studentRepository;
+        private readonly IUserDAL _userRepository;
+        public StudentServices(IUserServices userServices, IStudentDAL studentRepository, IUserDAL userRepository)
         {
             _userServices = userServices;
             _studentRepository = studentRepository;
@@ -44,7 +35,7 @@ namespace SystemLibrary.Services
                 mssg = "Email Address and passwords need to be specified!";
                 proceed = false;
             }
-            
+
             if (model.Password.Length < 6)
             {
                 mssg = "Passwords need to be at least 6 characters long!";
@@ -52,7 +43,8 @@ namespace SystemLibrary.Services
             }
             Response res;
 
-            if (proceed){
+            if (proceed)
+            {
 
                 var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
                 model.Password = hashedPassword;
@@ -63,7 +55,7 @@ namespace SystemLibrary.Services
             {
                 res = new Response(proceed, mssg);
             }
-            
+
             return res;
         }
 

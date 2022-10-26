@@ -60,7 +60,7 @@ namespace StudentRegistrationSystem.Controllers
         [HttpGet]
         public ActionResult Logout()
         {
-            this.Session.Clear();
+            Session.Clear();
             return RedirectToAction("Index", "Login");
         }
     }
