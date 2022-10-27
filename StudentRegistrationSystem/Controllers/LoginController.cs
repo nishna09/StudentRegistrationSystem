@@ -30,29 +30,18 @@ namespace StudentRegistrationSystem.Controllers
         [HttpPost]
         public JsonResult AuthenticateUser(User model)
         {
-            User validUser = null;
+            Response response = null;
             string url = "";
             try
             {
-                validUser = _userServices.Authenticate(model);
-                if (validUser!=null)
-                {
-                    if (validUser.Roles.Contains(Role.Admin))
-                    {
-                        url = "/Home/HomeAdmin";
-                    }
-                    else
-                    {
-                        url = "/Home/HomeStudent";
-                    }
-                }
+                response = _userServices.Authenticate(model);
             }
             catch (Exception ex)
             {
-                logger.Error("Error {err} with inner exception {ex}",ex.Message, ex.InnerException);
+                logger.Error("Error {err} occured", ex.Message);
             }
           
-            return Json(new { result = validUser, url = url });
+            return Json(response);
         }
 
         [HttpGet]

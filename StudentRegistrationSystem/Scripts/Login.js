@@ -14,12 +14,12 @@ $(function () {
 
         postData(obj, "/Login/AuthenticateUser").then((response) => {
             
-            if (response.result) {
+            if (response.Flag) {
                 toastr.success("Welcome!");
-                window.location.href = response.url;
+                window.location.href = response.Url;
             }
             else {
-                toastr.error("Incorrect credentials");
+                toastr.error(response.Message);
             }
         })
             .catch((error) => {

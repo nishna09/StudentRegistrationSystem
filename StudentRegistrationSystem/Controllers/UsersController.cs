@@ -48,7 +48,7 @@ namespace ResgistrationApplication.Controllers
             }
             catch (Exception ex)
             {
-                logger.Error("Error {err} with inner exception {ex}", ex.Message, ex.InnerException);
+                logger.Error("Error {err} occured", ex.Message);
             }
             return Json(res);
         }
@@ -64,7 +64,7 @@ namespace ResgistrationApplication.Controllers
             }
             catch (Exception ex)
             {
-                logger.Error("Error {err} with inner exception {ex}", ex.Message, ex.InnerException);
+                logger.Error("Error {err} occured", ex.Message);
             }
             return Json(new { result = available });
         }
@@ -82,7 +82,7 @@ namespace ResgistrationApplication.Controllers
                 }
                 catch (Exception ex)
                 {
-                    logger.Error("Error {err} with inner exception {ex}", ex.Message, ex.InnerException);
+                    logger.Error("Error {err} occured", ex.Message);
                 }
             }
             

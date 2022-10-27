@@ -9,7 +9,7 @@ namespace SystemLibrary.Services
 {
     public interface IUserServices
     {
-        User Authenticate(User model);
+        Response Authenticate(User model);
         bool EmailAvailable(string emailName);
 
 

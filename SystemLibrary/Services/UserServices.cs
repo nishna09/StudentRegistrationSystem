@@ -18,9 +18,11 @@ namespace SystemLibrary.Services
             _userRepository = userRepository;
         }
 
-        public User Authenticate(User model)
+        public Response Authenticate(User model)
         {
             bool verify = false;
+            string mssg = "";
+            string url = "/Home/HomeStudent";
             if (string.IsNullOrEmpty(model.EmailAddress))
             {
                 throw new ArgumentNullException("Email Address must be entered!");
@@ -47,11 +49,15 @@ namespace SystemLibrary.Services
                 for (int i = 0; i < user.Roles.Count; i++)
                 {
                     userRoles += user.Roles[i].ToString();
+                    if (user.Roles[i].Equals(Role.Admin))
+                    {
+                        url = "Home/HomeAdmin";
+                    }
                 }
             }
             HttpContext.Current.Session["Roles"] = userRoles;
 
-            return user;
+            return new Response(verify,mssg,url);
 
         }
         private List<Role> GetRoles(int userId)
