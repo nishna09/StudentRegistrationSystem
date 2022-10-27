@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SystemLibrary.DAL;
 using SystemLibrary.Entities;
+using System.Web;
 
 namespace SystemLibrary.Services
 {
@@ -38,8 +39,18 @@ namespace SystemLibrary.Services
             if (!verify)
                 return null;
 
-            user.Password = null;
             user.Roles = GetRoles(user.UserId);
+            HttpContext.Current.Session["UserId"]=user.UserId;
+            string userRoles = "";
+            if (user.Roles != null)
+            {
+                for (int i = 0; i < user.Roles.Count; i++)
+                {
+                    userRoles += user.Roles[i].ToString();
+                }
+            }
+            HttpContext.Current.Session["Roles"] = userRoles;
+
             return user;
 
         }

@@ -9,6 +9,7 @@ using SystemLibrary.Services;
 using SystemLibrary.Entities;
 using System.Net.Mail;
 using SystemLibrary.Models;
+using StudentRegistrationSystem.Authorization;
 
 namespace ResgistrationApplication.Controllers
 {
@@ -30,17 +31,14 @@ namespace ResgistrationApplication.Controllers
         }
 
         [HttpGet]
+        [CustomAuthorize(Role.Student)]
         public ActionResult UpdateProfile()
         {
-            if (this.Session["UserId"] == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-            //CHECK WHETHER USER IS A STUDENT FIRST
             return View();
         }
 
         [HttpPost]
+        [CustomAuthorize(Role.Student, Role.Admin)]
         public JsonResult RegisterStudent(User model)
         {
             Response res=new Response();
@@ -72,6 +70,7 @@ namespace ResgistrationApplication.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize(Role.Student, Role.Admin)]
         public JsonResult UpdateStudentDetails(UpdateStudent model)
         {
             Response res = new Response(false,"Unable to update details");

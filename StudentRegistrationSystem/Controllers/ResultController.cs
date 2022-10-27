@@ -7,6 +7,7 @@ using SystemLibrary.Services;
 using SystemLibrary.Entities;
 using NLog;
 using System.Security.Policy;
+using StudentRegistrationSystem.Authorization;
 
 namespace StudentRegistrationSystem.Controllers
 {
@@ -20,12 +21,10 @@ namespace StudentRegistrationSystem.Controllers
             _resultServices = resultServices;
         }
         // GET: Resuly
-        public ActionResult Index()
-        {
-            return View();
-        }
+     
 
         [HttpGet]
+        [CustomAuthorize]
         public JsonResult GetAllSubjects()
         {
             List<Subject> subjects=new List<Subject>();

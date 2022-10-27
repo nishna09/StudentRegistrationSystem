@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using SystemLibrary.Entities;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace SystemLibrary.Services
 {
     public class Validation:IValidation
     {
+        //The phone number must start with a + followed by number 1-9. The rest can be numbers 0-9. The length should be a min of 7 and max of 14
+        private Regex validatePhoneNumberRegex = new Regex("^\\+?[1-9][0-9]{1,3}[0-9]{7,8}$");
         public Response ValidateEmail(string email)
         {
             bool valid = true;
@@ -66,6 +69,25 @@ namespace SystemLibrary.Services
             {
                 valid=false;
                 mssg = "Password should be at least 6 characters long!";
+            }
+
+            return new Response(valid, mssg);
+        }
+
+        public Response ValidatePhoneNumber(string phone)
+        {
+            bool valid = true;
+            var mssg = "";
+
+            if (string.IsNullOrEmpty(phone.Trim()))
+            {
+                valid = false;
+                mssg = "Phone number is required!";
+            }
+            else if (!validatePhoneNumberRegex.IsMatch(phone.Trim()))
+            {
+                valid = false;
+                mssg = "Phone number not valid!";
             }
 
             return new Response(valid, mssg);

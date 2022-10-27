@@ -37,8 +37,6 @@ namespace StudentRegistrationSystem.Controllers
                 validUser = _userServices.Authenticate(model);
                 if (validUser!=null)
                 {
-                    this.Session["UserId"] = validUser.UserId;
-                    this.Session["Roles"] = validUser.Roles;
                     if (validUser.Roles.Contains(Role.Admin))
                     {
                         url = "/Home/HomeAdmin";
