@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SystemLibrary.Entities
+namespace RepositoryLibrary.Entities
 {
     public class Results
     {

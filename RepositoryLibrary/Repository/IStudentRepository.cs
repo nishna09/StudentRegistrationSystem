@@ -4,12 +4,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.Entities;
-using SystemLibrary.Models;
+using RepositoryLibrary.Entities;
+using RepositoryLibrary.Models;
 
-namespace SystemLibrary.DAL
+namespace RepositoryLibrary.Repository
 {
-    public interface IStudentDAL
+    public interface IStudentRepository
     {
         Response RegisterStudent(User user);
         Response UpdateDetails(UpdateStudent model, int userId);

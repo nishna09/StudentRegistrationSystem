@@ -4,21 +4,20 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
-using SystemLibrary.Entities;
-using SystemLibrary.DAL.Database;
+using RepositoryLibrary.Entities;
+using RepositoryLibrary.Repository.Database;
 
 
-namespace SystemLibrary.DAL
+namespace RepositoryLibrary.Repository
 {
-    public interface IUserDAL
+    public interface IUserRepository
     {
         int Register(User user, IDatabaseCommand db);
         IEnumerable<User> GetUsers();
-        User GetUserById(int userId);
-        User GetUserByEmail(string email);
+        User GetUser(string queryParameter, object queryValue);
         List<Role> getRoles(int userId);    
-        void Update(User user);
-        void Delete(int userId);
+        bool Update(User user);
+        bool Delete(int userId);
     }
 
     

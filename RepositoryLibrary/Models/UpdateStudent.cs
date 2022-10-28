@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.Entities;
+using RepositoryLibrary.Entities;
 
-namespace SystemLibrary.Models
+namespace RepositoryLibrary.Models
 {
     public class UpdateStudent
     {

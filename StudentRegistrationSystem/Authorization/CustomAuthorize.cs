@@ -1,13 +1,10 @@
-﻿using System;
+﻿using RepositoryLibrary.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.Security;
-using System.Web.Services.Protocols;
-using SystemLibrary.Entities;
+
 
 namespace StudentRegistrationSystem.Authorization
 {

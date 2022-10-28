@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.Entities;
+using RepositoryLibrary.Entities;
 
-namespace SystemLibrary.Services
+namespace ServicesLibrary.Services
 {
     public interface IValidation
     {

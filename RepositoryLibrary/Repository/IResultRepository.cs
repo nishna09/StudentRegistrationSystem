@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using SystemLibrary.Entities;
+using RepositoryLibrary.Entities;
 
-namespace SystemLibrary.DAL
+namespace RepositoryLibrary.Repository
 {
-    public interface IResultDAL
+    public interface IResultRepository
     {
         List<Subject> GetAllSubjects();
     }

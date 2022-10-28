@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.Entities;
+using RepositoryLibrary.Entities;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 
-namespace SystemLibrary.Services
+namespace ServicesLibrary.Services
 {
     public class Validation:IValidation
     {

@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.DAL;
-using SystemLibrary.Entities;
-using SystemLibrary.Models;
+using RepositoryLibrary.Repository;
+using RepositoryLibrary.Entities;
+using RepositoryLibrary.Models;
 
-namespace SystemLibrary.Services
+namespace ServicesLibrary.Services
 {
     public class StudentServices : IStudentServices
     {
         private readonly IUserServices _userServices;
-        private readonly IStudentDAL _studentRepository;
-        private readonly IUserDAL _userRepository;
-        public StudentServices(IUserServices userServices, IStudentDAL studentRepository, IUserDAL userRepository)
+        private readonly IStudentRepository _studentRepository;
+        private readonly IUserRepository _userRepository;
+        public StudentServices(IUserServices userServices, IStudentRepository studentRepository, IUserRepository userRepository)
         {
             _userServices = userServices;
             _studentRepository = studentRepository;
@@ -25,7 +25,7 @@ namespace SystemLibrary.Services
         {
             var proceed = true;
             string mssg = "";
-            if (string.IsNullOrEmpty(model.Stud.FirstName) || string.IsNullOrEmpty(model.Stud.LastName) || string.IsNullOrEmpty(model.Stud.NationalID) || model.Stud.DateOfBirth.Year >= DateTime.Now.Year)
+            if (string.IsNullOrEmpty(model.Student.FirstName) || string.IsNullOrEmpty(model.Student.LastName) || string.IsNullOrEmpty(model.Student.NationalID) || model.Student.DateOfBirth.Year >= DateTime.Now.Year)
             {
                 mssg = "Valid values should be entered!";
                 proceed = false;

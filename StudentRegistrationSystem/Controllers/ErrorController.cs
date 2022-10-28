@@ -8,7 +8,6 @@ namespace StudentRegistrationSystem.Controllers
 {
     public class ErrorController : Controller
     {
-        // GET: Error
         public ActionResult Unauthorised()
         {
             return View();

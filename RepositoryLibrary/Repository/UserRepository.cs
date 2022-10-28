@@ -5,12 +5,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.DAL.Database;
-using SystemLibrary.Entities;
+using RepositoryLibrary.Repository.Database;
+using RepositoryLibrary.Entities;
 
-namespace SystemLibrary.DAL
+namespace RepositoryLibrary.Repository
 {
-    public class UserRepository : IUserDAL
+    public class UserRepository : IUserRepository
     {
         private readonly IDatabaseCommand _dBContext;
 
@@ -53,13 +53,13 @@ namespace SystemLibrary.DAL
         {
             return null;
         }
-        public User GetUserByEmail(string emailAddress)
+        public User GetUser(string queryParameter, object queryValue)
         {
             _dBContext.OpenDbConnection();
             User user = null;
-            string query = @"SELECT * FROM Users WHERE EmailAddress=@EmailAddress";
+            string query = string.Format($"{SQLQueries.GetUserQuery} WHERE {queryParameter}=@{queryParameter}");
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@EmailAddress", emailAddress));
+            parameters.Add(new SqlParameter("@EmailAddress", queryValue));
 
             DataTable result = _dBContext.QueryWithConditions(query, parameters);
             if (result.Rows.Count > 0)
@@ -68,7 +68,7 @@ namespace SystemLibrary.DAL
                 user = new User((int)getRow["UserId"]);
                 user.EmailAddress = getRow["EmailAddress"].ToString();
                 user.Password = getRow["UserPassword"].ToString();
-                user.SetDeleted((bool)getRow["Deleted"]);
+                user.SetDeleted((bool)getRow["IsDeleted"]);
             }
             _dBContext.CloseDbConnection();
             return user;
@@ -97,13 +97,13 @@ namespace SystemLibrary.DAL
             _dBContext.CloseDbConnection();
             return roles;
         }
-        public void Update(User user)
+        public bool Update(User user)
         {
-
+            return false;
         }
-        public void Delete(int userId)
+        public bool Delete(int userId)
         {
-
+            return false;
         }
 
 

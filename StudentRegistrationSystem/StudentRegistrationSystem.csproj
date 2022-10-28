@@ -167,9 +167,13 @@
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SystemLibrary\SystemLibrary.csproj">
+    <ProjectReference Include="..\RepositoryLibrary\RepositoryLibrary.csproj">
+      <Project>{d6dc5316-45fe-404f-bbe9-6dbce749ec12}</Project>
+      <Name>RepositoryLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemLibrary\ServicesLibrary.csproj">
       <Project>{d795d746-94d4-420e-9a97-c5f0f84b8c2e}</Project>
-      <Name>SystemLibrary</Name>
+      <Name>ServicesLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

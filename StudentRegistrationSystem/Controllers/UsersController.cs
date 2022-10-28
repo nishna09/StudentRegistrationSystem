@@ -5,10 +5,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SystemLibrary.Services;
-using SystemLibrary.Entities;
+using ServicesLibrary.Services;
+using RepositoryLibrary.Entities;
 using System.Net.Mail;
-using SystemLibrary.Models;
+using RepositoryLibrary.Models;
 using StudentRegistrationSystem.Authorization;
 
 namespace ResgistrationApplication.Controllers
@@ -60,7 +60,7 @@ namespace ResgistrationApplication.Controllers
             var available = false;
             try
             {
-                available = _userServices.EmailAvailable(emailAddress);
+                available = _userServices.IsEmailAvailable(emailAddress);
             }
             catch (Exception ex)
             {

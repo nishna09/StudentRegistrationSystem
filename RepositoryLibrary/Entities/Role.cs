@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SystemLibrary.Entities
+namespace RepositoryLibrary.Entities
 {
-    public enum Status
+    public enum Role
     {
-        Approved=1,
-        Rejected=2,
-        Waiting=3
+        Admin=1,
+        Student=2
     }
 }

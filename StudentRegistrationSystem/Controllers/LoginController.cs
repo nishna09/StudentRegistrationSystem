@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SystemLibrary.Services;
-using SystemLibrary.Entities;
-using SystemLibrary.Models;
+using ServicesLibrary.Services;
+using  RepositoryLibrary.Entities;
+using RepositoryLibrary.Models;
 using System.Reflection;
-using SystemLibrary;
 
 namespace StudentRegistrationSystem.Controllers
 {
@@ -28,13 +27,13 @@ namespace StudentRegistrationSystem.Controllers
         }
 
         [HttpPost]
-        public JsonResult AuthenticateUser(User model)
+        public JsonResult AuthenticateUser(string emailAddress, string password)
         {
             Response response = null;
             string url = "";
             try
             {
-                response = _userServices.Authenticate(model);
+                response = _userServices.Authenticate(emailAddress, password);
             }
             catch (Exception ex)
             {

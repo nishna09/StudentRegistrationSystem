@@ -5,15 +5,15 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.Entities;
-using SystemLibrary.DAL.Database;
+using RepositoryLibrary.Entities;
+using RepositoryLibrary.Repository.Database;
 
-namespace SystemLibrary.DAL
+namespace RepositoryLibrary.Repository
 {
-    public class ResultDAL : IResultDAL
+    public class ResultRepository : IResultRepository
     {
         private readonly IDatabaseCommand _dbContext;
-        public ResultDAL(IDatabaseCommand dbContext)
+        public ResultRepository(IDatabaseCommand dbContext)
         {
             _dbContext = dbContext;
         }

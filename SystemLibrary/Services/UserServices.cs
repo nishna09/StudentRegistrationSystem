@@ -3,40 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.DAL;
-using SystemLibrary.Entities;
+using RepositoryLibrary.Repository;
+using RepositoryLibrary.Entities;
 using System.Web;
 
-namespace SystemLibrary.Services
+namespace ServicesLibrary.Services
 {
     public class UserServices : IUserServices
     {
-        private readonly IUserDAL _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UserServices(IUserDAL userRepository)
+        public UserServices(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public Response Authenticate(User model)
+        public Response Authenticate(string emailAddress, string password)
         {
             bool verify = false;
             string mssg = "";
             string url = "/Home/HomeStudent";
-            if (string.IsNullOrEmpty(model.EmailAddress))
+            if (string.IsNullOrEmpty(emailAddress))
             {
                 throw new ArgumentNullException("Email Address must be entered!");
             }
 
-            User user = _userRepository.GetUserByEmail(model.EmailAddress);
+            User user = _userRepository.GetUser("EmailAddress",emailAddress);
             if (user != null)
             {
-                if (user.Deleted == true)
+                if (user.IsDeleted)
                 {
                     throw new Exception($"Deleted user {user.EmailAddress} trying to login!");
                 }
 
-                verify = BCrypt.Net.BCrypt.Verify(model.Password, user.Password);
+                verify = BCrypt.Net.BCrypt.Verify(password, user.Password);
             }
             if (!verify)
                 return null;
@@ -67,19 +67,17 @@ namespace SystemLibrary.Services
             return roles;
         }
 
-        public bool EmailAvailable(string emailAddress)
+        public bool IsEmailAvailable(string emailAddress)
         {
             if (string.IsNullOrEmpty(emailAddress))
             {
                 throw new ArgumentNullException("Email Address must first be entered!");
             }
-            User user = _userRepository.GetUserByEmail(emailAddress);
+            User user = _userRepository.GetUser("EmailAddress",emailAddress);
             if (user != null)
                 return false;
             else
                 return true;
         }
-
-
     }
 }

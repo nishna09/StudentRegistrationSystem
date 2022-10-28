@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.Entities;
+using RepositoryLibrary.Entities;
 
-namespace SystemLibrary.Services
+namespace ServicesLibrary.Services
 {
     public interface IUserServices
     {
-        Response Authenticate(User model);
-        bool EmailAvailable(string emailName);
-
-
+        Response Authenticate(string emailAddress, string password);
+        bool IsEmailAvailable(string emailName);
     }
 
     

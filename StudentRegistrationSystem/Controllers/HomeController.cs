@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using StudentRegistrationSystem.Authorization;
-using SystemLibrary.Entities;
+using RepositoryLibrary.Entities;
 
 namespace StudentRegistrationSystem.Controllers
 {
@@ -17,7 +17,7 @@ namespace StudentRegistrationSystem.Controllers
             return View();
         }
 
-        [CustomAuthorize]
+        [CustomAuthorize(Role.Student)]
         [HttpGet]
         public ActionResult HomeStudent()
         {

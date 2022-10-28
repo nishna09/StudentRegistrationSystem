@@ -1,35 +1,23 @@
-﻿using NLog;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using SystemLibrary.Entities;
+using RepositoryLibrary.Entities;
+using RepositoryLibrary.Repository.Database;
 
-namespace SystemLibrary.DAL.Database
+namespace RepositoryLibrary.Repository.Database
 {
-    public interface IDatabaseCommand
-    {
-        void OpenDbConnection();
-        void CloseDbConnection();
-        void Commit();
-        void Rollback();
-        void InsertUpdateDelete(string query, List<SqlParameter> parameters);
-        DataTable QueryWithConditions(string query, List<SqlParameter> parameters);
-    }
-    public class DatabaseCommand: IDatabaseCommand
+    public class DatabaseCommand : IDatabaseCommand
     {
         public SqlConnection conn = null;
-        private readonly string connetionString = "Data Source=L-PW02X07Y;Initial Catalog=StudentRegistrationSystem;Integrated Security=True";
+        private readonly string connectionString = "Data Source=L-PW02X07Y;Initial Catalog=StudentRegistrationSystem;Integrated Security=True";
         private SqlTransaction Transaction;
         public void OpenDbConnection()
         {
-            conn = new SqlConnection(connetionString);
+            conn = new SqlConnection(connectionString);
             try
             {
                 if (conn.State == ConnectionState.Open)
@@ -41,9 +29,9 @@ namespace SystemLibrary.DAL.Database
                 Transaction = conn.BeginTransaction();
 
             }
-            catch (SqlException ex)
+            catch (Exception error)
             {
-                throw ex;
+                throw;
             }
 
         }
@@ -87,19 +75,17 @@ namespace SystemLibrary.DAL.Database
                     {
                         sda.Fill(data);
                     }
-                
+
                 }
-                
+
             }
-            catch(SqlException ex)
+            catch (Exception error)
             {
-                throw ex;
+                throw;
             }
             return data;
         }
-
-       
-        public void InsertUpdateDelete(string query, List<SqlParameter> parameters)
+        public int InsertUpdateDelete(string query, List<SqlParameter> parameters)
         {
             DataTable data = new DataTable();
             try
@@ -115,13 +101,13 @@ namespace SystemLibrary.DAL.Database
                             command.Parameters.AddWithValue(parameter.ParameterName, parameter.Value);
                         });
                     }
-                    command.ExecuteNonQuery();
-                
+                    return command.ExecuteNonQuery();
+
                 }
             }
-            catch (SqlException ex)
+            catch (Exception error)
             {
-                throw ex;
+                throw;
             }
         }
     }

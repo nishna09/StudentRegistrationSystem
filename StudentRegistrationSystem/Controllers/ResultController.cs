@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SystemLibrary.Services;
-using SystemLibrary.Entities;
+using ServicesLibrary.Services;
+using RepositoryLibrary.Entities;
 using NLog;
 using System.Security.Policy;
 using StudentRegistrationSystem.Authorization;
@@ -20,7 +20,6 @@ namespace StudentRegistrationSystem.Controllers
 
             _resultServices = resultServices;
         }
-        // GET: Resuly
      
 
         [HttpGet]

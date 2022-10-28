@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SystemLibrary.DAL;
-using SystemLibrary.Entities;
+using RepositoryLibrary.Repository;
+using RepositoryLibrary.Entities;
 
-namespace SystemLibrary.Services
+namespace ServicesLibrary.Services
 {
     public class ResultServices : IResultServices
     {
-        private readonly IResultDAL _resultRepository;
-        public ResultServices(IResultDAL repository)
+        private readonly IResultRepository _resultRepository;
+        public ResultServices(IResultRepository repository)
         {
             _resultRepository = repository;
         }
