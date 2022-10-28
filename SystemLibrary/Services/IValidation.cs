@@ -10,5 +10,7 @@ namespace ServicesLibrary.Services
     public interface IValidation
     {
         Response ValidateEmail(string email);
+        Response ValidatePassword(string password);
+        Response ValidatePhoneNumber(string phoneNumber);
     }
 }

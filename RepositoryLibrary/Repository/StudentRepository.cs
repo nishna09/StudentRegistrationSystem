@@ -20,21 +20,17 @@ namespace RepositoryLibrary.Repository
             _dBContext = dBContext;
             _userRepository = userRepository;
         }
-
         public Response RegisterStudent(User user)
         {
-            var success = true;
-            var mssg = "";
             int insert = 0;
             _dBContext.OpenDbConnection();
             try
             {
-                int id = _userRepository.Register(user, _dBContext);
+                int userId = _userRepository.AddUser(user, _dBContext);
 
                 List<SqlParameter> parameters = new List<SqlParameter>();
-                string query = @"INSERT INTO Students(StudentId,NationalID,FirstName, LastName,DateOfBirth,ContactNumber)";
-                query += "VALUES(@UserId, @NationalID, @FirstName, @LastName, @DateOfBirth, @ContactNumber)";
-                parameters.Add(new SqlParameter("@UserId", id));
+                string query = SQLQueries.AddStudentQuery;
+                parameters.Add(new SqlParameter("@UserId", userId));
                 parameters.Add(new SqlParameter("@NationalID", user.Student.NationalID));
                 parameters.Add(new SqlParameter("@FirstName", user.Student.FirstName));
                 parameters.Add(new SqlParameter("@LastName", user.Student.LastName));
@@ -42,9 +38,7 @@ namespace RepositoryLibrary.Repository
                 parameters.Add(new SqlParameter("@ContactNumber", user.Student.ContactNumber));
                 insert=_dBContext.InsertUpdateDelete(query, parameters);
 
-                parameters = new List<SqlParameter>();
-                query = @"INSERT INTO UserRoles VALUES(@UserId,@RoleId)";
-                parameters.Add(new SqlParameter("@UserId", id));
+                query = SQLQueries.AddUserRoleQuery;
                 parameters.Add(new SqlParameter("@RoleId", (int)Role.Student));
                 insert=_dBContext.InsertUpdateDelete(query, parameters);
                 _dBContext.Commit();            
@@ -52,9 +46,10 @@ namespace RepositoryLibrary.Repository
             catch
             {
                 _dBContext.Rollback();
-                success = false;
+                throw;
             }
-            mssg = insert > 0 ? "Registration successful" : "Error occured during registration. Please try again";
+            var mssg = insert > 0 ? "Registration successful" : "Error occured during registration. Please try again";
+            var success = insert > 0;
             return new Response(success, mssg);
 
         }

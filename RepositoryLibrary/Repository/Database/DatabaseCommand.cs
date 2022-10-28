@@ -12,7 +12,7 @@ namespace RepositoryLibrary.Repository.Database
 {
     public class DatabaseCommand : IDatabaseCommand
     {
-        public SqlConnection conn = null;
+        private SqlConnection conn = null;
         private readonly string connectionString = "Data Source=L-PW02X07Y;Initial Catalog=StudentRegistrationSystem;Integrated Security=True";
         private SqlTransaction Transaction;
         public void OpenDbConnection()
@@ -21,21 +21,16 @@ namespace RepositoryLibrary.Repository.Database
             try
             {
                 if (conn.State == ConnectionState.Open)
-                {
                     conn.Close();
-                }
-
                 conn.Open();
                 Transaction = conn.BeginTransaction();
-
             }
-            catch (Exception error)
+            catch
             {
                 throw;
             }
 
         }
-
         public void CloseDbConnection()
         {
             if (conn != null && conn.State == ConnectionState.Open)
@@ -44,7 +39,6 @@ namespace RepositoryLibrary.Repository.Database
                 conn.Dispose();
             }
         }
-
         public void Commit()
         {
             Transaction.Commit();
@@ -75,11 +69,9 @@ namespace RepositoryLibrary.Repository.Database
                     {
                         sda.Fill(data);
                     }
-
                 }
-
             }
-            catch (Exception error)
+            catch
             {
                 throw;
             }
@@ -102,10 +94,9 @@ namespace RepositoryLibrary.Repository.Database
                         });
                     }
                     return command.ExecuteNonQuery();
-
                 }
             }
-            catch (Exception error)
+            catch
             {
                 throw;
             }

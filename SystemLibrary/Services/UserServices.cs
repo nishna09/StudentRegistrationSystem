@@ -6,59 +6,79 @@ using System.Threading.Tasks;
 using RepositoryLibrary.Repository;
 using RepositoryLibrary.Entities;
 using System.Web;
+using System.Security.Policy;
 
 namespace ServicesLibrary.Services
 {
     public class UserServices : IUserServices
     {
         private readonly IUserRepository _userRepository;
+        private readonly IValidation _validation;
 
-        public UserServices(IUserRepository userRepository)
+        public UserServices(IUserRepository userRepository, IValidation validation)
         {
             _userRepository = userRepository;
+            _validation = validation;
         }
 
         public Response Authenticate(string emailAddress, string password)
         {
-            bool verify = false;
             string mssg = "";
-            string url = "/Home/HomeStudent";
-            if (string.IsNullOrEmpty(emailAddress))
+            if (!_validation.ValidateEmail(emailAddress).Flag)
             {
-                throw new ArgumentNullException("Email Address must be entered!");
+                return _validation.ValidateEmail(emailAddress);
             }
-
+            if (string.IsNullOrEmpty(password))
+            {
+                mssg = "Password is required!";
+                return new Response(false, mssg);
+            }
             User user = _userRepository.GetUser("EmailAddress",emailAddress);
+            bool isValid = false;
+            string url = "";
             if (user != null)
             {
                 if (user.IsDeleted)
                 {
-                    throw new Exception($"Deleted user {user.EmailAddress} trying to login!");
+                    mssg = $"Deleted user {user.EmailAddress} trying to login!";
+                    return new Response(false, mssg);
                 }
-
-                verify = BCrypt.Net.BCrypt.Verify(password, user.Password);
+                isValid = BCrypt.Net.BCrypt.Verify(password, user.Password);
             }
-            if (!verify)
-                return null;
-
-            user.Roles = GetRoles(user.UserId);
-            HttpContext.Current.Session["UserId"]=user.UserId;
-            string userRoles = "";
-            if (user.Roles != null)
+            if (isValid)
             {
-                for (int i = 0; i < user.Roles.Count; i++)
+                url = CreateSession(user.UserId);
+                mssg = "Authentication successful";
+            }
+            else
+            {
+                mssg = "Incorrect credentials";
+            }
+            return new Response(isValid,mssg,url);
+        }
+        private string CreateSession(int userId)
+        {
+            string url = "/Home/HomeStudent";
+            List<Role> roles = GetRoles(userId);
+            HttpContext.Current.Session["UserId"] = userId;
+            string userRoles = "";
+            if (roles != null)
+            {
+                for (int i = 0; i < roles.Count; i++)
                 {
-                    userRoles += user.Roles[i].ToString();
-                    if (user.Roles[i].Equals(Role.Admin))
+                    userRoles += roles[i].ToString();
+                    userRoles += ",";
+                    if (roles[i].Equals(Role.Admin))
                     {
                         url = "Home/HomeAdmin";
                     }
                 }
             }
-            HttpContext.Current.Session["Roles"] = userRoles;
-
-            return new Response(verify,mssg,url);
-
+            if (!string.IsNullOrEmpty(userRoles))
+            {
+                HttpContext.Current.Session["Roles"] = userRoles.Remove(userRoles.Length - 1);
+            }
+            return url;
         }
         private List<Role> GetRoles(int userId)
         {

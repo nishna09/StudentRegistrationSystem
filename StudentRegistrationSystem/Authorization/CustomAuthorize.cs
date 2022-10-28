@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -30,11 +31,9 @@ namespace StudentRegistrationSystem.Authorization
                 }
                 else
                 {
-                    string userRoles = controller.Session["Roles"].ToString();
-
-                    if (userRoles != null)
+                    if (!string.IsNullOrEmpty(controller.Session["Roles"].ToString()))
                     {
-                        string[] arrUserRoles = userRoles.Split(',');
+                        string[] arrUserRoles = controller.Session["Roles"].ToString().Split(',');
 
                         for (int i = 0; i < arrUserRoles.Length; i++)
                         {
@@ -42,7 +41,6 @@ namespace StudentRegistrationSystem.Authorization
                             if (AuthorisedRoles.Contains(role))
                                 isValid = true;
                         }
-
                     }
                 }
 

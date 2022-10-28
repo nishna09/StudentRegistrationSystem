@@ -12,7 +12,7 @@ namespace RepositoryLibrary.Repository
 {
     public interface IUserRepository
     {
-        int Register(User user, IDatabaseCommand db);
+        int AddUser(User user, IDatabaseCommand db);
         IEnumerable<User> GetUsers();
         User GetUser(string queryParameter, object queryValue);
         List<Role> getRoles(int userId);    

@@ -20,7 +20,7 @@ namespace RepositoryLibrary.Repository
 
         }
 
-        public int Register(User user, IDatabaseCommand db)
+        public int AddUser(User user, IDatabaseCommand db)
         {
             bool setDb = false;
             if (db == null)
@@ -30,19 +30,16 @@ namespace RepositoryLibrary.Repository
                 db.OpenDbConnection();
             }
             int UserId = 0;
-            string query = @"INSERT INTO Users(EmailAddress, UserPassword)";
-            query += "VALUES(@EmailAddress, @UserPassword)";
+            string query = SQLQueries.AddUserQuery;
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@EmailAddress", user.EmailAddress));
             parameters.Add(new SqlParameter("@UserPassword", user.Password));
             db.InsertUpdateDelete(query, parameters);
-            query = "SELECT UserId FROM Users WHERE EmailAddress=@EmailAddress";
-            DataTable result = db.QueryWithConditions(query, parameters);
-            UserId = (int)result.Rows[0]["UserId"];
+            query = SQLQueries.GetLastIdentityInserted;
+            DataTable result = db.QueryWithConditions(query, null);
+            UserId = (int)result.Rows[0][0];
             if (setDb)
-            {
                 db.CloseDbConnection();
-            }
             return UserId;
         }
         public IEnumerable<User> GetUsers()
