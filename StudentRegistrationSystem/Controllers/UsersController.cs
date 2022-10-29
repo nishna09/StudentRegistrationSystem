@@ -57,16 +57,15 @@ namespace ResgistrationApplication.Controllers
         [HttpPost]
         public JsonResult EmailAvailability(string emailAddress)
         {
-            var available = false;
             try
             {
-                available = _userServices.IsEmailAvailable(emailAddress);
+                return Json(_userServices.IsEmailAvailable(emailAddress));
             }
             catch (Exception ex)
             {
                 logger.Error("Error {err} occured", ex.Message);
+                return Json(new Response(false, "An error occured while validating email address"));
             }
-            return Json(new { result = available });
         }
 
         [HttpPost]

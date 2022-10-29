@@ -15,7 +15,6 @@ namespace RepositoryLibrary.Repository
         int AddUser(User user, IDatabaseCommand db);
         IEnumerable<User> GetUsers();
         User GetUser(string queryParameter, object queryValue);
-        List<Role> getRoles(int userId);    
         bool Update(User user);
         bool Delete(int userId);
     }

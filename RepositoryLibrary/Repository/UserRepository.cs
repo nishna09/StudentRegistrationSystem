@@ -13,13 +13,10 @@ namespace RepositoryLibrary.Repository
     public class UserRepository : IUserRepository
     {
         private readonly IDatabaseCommand _dBContext;
-
         public UserRepository(IDatabaseCommand dBContext)
         {
             _dBContext = dBContext;
-
         }
-
         public int AddUser(User user, IDatabaseCommand db)
         {
             bool setDb = false;
@@ -46,10 +43,6 @@ namespace RepositoryLibrary.Repository
         {
             return new List<User>();
         }
-        public User GetUserById(int userId)
-        {
-            return null;
-        }
         public User GetUser(string queryParameter, object queryValue)
         {
             _dBContext.OpenDbConnection();
@@ -57,7 +50,6 @@ namespace RepositoryLibrary.Repository
             string query = string.Format($"{SQLQueries.GetUserQuery} WHERE {queryParameter}=@{queryParameter}");
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@EmailAddress", queryValue));
-
             DataTable result = _dBContext.QueryWithConditions(query, parameters);
             if (result.Rows.Count > 0)
             {
@@ -69,30 +61,6 @@ namespace RepositoryLibrary.Repository
             }
             _dBContext.CloseDbConnection();
             return user;
-        }
-
-
-        public List<Role> getRoles(int userId)
-        {
-            List<Role> roles = new List<Role>();
-            string query = @"SELECT RoleId FROM UserRoles WHERE UserId=@UserId";
-
-            var parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@UserId", userId));
-
-            _dBContext.OpenDbConnection();
-            DataTable results = _dBContext.QueryWithConditions(query, parameters);
-
-            if (results.Rows.Count > 0)
-            {
-                foreach (DataRow row in results.Rows)
-                {
-                    int roleId = (int)row["RoleId"];
-                    roles.Add((Role)roleId);
-                }
-            }
-            _dBContext.CloseDbConnection();
-            return roles;
         }
         public bool Update(User user)
         {

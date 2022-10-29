@@ -17,14 +17,12 @@ namespace RepositoryLibrary.Repository
         {
             _dbContext = dbContext;
         }
-       
-       
         public List<Subject> GetAllSubjects()
         {
             var subjects = new List<Subject>();
             _dbContext.OpenDbConnection();
 
-            string query = "SELECT * FROM Subjects";
+            string query = SQLQueries.GetSubjects;
             DataTable results = _dbContext.QueryWithConditions(query, null);
 
             if (results.Rows.Count > 0)
@@ -36,7 +34,6 @@ namespace RepositoryLibrary.Repository
                     subjects.Add(subject);
                 }
             }
-
             _dbContext.CloseDbConnection();
             return subjects;
         }

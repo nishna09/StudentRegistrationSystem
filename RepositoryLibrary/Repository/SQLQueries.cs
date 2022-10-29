@@ -13,5 +13,7 @@ namespace RepositoryLibrary.Repository
         public const string GetLastIdentityInserted = "SELECT @@IDENTITY";
         public const string AddStudentQuery = @"INSERT INTO Students(StudentId,NationalID,FirstName, LastName,DateOfBirth,ContactNumber) VALUES(@UserId, @NationalID, @FirstName, @LastName, @DateOfBirth, @ContactNumber)";
         public const string AddUserRoleQuery = @"INSERT INTO UserRoles VALUES(@UserId,@RoleId)";
+        public const string GetSubjects = "SELECT StudentId, StudentName FROM Subjects";
+        public const string GetUserRoles = @"SELECT RoleId FROM UserRoles WHERE UserId=@UserId";
     }
 }

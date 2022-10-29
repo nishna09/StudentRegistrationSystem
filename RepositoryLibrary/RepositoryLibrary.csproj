@@ -44,9 +44,11 @@
     <Compile Include="Repository\Database\DatabaseCommand.cs" />
     <Compile Include="Repository\Database\IDatabaseCommand.cs" />
     <Compile Include="Repository\IResultRepository.cs" />
+    <Compile Include="Repository\IRoleRepository.cs" />
     <Compile Include="Repository\IStudentRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\ResultRepository.cs" />
+    <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Repository\SQLQueries.cs" />
     <Compile Include="Repository\StudentRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />

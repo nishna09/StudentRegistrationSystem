@@ -12,28 +12,30 @@ namespace ServicesLibrary.Services
 {
     public class UserServices : IUserServices
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IValidation _validation;
+        private readonly IUserRepository UserRepository;
+        private readonly IValidation Validation;
+        private readonly IRoleRepository RoleRepository;
 
-        public UserServices(IUserRepository userRepository, IValidation validation)
+        public UserServices(IUserRepository userRepository, IValidation validation, IRoleRepository roleRepository)
         {
-            _userRepository = userRepository;
-            _validation = validation;
+            UserRepository = userRepository;
+            Validation = validation;
+            RoleRepository = roleRepository;
         }
 
         public Response Authenticate(string emailAddress, string password)
         {
             string mssg = "";
-            if (!_validation.ValidateEmail(emailAddress).Flag)
+            if (!Validation.ValidateEmail(emailAddress).Flag)
             {
-                return _validation.ValidateEmail(emailAddress);
+                return Validation.ValidateEmail(emailAddress);
             }
             if (string.IsNullOrEmpty(password))
             {
                 mssg = "Password is required!";
                 return new Response(false, mssg);
             }
-            User user = _userRepository.GetUser("EmailAddress",emailAddress);
+            User user = UserRepository.GetUser("EmailAddress",emailAddress);
             bool isValid = false;
             string url = "";
             if (user != null)
@@ -59,7 +61,7 @@ namespace ServicesLibrary.Services
         private string CreateSession(int userId)
         {
             string url = "/Home/HomeStudent";
-            List<Role> roles = GetRoles(userId);
+            List<Role> roles = RoleRepository.GetRoles(userId);
             HttpContext.Current.Session["UserId"] = userId;
             string userRoles = "";
             if (roles != null)
@@ -80,24 +82,17 @@ namespace ServicesLibrary.Services
             }
             return url;
         }
-        private List<Role> GetRoles(int userId)
+        public Response IsEmailAvailable(string emailAddress)
         {
-            List<Role> roles = new List<Role>();
-            roles = _userRepository.getRoles(userId);
-            return roles;
-        }
-
-        public bool IsEmailAvailable(string emailAddress)
-        {
-            if (string.IsNullOrEmpty(emailAddress))
+            if (!Validation.ValidateEmail(emailAddress).Flag)
             {
-                throw new ArgumentNullException("Email Address must first be entered!");
+                return Validation.ValidateEmail(emailAddress);
             }
-            User user = _userRepository.GetUser("EmailAddress",emailAddress);
+            User user = UserRepository.GetUser("EmailAddress",emailAddress);
             if (user != null)
-                return false;
+                return new Response(false,"This email address is already registered!");
             else
-                return true;
+                return new Response(false, "This email address is available!");
         }
     }
 }
