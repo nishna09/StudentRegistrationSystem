@@ -15,8 +15,6 @@ namespace ServicesLibrary.Services
         {
             _resultRepository = repository;
         }
-
-       
         public List<Subject> GetAllSubjects()
         {
             List<Subject> subjects = _resultRepository.GetAllSubjects();

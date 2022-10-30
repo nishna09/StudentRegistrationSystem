@@ -13,12 +13,12 @@ namespace StudentRegistrationSystem.Controllers
 {
     public class ResultController : Controller
     {
-        private readonly IResultServices _resultServices;
+        private readonly IResultServices ResultServices;
         private static Logger logger = LogManager.GetCurrentClassLogger();
         public ResultController(IResultServices resultServices)
         {
 
-            _resultServices = resultServices;
+            ResultServices = resultServices;
         }
      
 
@@ -29,14 +29,13 @@ namespace StudentRegistrationSystem.Controllers
             List<Subject> subjects=new List<Subject>();
             try
             {
-                subjects = _resultServices.GetAllSubjects();
+                subjects = ResultServices.GetAllSubjects();
             }
             catch (Exception ex)
             {
                 logger.Error("Error {err} occured", ex.Message);
             }
-
-            return Json(new { result = subjects });
+            return Json(subjects, JsonRequestBehavior.AllowGet);
         }
 
     }

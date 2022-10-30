@@ -43,8 +43,6 @@ $(function () {
             toastr.error("Password must be at least 6 characters long!");
         }
 
-        
-
         if (validValues && passwordMatch && emailAddressAvailable) {
             var student = {
                 FirstName: $("#firstname").val(),
@@ -56,20 +54,23 @@ $(function () {
             var user={
                 EmailAddress: $("#emailAddress").val(),
                 Password: $("#password").val(),
-                Stud: student
+                Student: student
             }
-
-            postData(user, "/Users/RegisterStudent").then((response) => {
-                if (response.Success) {
+            alert(user.Student.FirstName);
+            alert(user.Student.LastName);
+            postGetData(user, "/Users/RegisterStudent","POST").then((response) => {
+                if (response.Flag) {
                     toastr.success("Successful registration!")
                     setTimeout(redirect, 3000);
                     
                 }
                 else {
                     toastr.error(response.Message);
+                    $("span#registerEr").html(response.Message)
                 }
             }).catch((error) => {
                 console.log(error);
+                $("span#registerEr").html("Unable to register. Please try again!")
             })
 
         }
@@ -119,7 +120,7 @@ $(function () {
     $("#emailAddress").change(function () {
         if ($("#emailAddress").val() != '') {
             emailCheck().then((response) => {
-                if (response.result) {
+                if (response.Flag) {
                     $("span.emailErr").html("");
                     emailAddressAvailable = true;
                 }

@@ -92,7 +92,7 @@ namespace ServicesLibrary.Services
             if (user != null)
                 return new Response(false,"This email address is already registered!");
             else
-                return new Response(false, "This email address is available!");
+                return new Response(true, "This email address is available!");
         }
     }
 }

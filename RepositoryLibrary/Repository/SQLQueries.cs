@@ -10,10 +10,10 @@ namespace RepositoryLibrary.Repository
     {
         public const string GetUserQuery = @"SELECT UserId, EmailAddress, UserPassword, IsDeleted FROM Users ";
         public const string AddUserQuery = @"INSERT INTO Users(EmailAddress, UserPassword) VALUES(@EmailAddress, @UserPassword)";
-        public const string GetLastIdentityInserted = "SELECT @@IDENTITY";
+        public const string GetLastIdentityInserted = "SELECT @@IDENTITY as Id";
         public const string AddStudentQuery = @"INSERT INTO Students(StudentId,NationalID,FirstName, LastName,DateOfBirth,ContactNumber) VALUES(@UserId, @NationalID, @FirstName, @LastName, @DateOfBirth, @ContactNumber)";
         public const string AddUserRoleQuery = @"INSERT INTO UserRoles VALUES(@UserId,@RoleId)";
-        public const string GetSubjects = "SELECT StudentId, StudentName FROM Subjects";
+        public const string GetSubjects = "SELECT SubjectId, SubjectName FROM Subjects";
         public const string GetUserRoles = @"SELECT RoleId FROM UserRoles WHERE UserId=@UserId";
     }
 }

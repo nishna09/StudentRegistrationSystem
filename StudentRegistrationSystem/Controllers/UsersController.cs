@@ -38,7 +38,6 @@ namespace ResgistrationApplication.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize(Role.Student, Role.Admin)]
         public JsonResult RegisterStudent(User model)
         {
             Response res=new Response();

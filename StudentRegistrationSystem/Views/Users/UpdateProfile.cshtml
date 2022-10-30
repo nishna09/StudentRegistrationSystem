@@ -39,7 +39,13 @@
                 <div class="form-group">
                     <label for="grade1">Grade:  </label>
                     <select class="grades" id="grade1" required>
-                        <option>Select your grade</option>
+                        <option value="-1">Select your grade</option>
+                        <option value="10">A</option>
+                        <option value="8">B</option>
+                        <option value="6">C</option>
+                        <option value="4">D</option>
+                        <option value="2">E</option>
+                        <option value="0">F</option>
                     </select>
                 </div>
             </div>
@@ -48,7 +54,7 @@
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
                     <label for="subject2">Subject:  </label>
-                    <select class="subjects" id="subject2" required>
+                    <select class="subjects" id="subject2">
                         <option>Select a subject</option>
                     </select>
                 </div>
@@ -56,8 +62,14 @@
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
                     <label for="grade2">Grade:  </label>
-                    <select class="grades" id="grade2" required>
-                        <option>Select your grade</option>
+                    <select class="grades" id="grade2">
+                        <option value="-1">Select your grade</option>
+                        <option value="10">A</option>
+                        <option value="8">B</option>
+                        <option value="6">C</option>
+                        <option value="4">D</option>
+                        <option value="2">E</option>
+                        <option value="0">F</option>
                     </select>
                 </div>
             </div>
@@ -66,7 +78,7 @@
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
                     <label for="subject3">Subject:  </label>
-                    <select class="subjects" id="subject3" required>
+                    <select class="subjects" id="subject3">
                         <option>Select a subject</option>
                     </select>
                 </div>
@@ -74,39 +86,58 @@
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
                     <label for="grade3">Grade:  </label>
-                    <select class="grades" id="grade3" required>
-                        <option>Select your grade</option>
+                    <select class="grades" id="grade3">
+                        <option value="-1">Select your grade</option>
+                        <option value="10">A</option>
+                        <option value="8">B</option>
+                        <option value="6">C</option>
+                        <option value="4">D</option>
+                        <option value="2">E</option>
+                        <option value="0">F</option>
                     </select>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group">
+        <div>
+            <span id="resultErr" class="error"></span>
+        </div>
+        <div class="form-group">
+            <div class="row">
                 <label for="guardianName">Guardian Name: </label>
-                <input id="guardianName" type="text" placeholder="Guardian Name" required>
+            </div>
+            <div class="row">
+                <input id="guardianName" type="text" placeholder="Guardian Name" title="Guardian name is required" required>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group">
+        <div class="form-group">
+            <div class="row">
                 <label for="street">Street: </label>
-                <input id="street" type="text" placeholder="Street" required>
+            </div>
+            <div class="row">
+                <input id="street" type="text" placeholder="Street" title="Street is required" required>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group">
+        <div class="form-group">
+            <div class="row">
                 <label for="city">City: </label>
-                <input id="city" type="text" placeholder="City" required>
+            </div>
+            <div class="row">
+                <input id="city" type="text" placeholder="City" title="City is required" required>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group">
+        <div class="form-group">
+            <div class="row">
                 <label for="country">Country: </label>
-                <input id="country" type="text" placeholder="Country" required>
+            </div>
+            <div class="row">
+                <input id="country" type="text" placeholder="Country" title="Country is required" required>
             </div>
         </div>
-
         <div class="center pointer">
-            <button>Update Profile</button>
+            <button id="updateBtn">Update Profile</button>
+            <div>
+                <span class="error" id="updateEr"></span>
+            </div>
         </div>
     </form>
 

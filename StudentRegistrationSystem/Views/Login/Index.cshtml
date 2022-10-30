@@ -1,42 +1,39 @@
 ﻿<!DOCTYPE html>
 <head>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
-    <link rel="stylesheet" href="~/Content/css/login.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/css/LoginRegister.css">
     <script type="text/javascript" src="~/Scripts/Login.js"></script>
     <script type="text/javascript" src="~/Scripts/AjaxScript.js"></script>
     <title>University Registration</title>
 
 </head>
+
 <body>
-    
-    <form class="container">
-        <legend>
+
+    <form id="form">
+        <legend style="text-align:center;font-size:x-large">
             Login
         </legend>
-        <div class="row">
-            <div class="form-group">
-                <label for="emailAddress">Email Address:  </label>
-                <input id="emailAddress" type="email" placeholder="joe@gmail.com" required>
-            </div>
+        <div class="form-control">
+            <label for="emailAddress">Email Address:  </label>
+            <input id="emailAddress" type="email" placeholder="joe@gmail.com" required>
         </div>
-        <div class="row">
-            <div class="form-group">
-                <label for="password">Password: </label>
-                <input id="password" type="password" placeholder="********" required>
-            </div>
+        <div class="form-control">
+            <label for="password">Password: </label>
+            <input id="password" type="password" placeholder="********" required>
         </div>
 
 
         <div class="center pointer">
             <button id="signupBtn">Sign In</button>
             <span class="link" onclick="window.location = '@Url.Action("Register", "Users")'">Don't have an account? Register</span>
+            <div>
+                <span class="error" id="loginEr"></span>
+            </div>
         </div>
     </form>
 
 </body>
-</html>

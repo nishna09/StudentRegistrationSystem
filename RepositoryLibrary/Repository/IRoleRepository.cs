@@ -11,6 +11,6 @@ namespace RepositoryLibrary.Repository
     public interface IRoleRepository
     {
         int AddRole(Role role, int UserId, IDatabaseCommand db);
-        List<Role> GetRoles(int userId)
+        List<Role> GetRoles(int userId);
     }
 }

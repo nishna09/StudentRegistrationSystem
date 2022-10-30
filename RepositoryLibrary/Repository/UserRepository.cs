@@ -26,7 +26,7 @@ namespace RepositoryLibrary.Repository
                 db = _dBContext;
                 db.OpenDbConnection();
             }
-            int UserId = 0;
+            int userId = 0;
             string query = SQLQueries.AddUserQuery;
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@EmailAddress", user.EmailAddress));
@@ -34,10 +34,13 @@ namespace RepositoryLibrary.Repository
             db.InsertUpdateDelete(query, parameters);
             query = SQLQueries.GetLastIdentityInserted;
             DataTable result = db.QueryWithConditions(query, null);
-            UserId = (int)result.Rows[0][0];
+            if (result.Rows.Count > 0)
+            {
+                userId = Convert.ToInt32(result.Rows[0]["Id"]);
+            }
             if (setDb)
                 db.CloseDbConnection();
-            return UserId;
+            return userId;
         }
         public IEnumerable<User> GetUsers()
         {

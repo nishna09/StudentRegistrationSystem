@@ -1,24 +1,8 @@
-﻿function postData(dataObj,urlPost) {
+﻿function postGetData(dataObj, urlPost, callType) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            type: "POST",
+            type: callType,
             url: urlPost,
-            data: dataObj,
-            dataType: "json",
-            success: function (result) {
-                resolve(result)
-            },
-            error: function (error) {
-                reject(error)
-            }
-        })
-    });
-}
-
-function getData(dataObj, urlGet) {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: urlGet,
             data: dataObj,
             dataType: "json",
             success: function (result) {

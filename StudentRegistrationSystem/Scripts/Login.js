@@ -12,7 +12,7 @@ $(function () {
         var password = $("#password").val();
         var obj = { EmailAddress: emailAddress, Password: password };
 
-        postData(obj, "/Login/AuthenticateUser").then((response) => {
+        postGetData(obj, "/Login/AuthenticateUser","POST").then((response) => {
             
             if (response.Flag) {
                 toastr.success("Welcome!");
@@ -20,10 +20,12 @@ $(function () {
             }
             else {
                 toastr.error(response.Message);
+                $("span#loginEr").html(response.Message);
             }
         })
             .catch((error) => {
                 toastr.error("Unable to authenticate. Please try again!");
+                $("span#loginEr").html("Unable to authenticate. Please try again!");
             });
     });
 

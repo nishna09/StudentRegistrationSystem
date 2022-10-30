@@ -23,48 +23,31 @@ namespace ServicesLibrary.Services
 
         public Response RegisterStudent(User model)
         {
-            var proceed = true;
-            string mssg = "";
             if (string.IsNullOrEmpty(model.Student.FirstName) || string.IsNullOrEmpty(model.Student.LastName) || string.IsNullOrEmpty(model.Student.NationalID) || model.Student.DateOfBirth.Year >= DateTime.Now.Year)
             {
-                mssg = "Valid values should be entered!";
-                proceed = false;
+                string mssg = "Valid values should be entered!";
+                return new Response(false, mssg);
             }
             if (string.IsNullOrEmpty(model.EmailAddress) || string.IsNullOrEmpty(model.Password))
             {
-                mssg = "Email Address and passwords need to be specified!";
-                proceed = false;
+                string mssg = "Email Address and passwords need to be specified!";
+                return new Response(false, mssg);
             }
 
             if (model.Password.Length < 6)
             {
-                mssg = "Passwords need to be at least 6 characters long!";
-                proceed = false;
+                string mssg = "Passwords need to be at least 6 characters long!";
+                return new Response(false, mssg);
             }
-            Response res;
-
-            if (proceed)
-            {
-
-                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
-                model.Password = hashedPassword;
-
-                res = _studentRepository.RegisterStudent(model);
-            }
-            else
-            {
-                res = new Response(proceed, mssg);
-            }
-
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+            model.Password = hashedPassword;
+            Response res = _studentRepository.RegisterStudent(model);
             return res;
         }
-
         public Response UpdateDetails(UpdateStudent model, int StudenId)
         {
             return _studentRepository.UpdateDetails(model, StudenId);
         }
-
-
         public void AssignStatus()
         {
 
