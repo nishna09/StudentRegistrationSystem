@@ -7,6 +7,7 @@ using RepositoryLibrary.Repository;
 using RepositoryLibrary.Entities;
 using System.Web;
 using System.Security.Policy;
+using System.Net.Mail;
 
 namespace ServicesLibrary.Services
 {
@@ -81,18 +82,6 @@ namespace ServicesLibrary.Services
                 HttpContext.Current.Session["Roles"] = userRoles.Remove(userRoles.Length - 1);
             }
             return url;
-        }
-        public Response IsEmailAvailable(string emailAddress)
-        {
-            if (!Validation.ValidateEmail(emailAddress).Flag)
-            {
-                return Validation.ValidateEmail(emailAddress);
-            }
-            User user = UserRepository.GetUser("EmailAddress",emailAddress);
-            if (user != null)
-                return new Response(false,"This email address is already registered!");
-            else
-                return new Response(true, "This email address is available!");
         }
     }
 }

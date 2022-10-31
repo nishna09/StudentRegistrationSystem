@@ -19,13 +19,13 @@
         var result = [];
         var proceed = true;
         if ($("select#subject1").val() != -1 && $("select#grade1").val() != -1) {
-            result.push({ SubjectId: parseInt($("select#subject1").val()), Grade: $("select#grade1").val() });
+            result.push({ Subject: { SubjectId: parseInt($("select#subject1").val()) }, Grade: $("select#grade1").val() });
         }
         if ($("select#subject2").val() != -1 && $("select#grade2").val() != -1) {
-            result.push({ SubjectId: parseInt($("select#subject2").val()), Grade: $("select#grade2").val() });
+            result.push({ Subject: { SubjectId: parseInt($("select#subject2").val()) }, Grade: $("select#grade2").val() });
         }
         if ($("select#subject3").val() != -1 && $("select#grade3").val() != -1) {
-            result.push({ SubjectId: parseInt($("select#subject3").val()), Grade: $("select#grade3").val() });
+            result.push({ Subject: { SubjectId: parseInt($("select#subject3").val()) }, Grade: $("select#grade3").val() });
         }
         if (result.length == 0) {
             $("span#resultErr").html("At least one subject and grade must be entered!")

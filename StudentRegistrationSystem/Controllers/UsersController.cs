@@ -15,18 +15,20 @@ namespace ResgistrationApplication.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly IUserServices _userServices;
+        private readonly IUserServices UserServices;
+        private readonly IValidation Validation;
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        public UsersController(IUserServices userServices)
+        public UsersController(IUserServices userServices,IValidation validation)
         {
-            _userServices = userServices;
+            UserServices = userServices;
+            Validation = validation;
         }
-         [HttpPost]
+        [HttpPost]
         public JsonResult EmailAvailability(string emailAddress)
         {
             try
             {
-                return Json(_userServices.IsEmailAvailable(emailAddress));
+                return Json(Validation.IsEmailAvailable(emailAddress));
             }
             catch (Exception ex)
             {
@@ -34,6 +36,31 @@ namespace ResgistrationApplication.Controllers
                 return Json(new Response(false, "An error occured while validating email address"));
             }
         }
-
+        [HttpPost]
+        public JsonResult PhoneNumberAvailability(string phoneNumber)
+        {
+            try
+            {
+                return Json(Validation.IsPhoneNumberAvailable(phoneNumber));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error {err} occured", ex.Message);
+                return Json(new Response(false, "An error occured while validating phone number"));
+            }
+        }
+        [HttpPost]
+        public JsonResult NationalIDAvailability(string nationalID)
+        {
+            try
+            {
+                return Json(Validation.IsNationalIDAvailable(nationalID));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error {err} occured", ex.Message);
+                return Json(new Response(false, "An error occured while validating national identity number"));
+            }
+        }
     }
 }

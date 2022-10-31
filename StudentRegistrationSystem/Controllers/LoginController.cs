@@ -17,7 +17,6 @@ namespace StudentRegistrationSystem.Controllers
         private static Logger logger = LogManager.GetCurrentClassLogger();
         public LoginController(IUserServices userServices)
         {
-
             _userServices = userServices;
         }
         [HttpGet]

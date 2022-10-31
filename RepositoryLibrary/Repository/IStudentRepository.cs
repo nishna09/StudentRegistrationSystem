@@ -13,6 +13,7 @@ namespace RepositoryLibrary.Repository
     {
         Response RegisterStudent(User user);
         Response UpdateDetails(UpdateStudent model, int userId);
+        Student GetStudent(string queryParameter, object queryValue);
     }
 
     

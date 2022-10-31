@@ -7,6 +7,8 @@ using RepositoryLibrary.Entities;
 using RepositoryLibrary.Repository.Database;
 using RepositoryLibrary.Models;
 using System.Data.SqlClient;
+using System.Data;
+using System.Linq.Expressions;
 
 namespace RepositoryLibrary.Repository
 {
@@ -51,7 +53,6 @@ namespace RepositoryLibrary.Repository
             return new Response(success, mssg);
 
         }
-
         public Response UpdateDetails(UpdateStudent model, int studentId)
         {
             var success = true;
@@ -74,7 +75,7 @@ namespace RepositoryLibrary.Repository
                     parameters = new List<SqlParameter>();
                     query = SQLQueries.AddResult;
                     parameters.Add(new SqlParameter("@StudentId", studentId));
-                    parameters.Add(new SqlParameter("@SubjectId", model.Results[i].SubjectId));
+                    parameters.Add(new SqlParameter("@SubjectId", model.Results[i].Subject.SubjectId));
                     parameters.Add(new SqlParameter("@Grade", model.Results[i].Grade.ToString()));
                     update = DBContext.InsertUpdateDelete(query, parameters);
                 }
@@ -90,8 +91,96 @@ namespace RepositoryLibrary.Repository
             string mssg = update > 0 ? "Details added successfully" : "Error while adding details. Please try again!";
             return new Response(success, mssg);
         }
-
-
-
+        public Student GetStudent(string queryParameter, object queryValue)
+        {
+            DBContext.OpenDbConnection();
+            Student student = null;
+            string query = string.Format($"{SQLQueries.GetStudentQuery} WHERE {queryParameter}=@{queryParameter}");
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter($"@{queryParameter}", queryValue));
+            DataTable response = DBContext.QueryWithConditions(query, parameters);
+            if (response.Rows.Count > 0)
+            {
+                DataRow row = response.Rows[0];
+                student = new Student();
+                student.FirstName = row["FirstName"].ToString();
+                student.LastName = row["LastName"].ToString();
+                student.NationalID= row["NationalID"].ToString();
+                student.GuardianName = row["GuardianName"].ToString();
+                student.ContactNumber = row["ContactNumber"].ToString();
+                student.DateOfBirth = DateTime.Parse(row["DateOfBirth"].ToString());
+                try
+                {
+                    student.StudentStatus = (Status)((int)row["StatusId"]);
+                }
+                catch
+                {
+                    student.StudentStatus = null;
+                }
+                try
+                {
+                    Address address = new Address();
+                    address.Street = row["Street"].ToString();
+                    address.City = row["City"].ToString();
+                    address.Country = row["Country"].ToString();
+                    student.UserAddress = address;
+                }
+                catch
+                {
+                    student.UserAddress = null;
+                }
+                student.Results=SetUserResults(response);
+            }
+            DBContext.CloseDbConnection();
+            return student;
+        }
+        private List<Results> SetUserResults(DataTable data)
+        {
+            List<Results> results = null;
+            if (data.Rows.Count > 0)
+            {
+                results = new List<Results>();
+                for (int i = 0; i < data.Rows.Count; i++)
+                {
+                    try
+                    {
+                        Results result = new Results();
+                        Subject subject = new Subject((int)data.Rows[i]["SubjectId"]);
+                        subject.SubjectName = data.Rows[i]["SubjectName"].ToString();
+                        result.Subject = subject;
+                        string gradeStr = data.Rows[i]["Grade"].ToString();
+                        result.Grade = (Grade)Enum.Parse(typeof(Grade), gradeStr);
+                        results.Add(result);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                }
+            }
+            return results;
+        }
+        public List<Student> GetAllStudentsWithResult()
+        {
+            List<Student> students = new List<Student>();
+            DBContext.OpenDbConnection();
+            string query = SQLQueries.GetSubjects;
+            DataTable response = DBContext.QueryWithConditions(query, null);
+            DBContext.CloseDbConnection();
+            if (response.Rows.Count > 0)
+            {
+                for (int i = 0; i < response.Rows.Count; i++)
+                {
+                    DataRow row = response.Rows[i];
+                    int studentId = (int)row["StudentId"];
+                    Student student = GetStudent("st.StudentId", studentId);
+                    if (student.Results != null)
+                    {
+                        students.Add(student);
+                    }  
+                }
+            }
+            return students;
+        }
     }
 }

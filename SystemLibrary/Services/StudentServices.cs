@@ -12,14 +12,16 @@ namespace ServicesLibrary.Services
 {
     public class StudentServices : IStudentServices
     {
-        private readonly IUserServices _userServices;
-        private readonly IStudentRepository _studentRepository;
-        private readonly IUserRepository _userRepository;
-        public StudentServices(IUserServices userServices, IStudentRepository studentRepository, IUserRepository userRepository)
+        private readonly IUserServices UserServices;
+        private readonly IStudentRepository StudentRepository;
+        private readonly IUserRepository UserRepository;
+        private readonly IValidation Validation;
+        public StudentServices(IUserServices userServices, IStudentRepository studentRepository, IUserRepository userRepository,IValidation validation)
         {
-            _userServices = userServices;
-            _studentRepository = studentRepository;
-            _userRepository = userRepository;
+            UserServices = userServices;
+            StudentRepository = studentRepository;
+            UserRepository = userRepository;
+            Validation = validation;
         }
 
         public Response RegisterStudent(User model)
@@ -29,20 +31,30 @@ namespace ServicesLibrary.Services
                 string mssg = "Valid values should be entered!";
                 return new Response(false, mssg);
             }
-            if (string.IsNullOrEmpty(model.EmailAddress) || string.IsNullOrEmpty(model.Password))
+            var checkEmailAddress = Validation.IsEmailAvailable(model.EmailAddress);
+            if (!checkEmailAddress.Flag)
             {
-                string mssg = "Email Address and passwords need to be specified!";
+                return checkEmailAddress;
+            }
+            var checkPhoneNumber = Validation.IsPhoneNumberAvailable(model.Student.ContactNumber);
+            if (!checkPhoneNumber.Flag)
+            {
+                return checkPhoneNumber;
+            }
+            var checkNationalID=Validation.IsNationalIDAvailable(model.Student.NationalID);
+            if (!checkNationalID.Flag)
+            {
+                return checkNationalID;
+            }
+            if (model.Password.Length < 6 || string.IsNullOrEmpty(model.Password))
+            {
+                string mssg = "Passwords needs to be specified and has to be at least 6 characters long!";
                 return new Response(false, mssg);
             }
-
-            if (model.Password.Length < 6)
-            {
-                string mssg = "Passwords need to be at least 6 characters long!";
-                return new Response(false, mssg);
-            }
+            
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
             model.Password = hashedPassword;
-            Response res = _studentRepository.RegisterStudent(model);
+            Response res = StudentRepository.RegisterStudent(model);
             return res;
         }
         public Response UpdateDetails(UpdateStudent model)
@@ -72,7 +84,7 @@ namespace ServicesLibrary.Services
                 var result = model.Results[i];
                 for (int j = i+1; j < model.Results.Count; j++)
                 {
-                    if (result.SubjectId == model.Results[j].SubjectId)
+                    if (result.Subject.SubjectId == model.Results[j].Subject.SubjectId)
                     {
                         return new Response(false, "Same subjects were entered twice!");
                     }
@@ -80,8 +92,9 @@ namespace ServicesLibrary.Services
                 }
             }
             var studentId = (int)HttpContext.Current.Session["UserId"];
-            return _studentRepository.UpdateDetails(model, studentId);
+            return StudentRepository.UpdateDetails(model, studentId);
         }
+        
         public void AssignStatus()
         {
 

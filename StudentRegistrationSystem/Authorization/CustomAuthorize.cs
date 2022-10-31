@@ -21,7 +21,6 @@ namespace StudentRegistrationSystem.Authorization
         public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
             var controller = actionContext.Controller as Controller;
-
             if (controller.Session["UserId"] != null)
             {
                 bool isValid = false;
@@ -34,7 +33,6 @@ namespace StudentRegistrationSystem.Authorization
                     if (!string.IsNullOrEmpty(controller.Session["Roles"].ToString()))
                     {
                         string[] arrUserRoles = controller.Session["Roles"].ToString().Split(',');
-
                         for (int i = 0; i < arrUserRoles.Length; i++)
                         {
                             Role role = (Role)Enum.Parse(typeof(Role), arrUserRoles[i]);

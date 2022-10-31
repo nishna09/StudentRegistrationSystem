@@ -10,7 +10,6 @@ namespace ServicesLibrary.Services
     public interface IUserServices
     {
         Response Authenticate(string emailAddress, string password);
-        Response IsEmailAvailable(string emailAddress);
     }
 
     

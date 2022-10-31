@@ -12,10 +12,10 @@ namespace RepositoryLibrary.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IDatabaseCommand _dBContext;
+        private readonly IDatabaseCommand DBContext;
         public UserRepository(IDatabaseCommand dBContext)
         {
-            _dBContext = dBContext;
+            DBContext = dBContext;
         }
         public int AddUser(User user, IDatabaseCommand db)
         {
@@ -23,7 +23,7 @@ namespace RepositoryLibrary.Repository
             if (db == null)
             {
                 setDb = true;
-                db = _dBContext;
+                db = DBContext;
                 db.OpenDbConnection();
             }
             int userId = 0;
@@ -48,12 +48,12 @@ namespace RepositoryLibrary.Repository
         }
         public User GetUser(string queryParameter, object queryValue)
         {
-            _dBContext.OpenDbConnection();
+            DBContext.OpenDbConnection();
             User user = null;
             string query = string.Format($"{SQLQueries.GetUserQuery} WHERE {queryParameter}=@{queryParameter}");
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@EmailAddress", queryValue));
-            DataTable result = _dBContext.QueryWithConditions(query, parameters);
+            parameters.Add(new SqlParameter($"@{queryParameter}", queryValue));
+            DataTable result = DBContext.QueryWithConditions(query, parameters);
             if (result.Rows.Count > 0)
             {
                 DataRow getRow = result.Rows[0];
@@ -62,7 +62,7 @@ namespace RepositoryLibrary.Repository
                 user.Password = getRow["UserPassword"].ToString();
                 user.SetDeleted((bool)getRow["IsDeleted"]);
             }
-            _dBContext.CloseDbConnection();
+            DBContext.CloseDbConnection();
             return user;
         }
         public bool Update(User user)

@@ -59,5 +59,12 @@ namespace StudentRegistrationSystem.Controllers
             }
             return Json(res);
         }
+        [HttpPost]
+        [CustomAuthorize(Role.Student, Role.Admin)]
+        public JsonResult CheckIfResultExist()
+        {
+            Response res = new Response();
+            return Json(res);
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace RepositoryLibrary.Entities
         public DateTime DateOfBirth { get; set; }
         public string ContactNumber { get; set; }
         public List<Results> Results { get; set; }
-        public Status StudentStatus { get; set; }
+        public Status? StudentStatus { get; set; }
         public Address UserAddress { get; set; }
 
         public Student()

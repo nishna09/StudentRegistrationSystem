@@ -12,6 +12,8 @@
     });
     var passwordMatch = false;
     var emailAddressAvailable = false;
+    var phoneAvailable = false;
+    var nationalIDAvailable = false;
     $("button#btnRegister").click(function () {
         var validValues = true;
         var phone = phoneInput.getNumber();
@@ -38,7 +40,7 @@
             validValues = false;
             toastr.error("Password must be at least 6 characters long!");
         }
-        if (validValues && passwordMatch && emailAddressAvailable) {
+        if (validValues && passwordMatch && emailAddressAvailable && phoneAvailable && nationalIDAvailable) {
             var student = {
                 FirstName: $("#firstname").val(),
                 LastName: $("#lastname").val(),
@@ -112,9 +114,46 @@
                     emailAddressAvailable = true;
                 }
                 else {
-                    alert('this')
-                    $("span.emailErr").html("This email address is already registered!");
+                    $("span.emailErr").html(response.Message);
                     emailAddressAvailable = false;
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+        else {
+            $("span.emailErr").html("");
+        }
+    });
+    $("#phoneNumber").change(function () {
+        if ($("#phoneNumber").val() != '') {
+            phoneNumberCheck(phoneInput.getNumber()).then((response) => {
+                if (response.Flag) {
+                    $("span.phoneErr").html("");
+                    phoneAvailable = true;
+                }
+                else {
+                    $("span.phoneErr").html(response.Message);
+                    phoneAvailable = false;
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+        else {
+            $("span.emailErr").html("");
+        }
+    });
+    $("#NID").change(function () {
+        if ($("#NID").val() != '') {
+            NIDCheck().then((response) => {
+                if (response.Flag) {
+                    $("span.nidErr").html("");
+                    nationalIDAvailable = true;
+                }
+                else {
+                    $("span.nidErr").html(response.Message);
+                    nationalIDAvailable = false;
                 }
             }).catch((error) => {
                 console.log(error);
@@ -139,6 +178,19 @@ function emailCheck() {
     if (email.trim() != '') {
         return postGetData({ emailAddress: email }, "/Users/EmailAvailability", "POST");
     
+    }
+}
+function phoneNumberCheck(phone) {
+    if (phone.trim() != '') {
+        return postGetData({ phoneNumber: phone }, "/Users/PhoneNumberAvailability", "POST");
+
+    }
+}
+function NIDCheck() {
+    var NID = $("#NID").val();
+    if (NID.trim() != '') {
+        return postGetData({ nationalID: NID }, "/Users/NationalIDAvailability", "POST");
+
     }
 }
 function redirect() {
