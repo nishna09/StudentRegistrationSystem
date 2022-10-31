@@ -55,38 +55,27 @@ namespace RepositoryLibrary.Repository
         public Response UpdateDetails(UpdateStudent model, int studentId)
         {
             var success = true;
-            var mssg = "";
             int update = 0;
-            DBContext.OpenDbConnection();
-
             DBContext.OpenDbConnection();
             try
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
-                string query = @"UPDATE Students SET GuardianName=@GuardianName WHERE StudentId=@StudentId";
+                string query = SQLQueries.UpdateStudentGuardian;
                 parameters.Add(new SqlParameter("@GuardianName", model.GuardianName));
                 parameters.Add(new SqlParameter("@StudentId", studentId));
                 update=DBContext.InsertUpdateDelete(query, parameters);
-
-                parameters = new List<SqlParameter>();
-                query = @"INSERT INTO Addresses(Street, City, Country, StudentId) ";
-                query += @"VALUES(@Street,@City, @Country,@StudentId)";
+                query = SQLQueries.AddAddress;
                 parameters.Add(new SqlParameter("@Street", model.Address.Street));
                 parameters.Add(new SqlParameter("@City", model.Address.City));
                 parameters.Add(new SqlParameter("@Country", model.Address.Country));
-                parameters.Add(new SqlParameter("@StudentId", studentId));
-
                 update = DBContext.InsertUpdateDelete(query, parameters);
-
                 for (int i = 0; i < model.Results.Count; i++)
                 {
-                    var result = model.Results[i];
                     parameters = new List<SqlParameter>();
-                    query = @"INSERT INTO Results(StudenId,SubjectId, GradeId) ";
-                    query += @"VALUES(@StudenId,@SubjectId, @GradeId)";
+                    query = SQLQueries.AddResult;
                     parameters.Add(new SqlParameter("@StudentId", studentId));
-                    parameters.Add(new SqlParameter("@SubjectId", result.SubjectId));
-                    parameters.Add(new SqlParameter("@GradeId", result.Grade));
+                    parameters.Add(new SqlParameter("@SubjectId", model.Results[i].SubjectId));
+                    parameters.Add(new SqlParameter("@Grade", model.Results[i].Grade.ToString()));
                     update = DBContext.InsertUpdateDelete(query, parameters);
                 }
                 DBContext.Commit();
@@ -95,9 +84,10 @@ namespace RepositoryLibrary.Repository
             {
                 DBContext.Rollback();
                 success = false;
+                throw;
             }
             DBContext.CloseDbConnection();
-            mssg = update > 0 ? "Details added successfully" : "Error while adding details. Please try again!";
+            string mssg = update > 0 ? "Details added successfully" : "Error while adding details. Please try again!";
             return new Response(success, mssg);
         }
 

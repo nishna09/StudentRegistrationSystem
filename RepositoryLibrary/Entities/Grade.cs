@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace RepositoryLibrary.Entities
 {
-    public class Results
+    public enum Grade
     {
-        public int ResultId { get; private set; }
-        public int SubjectId { get; set; }
-        public Grade Grade { get; set; }
+        A=10,
+        B=8,
+        C=6,
+        D=4,
+        E=2,
+        F=0
     }
 }

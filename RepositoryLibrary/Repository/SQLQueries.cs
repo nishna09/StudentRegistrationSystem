@@ -15,5 +15,8 @@ namespace RepositoryLibrary.Repository
         public const string AddUserRoleQuery = @"INSERT INTO UserRoles VALUES(@UserId,@RoleId)";
         public const string GetSubjects = "SELECT SubjectId, SubjectName FROM Subjects";
         public const string GetUserRoles = @"SELECT RoleId FROM UserRoles WHERE UserId=@UserId";
+        public const string UpdateStudentGuardian = @"UPDATE Students SET GuardianName=@GuardianName WHERE StudentId=@StudentId";
+        public const string AddAddress = @"INSERT INTO Addresses(Street, City, Country, StudentId) VALUES(@Street,@City, @Country,@StudentId)";
+        public const string AddResult = @"INSERT INTO Results(StudentId,SubjectId, Grade) VALUES(@StudentId,@SubjectId, @Grade)";
     }
 }

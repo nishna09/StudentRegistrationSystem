@@ -13,6 +13,10 @@ namespace RepositoryLibrary.Models
         public List<Results> Results { get; set; }
         public Address Address { get; set; } 
         public string GuardianName { get; set; }
+        public UpdateStudent()
+        {
+            Results=new List<Results>();
+        }
 
 
     }

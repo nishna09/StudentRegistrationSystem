@@ -1,5 +1,4 @@
-﻿//prevents page from reloading when button is clicked in form
-$(function () {
+﻿$(function () {
     let form = document.querySelector('form');
     const phoneInputField = document.querySelector("#phoneNumber");
     const phoneInput = window.intlTelInput(phoneInputField, {
@@ -11,11 +10,8 @@ $(function () {
         e.preventDefault();
         return false;
     });
-
     var passwordMatch = false;
     var emailAddressAvailable = false;
-
-
     $("button#btnRegister").click(function () {
         var validValues = true;
         var phone = phoneInput.getNumber();
@@ -42,7 +38,6 @@ $(function () {
             validValues = false;
             toastr.error("Password must be at least 6 characters long!");
         }
-
         if (validValues && passwordMatch && emailAddressAvailable) {
             var student = {
                 FirstName: $("#firstname").val(),
@@ -56,9 +51,7 @@ $(function () {
                 Password: $("#password").val(),
                 Student: student
             }
-            alert(user.Student.FirstName);
-            alert(user.Student.LastName);
-            postGetData(user, "/Users/RegisterStudent","POST").then((response) => {
+            postGetData(user, "/Student/RegisterStudent","POST").then((response) => {
                 if (response.Flag) {
                     toastr.success("Successful registration!")
                     setTimeout(redirect, 3000);
@@ -74,11 +67,7 @@ $(function () {
             })
 
         }
-        
-
-    //end of $("button#btnRegister").click function
     });
-
     $("#confirmPassword").change(function () {
 
         if ($("#confirmPassword").val() != '') {
@@ -97,7 +86,6 @@ $(function () {
             $("span.passwordErr").html("");
         }
     });
-
     $("#password").change(function () {
 
         if ($("#confirmPassword").val() != '') {
@@ -116,7 +104,6 @@ $(function () {
             $("span.passwordErr").html("");
         }
     });
-
     $("#emailAddress").change(function () {
         if ($("#emailAddress").val() != '') {
             emailCheck().then((response) => {
@@ -125,6 +112,7 @@ $(function () {
                     emailAddressAvailable = true;
                 }
                 else {
+                    alert('this')
                     $("span.emailErr").html("This email address is already registered!");
                     emailAddressAvailable = false;
                 }
@@ -135,11 +123,8 @@ $(function () {
         else {
             $("span.emailErr").html("");
         }
-      
     });
-
 });
-
 function passwordEquality() {
     var match = true;
     var password = $("#password").val();
@@ -149,15 +134,13 @@ function passwordEquality() {
     }
     return match;
 }
-
 function emailCheck() {
     var email = $("#emailAddress").val();
     if (email.trim() != '') {
-        return postData({ emailAddress: email }, "/Users/EmailAvailability");
+        return postGetData({ emailAddress: email }, "/Users/EmailAvailability", "POST");
     
     }
 }
-
 function redirect() {
     window.location.href = "/Login/Index";
 }

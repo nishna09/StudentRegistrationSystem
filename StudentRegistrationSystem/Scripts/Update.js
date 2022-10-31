@@ -40,9 +40,9 @@
                     City: $("#city").val(),
                     Country: $("#country").val()
                 },
-                GuardianName: $("#GuardianName").val()
+                GuardianName: $("#guardianName").val()
             };
-            postGetData(user, "/Users/UpdateStudentDetails", "POST").then((response) => {
+            postGetData(dataObj, "/Student/UpdateStudentDetails", "POST").then((response) => {
                 if (response.Flag) {
                     toastr.success("Details updated successfully!")
                     setTimeout(redirect, 3000);

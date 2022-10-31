@@ -14,7 +14,7 @@ namespace ServicesLibrary.Services
     public interface IStudentServices
     {
         Response RegisterStudent(User model);
-        Response UpdateDetails(UpdateStudent model, int StudenId);
+        Response UpdateDetails(UpdateStudent model);
         void AssignStatus();
     }
    
