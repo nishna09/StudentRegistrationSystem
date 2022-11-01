@@ -28,12 +28,12 @@ namespace ResgistrationApplication.Controllers
         {
             try
             {
-                return Json(Validation.IsEmailAvailable(emailAddress));
+                return Json(Validation.IsEmailAvailable(emailAddress), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 logger.Error("Error {err} occured", ex.Message);
-                return Json(new Response(false, "An error occured while validating email address"));
+                return Json(new Response(false, "An error occured while validating email address"), JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost]
@@ -41,12 +41,12 @@ namespace ResgistrationApplication.Controllers
         {
             try
             {
-                return Json(Validation.IsPhoneNumberAvailable(phoneNumber));
+                return Json(Validation.IsPhoneNumberAvailable(phoneNumber), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 logger.Error("Error {err} occured", ex.Message);
-                return Json(new Response(false, "An error occured while validating phone number"));
+                return Json(new Response(false, "An error occured while validating phone number"), JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost]
@@ -54,12 +54,12 @@ namespace ResgistrationApplication.Controllers
         {
             try
             {
-                return Json(Validation.IsNationalIDAvailable(nationalID));
+                return Json(Validation.IsNationalIDAvailable(nationalID), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 logger.Error("Error {err} occured", ex.Message);
-                return Json(new Response(false, "An error occured while validating national identity number"));
+                return Json(new Response(false, "An error occured while validating national identity number"), JsonRequestBehavior.AllowGet);
             }
         }
     }

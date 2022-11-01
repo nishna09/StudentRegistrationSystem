@@ -5,7 +5,7 @@
     font-weight: normal;
 }
 
-legend {
+legend,h1 {
     text-align: center;
     font-size: x-large;
     font-weight: bolder;

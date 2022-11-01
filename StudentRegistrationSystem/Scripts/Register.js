@@ -31,11 +31,9 @@
         if (!passwordMatch) {
             toastr.error("Passwords do not match!");
         }
-
         if (!emailAddressAvailable) {
             toastr.error("This email address is already registered!");
         }
-
         if ($("#password").val().length < 6) {
             validValues = false;
             toastr.error("Password must be at least 6 characters long!");
@@ -65,7 +63,7 @@
                 }
             }).catch((error) => {
                 console.log(error);
-                $("span#registerEr").html("Unable to register. Please try again!")
+                $("span#registerEr").html("Unable to register. Please try again!");
             })
 
         }

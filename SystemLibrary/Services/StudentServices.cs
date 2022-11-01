@@ -16,14 +16,19 @@ namespace ServicesLibrary.Services
         private readonly IStudentRepository StudentRepository;
         private readonly IUserRepository UserRepository;
         private readonly IValidation Validation;
+        private readonly int? StudentId = null;
+
         public StudentServices(IUserServices userServices, IStudentRepository studentRepository, IUserRepository userRepository,IValidation validation)
         {
             UserServices = userServices;
             StudentRepository = studentRepository;
             UserRepository = userRepository;
             Validation = validation;
+            if (HttpContext.Current.Session["UserId"] != null)
+            {
+                StudentId = (int)HttpContext.Current.Session["UserId"];
+            }
         }
-
         public Response RegisterStudent(User model)
         {
             if (string.IsNullOrEmpty(model.Student.FirstName) || string.IsNullOrEmpty(model.Student.LastName) || string.IsNullOrEmpty(model.Student.NationalID) || model.Student.DateOfBirth.Year >= DateTime.Now.Year)
@@ -91,17 +96,93 @@ namespace ServicesLibrary.Services
 
                 }
             }
-            var studentId = (int)HttpContext.Current.Session["UserId"];
-            return StudentRepository.UpdateDetails(model, studentId);
+            var studentId = StudentId;
+            return StudentRepository.UpdateDetails(model, (int)studentId);
         }
-        
-        public void AssignStatus()
+        public Response CheckIfResultsExists(int? studentId)
         {
-
+            if (studentId == null)
+                studentId = StudentId;
+            Student student = StudentRepository.GetStudent("st.StudentId", "StudentId", studentId);
+            if (student == null)
+                return new Response(false, "Error while getting student information");
+            else
+            {
+                if (student.Results == null)
+                    return new Response(false, "Results do not exist yet");
+                else
+                    return new Response(true, "Subjects already exist!");
+            }
         }
-        private int CalculateScore()
+        public List<Student> SortStudentsByPoint()
         {
-            return 0;
+            List<Student> students = GetAllStudentResults();
+            if (students == null)
+                return null;
+            List<Student> studentListWithTotalPoints = new List<Student>();
+            foreach(var student in students)
+            {
+                student.TotalPoints = CalculateScore(student.Results);
+                studentListWithTotalPoints.Add(student);
+            }
+            var orderedStudentListByPoints=studentListWithTotalPoints.OrderByDescending(student => student.TotalPoints).ToList();
+            var studentListWithStatus=AssignStatusForAllAstudents(orderedStudentListByPoints);
+            return studentListWithStatus;
+        }
+        private int CalculateScore(List<Results> results)
+        {
+            int totalPoints = 0;
+            foreach(Results result in results)
+            {
+                totalPoints += (int)result.Grade;
+            }
+            return totalPoints;
+        }
+        private List<Student> GetAllStudentResults()
+        {
+            List<Student> students =StudentRepository.GetAllStudentsWithResult();
+            return students;
+        }
+        private List<Student> AssignStatusForAllAstudents(List<Student> students)
+        {
+            List<Student> newStudentList = new List<Student>();
+            if (students.Count > 15)
+            {
+                for (int indexStudent = 0; indexStudent < 15; indexStudent++)
+                {
+                    newStudentList.Add(AssignStatusForEachStudent(students[indexStudent], false));
+                }
+                for (int indexStudent = 15; indexStudent < students.Count; indexStudent++)
+                {
+                    newStudentList.Add(AssignStatusForEachStudent(students[indexStudent], true));
+                }
+            }
+            else
+            {
+                foreach(var student in students)
+                {
+                    newStudentList.Add(AssignStatusForEachStudent(student, false));
+                }
+            }
+            return newStudentList;
+        }
+        private Student AssignStatusForEachStudent(Student student, bool waiting)
+        {
+            if (waiting)
+            {
+                if (student.TotalPoints >=10)
+                    student.StudentStatus = Status.Waiting;
+                else
+                    student.StudentStatus = Status.Rejected;
+            }
+            else
+            {
+                if (student.TotalPoints >=10)
+                    student.StudentStatus = Status.Approved;
+                else
+                    student.StudentStatus = Status.Rejected;
+            }
+            return student;
         }
     }
 }

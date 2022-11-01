@@ -91,13 +91,15 @@ namespace RepositoryLibrary.Repository
             string mssg = update > 0 ? "Details added successfully" : "Error while adding details. Please try again!";
             return new Response(success, mssg);
         }
-        public Student GetStudent(string queryParameter, object queryValue)
+        public Student GetStudent(string queryParameter, string parameter, object queryValue)
         {
             DBContext.OpenDbConnection();
             Student student = null;
-            string query = string.Format($"{SQLQueries.GetStudentQuery} WHERE {queryParameter}=@{queryParameter}");
+            if (parameter == null)
+                parameter=queryParameter;
+            string query = string.Format($"{SQLQueries.GetStudentQuery} WHERE {queryParameter}=@{parameter}");
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter($"@{queryParameter}", queryValue));
+            parameters.Add(new SqlParameter($"@{parameter}", queryValue));
             DataTable response = DBContext.QueryWithConditions(query, parameters);
             if (response.Rows.Count > 0)
             {
@@ -164,7 +166,7 @@ namespace RepositoryLibrary.Repository
         {
             List<Student> students = new List<Student>();
             DBContext.OpenDbConnection();
-            string query = SQLQueries.GetSubjects;
+            string query = SQLQueries.GetAllStudentsId;
             DataTable response = DBContext.QueryWithConditions(query, null);
             DBContext.CloseDbConnection();
             if (response.Rows.Count > 0)
@@ -173,7 +175,7 @@ namespace RepositoryLibrary.Repository
                 {
                     DataRow row = response.Rows[i];
                     int studentId = (int)row["StudentId"];
-                    Student student = GetStudent("st.StudentId", studentId);
+                    Student student = GetStudent("st.StudentId", "StudentId", studentId);
                     if (student.Results != null)
                     {
                         students.Add(student);

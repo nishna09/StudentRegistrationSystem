@@ -118,7 +118,7 @@ namespace ServicesLibrary.Services
             {
                 return ValidatePhoneNumber(phoneNumber);
             }
-            var student = StudentRepository.GetStudent("ContactNumber", phoneNumber);
+            var student = StudentRepository.GetStudent("ContactNumber",null, phoneNumber);
             if (student != null)
                 return new Response(false, "This phone number is already registered!");
             else
@@ -130,7 +130,7 @@ namespace ServicesLibrary.Services
             {
                 return ValidateNationalID(nationalID);
             }
-            var student = StudentRepository.GetStudent("NationalID", nationalID);
+            var student = StudentRepository.GetStudent("NationalID",null, nationalID);
             if (student != null)
                 return new Response(false, "This national identity number is already registered!");
             else

@@ -17,6 +17,7 @@ namespace RepositoryLibrary.Entities
         public List<Results> Results { get; set; }
         public Status? StudentStatus { get; set; }
         public Address UserAddress { get; set; }
+        public int TotalPoints { get; set; }
 
         public Student()
         {

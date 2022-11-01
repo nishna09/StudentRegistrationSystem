@@ -39,7 +39,7 @@ namespace StudentRegistrationSystem.Controllers
                 logger.Error("Error {err} occured", ex.Message);
             }
           
-            return Json(response);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

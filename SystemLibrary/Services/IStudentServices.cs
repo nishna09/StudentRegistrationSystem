@@ -15,7 +15,8 @@ namespace ServicesLibrary.Services
     {
         Response RegisterStudent(User model);
         Response UpdateDetails(UpdateStudent model);
-        void AssignStatus();
+        List<Student> SortStudentsByPoint();
+        Response CheckIfResultsExists(int? studentId);
     }
    
 }

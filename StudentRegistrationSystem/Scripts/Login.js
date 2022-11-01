@@ -1,5 +1,4 @@
-﻿//prevents page from reloading when button is clicked in form
-$(function () {
+﻿$(function () {
     let form = document.querySelector('form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();

@@ -13,11 +13,11 @@ namespace StudentRegistrationSystem.Controllers
 {
     public class StudentController : Controller
     {
-        private readonly IStudentServices _studentServices;
+        private readonly IStudentServices StudentServices;
         private static Logger logger = LogManager.GetCurrentClassLogger();
         public StudentController(IStudentServices studentServices)
         {
-            _studentServices = studentServices;
+            StudentServices = studentServices;
         }
         [HttpGet]
         public ActionResult Register()
@@ -36,13 +36,13 @@ namespace StudentRegistrationSystem.Controllers
             Response res = new Response(false, "Unable to register");
             try
             {
-                res = _studentServices.RegisterStudent(model);
+                res = StudentServices.RegisterStudent(model);
             }
             catch (Exception ex)
             {
                 logger.Error("Error {err} occured", ex.Message);
             }
-            return Json(res);
+            return Json(res, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         [CustomAuthorize(Role.Student, Role.Admin)]
@@ -51,20 +51,20 @@ namespace StudentRegistrationSystem.Controllers
             Response res = new Response(false, "Unable to update details");
             try
             {
-                res = _studentServices.UpdateDetails(model);
+                res = StudentServices.UpdateDetails(model);
             }
             catch (Exception ex)
             {
                 logger.Error("Error {err} occured", ex.Message);
             }
-            return Json(res);
+            return Json(res, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         [CustomAuthorize(Role.Student, Role.Admin)]
         public JsonResult CheckIfResultExist()
         {
-            Response res = new Response();
-            return Json(res);
+            Response res = StudentServices.CheckIfResultsExists(null);
+            return Json(res, JsonRequestBehavior.AllowGet);
         }
     }
 }
