@@ -19,7 +19,7 @@ button {
     font-family: 'Times New Roman', serif;
     font-size: 100%;
     width:100%;
-    height:100%;
+    height:150%;
     box-sizing: border-box;
     border: 1px solid rgb(252, 252, 252);
     border-radius: 15px 10px;
@@ -30,7 +30,9 @@ button {
     justify-content: center;
     display: grid;
 }
-
+.space{
+    margin-top:5%;
+}
 button:hover {
     background-color: black;
 }
@@ -72,12 +74,17 @@ label, a {
 
 .error {
     color: #D2691E;
+    margin-top:2%;
 }
 
 table {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
+}
+thead{
+    background-color:black;
+    color:white;
 }
 td,th {
         border: 1px solid #ddd;
@@ -87,7 +94,7 @@ td,th {
 tr:nth-child(even) {
         background-color: #f2f2f2;
 }
-tr:hover {
+tbody tr:hover {
         background-color: #ddd;
 }
 
@@ -97,6 +104,12 @@ th {
         text-align: left;
         background-color: #04AA6D;
         color: white;
+}
+.studentTable{
+    display:block;
+    width:75%;
+    margin:15%;
+    margin-top:5%;
 }
 
 .topnav {

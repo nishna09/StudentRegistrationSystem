@@ -8,6 +8,7 @@ namespace RepositoryLibrary.Entities
 {
     public class Student
     {
+        public int StudentId { get; private set; }
         public string NationalID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -21,6 +22,11 @@ namespace RepositoryLibrary.Entities
 
         public Student()
         {
+            Results = new List<Results>();
+        }
+        public Student(int studentId)
+        {
+            StudentId = studentId;
             Results = new List<Results>();
         }
 

@@ -84,17 +84,19 @@ namespace ServicesLibrary.Services
             {
                 return new Response(false, "At least one result is required");
             }
+            var duplicateSubjects = false;
             for (int i = 0; i < model.Results.Count; i++)
             {
-                var result = model.Results[i];
-                for (int j = i+1; j < model.Results.Count; j++)
+                var duplicate=model.Results.Count(result => result.Subject.SubjectId == model.Results[i].Subject.SubjectId);
+                if (duplicate > 1)
                 {
-                    if (result.Subject.SubjectId == model.Results[j].Subject.SubjectId)
-                    {
-                        return new Response(false, "Same subjects were entered twice!");
-                    }
-
+                    duplicateSubjects=true;
+                    break;
                 }
+            }
+            if (duplicateSubjects)
+            {
+                return new Response(false, "Same subjects were entered twice!");
             }
             var studentId = StudentId;
             return StudentRepository.UpdateDetails(model, (int)studentId);
@@ -114,42 +116,34 @@ namespace ServicesLibrary.Services
                     return new Response(true, "Subjects already exist!");
             }
         }
-        public object ReturnFormattedStudentsWithStatus()
+        public FormattedStudent ReturnFormattedStudentsWithStatus()
         {
-            object formattedStudents= null;
+            FormattedStudent formattedStudent=new FormattedStudent();
             (List<Student> students, bool isSetStatus) = SortStudentsByPoint();
             if (students != null)
             {
-                List<object> studentsObj = new List<object>();
                 foreach (var student in students)
                 {
-                    List<object> results = new List<object>();
+                    var results = new List<ResultInfo>();
                     foreach(var studentResult in student.Results)
                     {
-                        object result = new
-                        {
-                            SubjectName = studentResult.Subject.SubjectName,
-                            Grade=studentResult.Grade.ToString()
-                        };
+                        ResultInfo result=new ResultInfo();
+                        result.SubjectName = studentResult.Subject.SubjectName;
+                        result.Grade = studentResult.Grade.ToString();
                         results.Add(result);
                     }
-                    object studentObj = new
-                    {
-                        FirstName = student.FirstName,
-                        LastName = student.LastName,
-                        StudentStatus = student.StudentStatus.ToString(),
-                        Results = results,
-                        TotalPoints=student.TotalPoints
-                    };
-                    studentsObj.Add(studentObj);
+                    StudentInfo studentInfo=new StudentInfo();
+                    studentInfo.StudentId = student.StudentId;
+                    studentInfo.FirstName = student.FirstName;
+                    studentInfo.LastName = student.LastName;
+                    studentInfo.StudentStatus = student.StudentStatus.ToString();
+                    studentInfo.Results = results;
+                    studentInfo.TotalPoints = student.TotalPoints;
+                    formattedStudent.Students.Add(studentInfo);
                 }
-                formattedStudents = new
-                {
-                    Students = studentsObj,
-                    IsSetStatus = isSetStatus
-                };
+                formattedStudent.IsSetStatus= isSetStatus;
             }
-            return formattedStudents;
+            return formattedStudent;
         }
         public (List<Student>, bool) SortStudentsByPoint()
         {

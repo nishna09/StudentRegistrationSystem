@@ -104,7 +104,7 @@ namespace RepositoryLibrary.Repository
             if (response.Rows.Count > 0)
             {
                 DataRow row = response.Rows[0];
-                student = new Student();
+                student = new Student((int)row["StudentId"]);
                 student.FirstName = row["FirstName"].ToString();
                 student.LastName = row["LastName"].ToString();
                 student.NationalID= row["NationalID"].ToString();

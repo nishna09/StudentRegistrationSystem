@@ -1,5 +1,13 @@
 ﻿$(function () {
+    var statusSet = false;
+    var studentList=null
     postGetData(null, "/Admin/GetSortedStudents", "GET").then((response) => {
+        if (response.IsSetStatus) {
+            $("button#btnStatus").hide();
+        }
+        else {
+            studentList = response.Students;
+        }
         AppendResults(response.Students)
     }).catch((error) => {
         console.log(error);

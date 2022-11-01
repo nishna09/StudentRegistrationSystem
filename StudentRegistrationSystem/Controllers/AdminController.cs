@@ -25,7 +25,7 @@ namespace StudentRegistrationSystem.Controllers
         [CustomAuthorize(Role.Admin)]
         public JsonResult GetSortedStudents()
         {
-            Object studentsObj=null;
+            FormattedStudent studentsObj=null;
             try
             {
                 studentsObj = StudentServices.ReturnFormattedStudentsWithStatus();

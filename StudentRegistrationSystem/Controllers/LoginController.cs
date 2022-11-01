@@ -29,7 +29,6 @@ namespace StudentRegistrationSystem.Controllers
         public JsonResult AuthenticateUser(string emailAddress, string password)
         {
             Response response = null;
-            string url = "";
             try
             {
                 response = _userServices.Authenticate(emailAddress, password);

@@ -29,39 +29,6 @@ body {
         margin-bottom: 10px;
     }
 
-/* Styling form-control input,
-		select, textarea */
-/*.form-control input,
-    .form-control select,
-    .form-control textarea {
-        border: 1px solid #777;
-        border-radius: 2px;
-        font-family: inherit;
-        padding: 10px;
-        display: block;
-        width: 95%;
-    }*/
-
-/* Styling form-control Radio
-		button and Checkbox */
-/*.form-control input[type="radio"],
-        .form-control input[type="checkbox"] {
-            display: inline-block;
-            width: auto;
-        }*/
-
-/* Styling Button */
-/*button {
-    background-color: #05c46b;
-    border: 1px solid #777;
-    border-radius: 2px;
-    font-family: inherit;
-    font-size: 21px;
-    display: block;
-    width: 100%;
-    margin-top: 50px;
-    margin-bottom: 20px;
-}*/
 legend {
     text-align: center;
 }
