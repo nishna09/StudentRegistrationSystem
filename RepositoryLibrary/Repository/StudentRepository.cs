@@ -91,6 +91,33 @@ namespace RepositoryLibrary.Repository
             string mssg = update > 0 ? "Details added successfully" : "Error while adding details. Please try again!";
             return new Response(success, mssg);
         }
+        public Response BatchUpdateStatus(FormattedStudent model)
+        {
+            var success = true;
+            int update = 0;
+            DBContext.OpenDbConnection();
+            try
+            {
+                for (int i = 0; i < model.Students.Count; i++) {
+                    List<SqlParameter> parameters = new List<SqlParameter>();
+                    string query = SQLQueries.UpdateStudentStatus;
+                    Status status = (Status)Enum.Parse(typeof(Status), model.Students[i].StudentStatus);
+                    parameters.Add(new SqlParameter("@StatusId", (int)status));
+                    parameters.Add(new SqlParameter("@StudentId", model.Students[i].StudentId));
+                    update = DBContext.InsertUpdateDelete(query, parameters);
+                }
+                DBContext.Commit();
+            }
+            catch
+            {
+                DBContext.Rollback();
+                success = false;
+                throw;
+            }
+            DBContext.CloseDbConnection();
+            string mssg = update > 0 ? "Status updated successfully" : "Error while updating status. Please try again!";
+            return new Response(success, mssg);
+        }
         public Student GetStudent(string queryParameter, string parameter, object queryValue)
         {
             DBContext.OpenDbConnection();

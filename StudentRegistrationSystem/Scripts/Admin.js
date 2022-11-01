@@ -1,16 +1,33 @@
 ﻿$(function () {
     var statusSet = false;
-    var studentList=null
+    var formattedList = null;
     postGetData(null, "/Admin/GetSortedStudents", "GET").then((response) => {
         if (response.IsSetStatus) {
             $("button#btnStatus").hide();
         }
         else {
-            studentList = response.Students;
+            formattedList = response;
         }
         AppendResults(response.Students)
     }).catch((error) => {
         console.log(error);
+    });
+    $("button#btnStatus").click(function () {
+        if (formattedList) {
+            postGetData(formattedList, "/Admin/BatchUpdateStudentsStatus", "POST").then((response) => {
+                if (response.Flag) {
+                    toastr.success("Status updated successfully!")
+                    setTimeout(redirect, 3000);
+
+                }
+                else {
+                    toastr.error(response.Message);
+                    $("span#updateErr").html(response.Message)
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
     });
 });
 function AppendResults(students) {
@@ -44,4 +61,7 @@ function AppendResults(students) {
         tbody = "<tr>No students!</tr>";
     }
     table.append(tbody);
+}
+function redirect() {
+    window.location.href = "/Home/HomeAdmin";
 }

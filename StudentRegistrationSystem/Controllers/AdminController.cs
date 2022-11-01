@@ -38,6 +38,23 @@ namespace StudentRegistrationSystem.Controllers
             
             return Json(studentsObj, JsonRequestBehavior.AllowGet);
         }
-        
+        [HttpPost]
+        [CustomAuthorize(Role.Admin)]
+        public JsonResult BatchUpdateStudentsStatus(FormattedStudent model)
+        {
+            Response res = null;
+            try
+            {
+                res = StudentServices.BatchUpdateStatus(model);
+
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error {err} occured", ex.Message);
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

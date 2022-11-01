@@ -7,6 +7,7 @@ using RepositoryLibrary.Repository;
 using RepositoryLibrary.Entities;
 using RepositoryLibrary.Models;
 using System.Web;
+using System.Windows.Forms;
 
 namespace ServicesLibrary.Services
 {
@@ -61,6 +62,12 @@ namespace ServicesLibrary.Services
             model.Password = hashedPassword;
             Response res = StudentRepository.RegisterStudent(model);
             return res;
+        }
+        public Response BatchUpdateStatus(FormattedStudent model)
+        {
+            if (model.IsSetStatus)
+                return new Response(false,"Status has already been set!");
+            return  StudentRepository.BatchUpdateStatus(model);
         }
         public Response UpdateDetails(UpdateStudent model)
         {
@@ -124,21 +131,8 @@ namespace ServicesLibrary.Services
             {
                 foreach (var student in students)
                 {
-                    var results = new List<ResultInfo>();
-                    foreach(var studentResult in student.Results)
-                    {
-                        ResultInfo result=new ResultInfo();
-                        result.SubjectName = studentResult.Subject.SubjectName;
-                        result.Grade = studentResult.Grade.ToString();
-                        results.Add(result);
-                    }
-                    StudentInfo studentInfo=new StudentInfo();
-                    studentInfo.StudentId = student.StudentId;
-                    studentInfo.FirstName = student.FirstName;
-                    studentInfo.LastName = student.LastName;
-                    studentInfo.StudentStatus = student.StudentStatus.ToString();
-                    studentInfo.Results = results;
-                    studentInfo.TotalPoints = student.TotalPoints;
+                    
+                    StudentInfo studentInfo=SetValuesInModel(student);
                     formattedStudent.Students.Add(studentInfo);
                 }
                 formattedStudent.IsSetStatus= isSetStatus;
@@ -224,6 +218,25 @@ namespace ServicesLibrary.Services
                     student.StudentStatus = Status.Rejected;
             }
             return student;
+        }
+        private StudentInfo SetValuesInModel(Student student)
+        {
+            var results = new List<ResultInfo>();
+            foreach (var studentResult in student.Results)
+            {
+                ResultInfo result = new ResultInfo();
+                result.SubjectName = studentResult.Subject.SubjectName;
+                result.Grade = studentResult.Grade.ToString();
+                results.Add(result);
+            }
+            StudentInfo studentInfo = new StudentInfo();
+            studentInfo.StudentId = student.StudentId;
+            studentInfo.FirstName = student.FirstName;
+            studentInfo.LastName = student.LastName;
+            studentInfo.StudentStatus = student.StudentStatus.ToString();
+            studentInfo.Results = results;
+            studentInfo.TotalPoints = student.TotalPoints;
+            return studentInfo;
         }
     }
 }

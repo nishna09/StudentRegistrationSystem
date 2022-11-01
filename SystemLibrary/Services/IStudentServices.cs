@@ -18,6 +18,7 @@ namespace ServicesLibrary.Services
         (List<Student>, bool) SortStudentsByPoint();
         FormattedStudent ReturnFormattedStudentsWithStatus();
         Response CheckIfResultsExists(int? studentId);
+        Response BatchUpdateStatus(FormattedStudent model);
     }
    
 }
