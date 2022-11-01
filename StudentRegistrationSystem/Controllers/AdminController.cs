@@ -1,10 +1,12 @@
 ﻿using NLog;
+using NLog.Targets;
 using RepositoryLibrary.Entities;
 using RepositoryLibrary.Models;
 using ServicesLibrary.Services;
 using StudentRegistrationSystem.Authorization;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -23,16 +25,19 @@ namespace StudentRegistrationSystem.Controllers
         [CustomAuthorize(Role.Admin)]
         public JsonResult GetSortedStudents()
         {
-            List<Student> students = new List<Student>();
+            Object studentsObj=null;
             try
             {
-                students = StudentServices.SortStudentsByPoint();
+                studentsObj = StudentServices.ReturnFormattedStudentsWithStatus();
+                
             }
             catch (Exception ex)
             {
                 logger.Error("Error {err} occured", ex.Message);
             }
-            return Json(students, JsonRequestBehavior.AllowGet);
+            
+            return Json(studentsObj, JsonRequestBehavior.AllowGet);
         }
+        
     }
 }

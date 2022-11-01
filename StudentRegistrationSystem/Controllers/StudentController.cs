@@ -59,7 +59,7 @@ namespace StudentRegistrationSystem.Controllers
             }
             return Json(res, JsonRequestBehavior.AllowGet);
         }
-        [HttpPost]
+        [HttpGet]
         [CustomAuthorize(Role.Student, Role.Admin)]
         public JsonResult CheckIfResultExist()
         {

@@ -114,11 +114,48 @@ namespace ServicesLibrary.Services
                     return new Response(true, "Subjects already exist!");
             }
         }
-        public List<Student> SortStudentsByPoint()
+        public object ReturnFormattedStudentsWithStatus()
+        {
+            object formattedStudents= null;
+            (List<Student> students, bool isSetStatus) = SortStudentsByPoint();
+            if (students != null)
+            {
+                List<object> studentsObj = new List<object>();
+                foreach (var student in students)
+                {
+                    List<object> results = new List<object>();
+                    foreach(var studentResult in student.Results)
+                    {
+                        object result = new
+                        {
+                            SubjectName = studentResult.Subject.SubjectName,
+                            Grade=studentResult.Grade.ToString()
+                        };
+                        results.Add(result);
+                    }
+                    object studentObj = new
+                    {
+                        FirstName = student.FirstName,
+                        LastName = student.LastName,
+                        StudentStatus = student.StudentStatus.ToString(),
+                        Results = results,
+                        TotalPoints=student.TotalPoints
+                    };
+                    studentsObj.Add(studentObj);
+                }
+                formattedStudents = new
+                {
+                    Students = studentsObj,
+                    IsSetStatus = isSetStatus
+                };
+            }
+            return formattedStudents;
+        }
+        public (List<Student>, bool) SortStudentsByPoint()
         {
             List<Student> students = GetAllStudentResults();
             if (students == null)
-                return null;
+                return (null, false);
             List<Student> studentListWithTotalPoints = new List<Student>();
             foreach(var student in students)
             {
@@ -126,8 +163,18 @@ namespace ServicesLibrary.Services
                 studentListWithTotalPoints.Add(student);
             }
             var orderedStudentListByPoints=studentListWithTotalPoints.OrderByDescending(student => student.TotalPoints).ToList();
-            var studentListWithStatus=AssignStatusForAllAstudents(orderedStudentListByPoints);
-            return studentListWithStatus;
+            var studentListWithStatus=new List<Student>();
+            var isSetStatus = false;
+            if (orderedStudentListByPoints[0].StudentStatus == null)
+            {
+                studentListWithStatus = AssignStatusForAllAstudents(orderedStudentListByPoints);
+            }
+            else
+            {
+                studentListWithStatus=orderedStudentListByPoints;
+                isSetStatus=true;
+            }
+            return (studentListWithStatus, isSetStatus);
         }
         private int CalculateScore(List<Results> results)
         {

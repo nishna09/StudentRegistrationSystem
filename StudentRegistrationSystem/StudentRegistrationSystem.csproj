@@ -126,6 +126,7 @@
     <Content Include="Scripts\AjaxScript.js" />
     <Content Include="Scripts\Login.js" />
     <Content Include="Scripts\Register.js" />
+    <Content Include="Scripts\StudentHome.js" />
     <Content Include="Scripts\Update.js" />
     <Content Include="Web.config" />
   </ItemGroup>
