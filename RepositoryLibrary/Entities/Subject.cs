@@ -10,10 +10,7 @@ namespace RepositoryLibrary.Entities
     {
         public int SubjectId { get; set; }
         public string SubjectName { get; set; }
-        public Subject()
-        {
-
-        }
+        public Subject() {}
         public Subject(int subjectId)
         {
             SubjectId = subjectId;

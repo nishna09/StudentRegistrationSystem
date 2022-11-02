@@ -107,7 +107,7 @@ namespace ServicesLibrary.Services
             }
             if (duplicateSubjects)
             {
-                return new Response(false, "Same subjects were entered twice!");
+                return new Response(false, "Same subjects were entered more than once!");
             }
             var studentId = StudentId;
             return StudentRepository.UpdateDetails(model, (int)studentId);
