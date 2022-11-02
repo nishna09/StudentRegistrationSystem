@@ -69,6 +69,16 @@ namespace ServicesLibrary.Services
                 return new Response(false,"Status has already been set!");
             return  StudentRepository.BatchUpdateStatus(model);
         }
+        public StudentInfo Get(int? studentId)
+        {
+            if (studentId == null)
+                studentId = StudentId;
+            var student=StudentRepository.GetStudent("st.StudentId", "StudentId", studentId);
+            student.TotalPoints = CalculateScore(student.Results);
+            if (student == null)
+                return null;
+            return SetValuesInModel(student);
+        }
         public Response UpdateDetails(UpdateStudent model)
         {
             if (string.IsNullOrEmpty(model.GuardianName))
@@ -108,21 +118,6 @@ namespace ServicesLibrary.Services
             var studentId = StudentId;
             return StudentRepository.UpdateDetails(model, (int)studentId);
         }
-        public Response CheckIfResultsExists(int? studentId)
-        {
-            if (studentId == null)
-                studentId = StudentId;
-            Student student = StudentRepository.GetStudent("st.StudentId", "StudentId", studentId);
-            if (student == null)
-                return new Response(false, "Error while getting student information");
-            else
-            {
-                if (student.Results == null)
-                    return new Response(false, "Results do not exist yet");
-                else
-                    return new Response(true, "Subjects already exist!");
-            }
-        }
         public FormattedStudent ReturnFormattedStudentsWithStatus()
         {
             FormattedStudent formattedStudent=new FormattedStudent();
@@ -139,7 +134,7 @@ namespace ServicesLibrary.Services
             }
             return formattedStudent;
         }
-        public (List<Student>, bool) SortStudentsByPoint()
+        private (List<Student>, bool) SortStudentsByPoint()
         {
             List<Student> students = GetAllStudentResults();
             if (students == null)
@@ -167,9 +162,12 @@ namespace ServicesLibrary.Services
         private int CalculateScore(List<Results> results)
         {
             int totalPoints = 0;
-            foreach(Results result in results)
+            if (results != null && results.Count>0)
             {
-                totalPoints += (int)result.Grade;
+                foreach (Results result in results)
+                {
+                    totalPoints += (int)result.Grade;
+                }
             }
             return totalPoints;
         }
@@ -222,18 +220,30 @@ namespace ServicesLibrary.Services
         private StudentInfo SetValuesInModel(Student student)
         {
             var results = new List<ResultInfo>();
-            foreach (var studentResult in student.Results)
+            if (student.Results == null || student.Results.Count <= 0)
             {
-                ResultInfo result = new ResultInfo();
-                result.SubjectName = studentResult.Subject.SubjectName;
-                result.Grade = studentResult.Grade.ToString();
-                results.Add(result);
+                results = null;
+            }
+            else
+            {
+                foreach (var studentResult in student.Results)
+                {
+                    ResultInfo result = new ResultInfo();
+                    result.SubjectName = studentResult.Subject.SubjectName;
+                    result.Grade = studentResult.Grade.ToString();
+                    results.Add(result);
+                }
             }
             StudentInfo studentInfo = new StudentInfo();
             studentInfo.StudentId = student.StudentId;
             studentInfo.FirstName = student.FirstName;
             studentInfo.LastName = student.LastName;
-            studentInfo.StudentStatus = student.StudentStatus.ToString();
+            if (student.StudentStatus!=null)
+                studentInfo.StudentStatus = student.StudentStatus.ToString();
+            else
+            {
+                studentInfo.StudentStatus = "Pending";
+            }
             studentInfo.Results = results;
             studentInfo.TotalPoints = student.TotalPoints;
             return studentInfo;

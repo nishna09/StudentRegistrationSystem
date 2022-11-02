@@ -85,10 +85,15 @@ table {
 thead{
     background-color:black;
     color:white;
+    font-weight:bolder;
 }
-td,th {
-        border: 1px solid #ddd;
-        padding: 8px;
+.labelTitle{
+    background-color:darkgray;
+    font-weight:bold;
+}
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
 }
 
 tr:nth-child(even) {

@@ -40,6 +40,7 @@ function AppendResults(students) {
                 let result = students[indexStudent].Results[index];
                 if (index == 0) {
                     tbody += `<tr>
+                            <td rowspan="${numResults}">${indexStudent+1}</td>
                             <td rowspan="${numResults}">${students[indexStudent].FirstName}</td>
                             <td rowspan="${numResults}">${students[indexStudent].LastName}</td>
                             <td> ${ result.SubjectName }</td >
@@ -58,7 +59,7 @@ function AppendResults(students) {
         }
     }
     else {
-        tbody = "<tr>No students!</tr>";
+        tbody = "<tr colspan='7'>No students!</tr>";
     }
     table.append(tbody);
 }

@@ -15,10 +15,9 @@ namespace ServicesLibrary.Services
     {
         Response RegisterStudent(User model);
         Response UpdateDetails(UpdateStudent model);
-        (List<Student>, bool) SortStudentsByPoint();
         FormattedStudent ReturnFormattedStudentsWithStatus();
-        Response CheckIfResultsExists(int? studentId);
         Response BatchUpdateStatus(FormattedStudent model);
+        StudentInfo Get(int? studentId);
     }
    
 }

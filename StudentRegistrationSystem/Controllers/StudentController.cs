@@ -61,10 +61,10 @@ namespace StudentRegistrationSystem.Controllers
         }
         [HttpGet]
         [CustomAuthorize(Role.Student, Role.Admin)]
-        public JsonResult CheckIfResultExist()
+        public JsonResult GetStudent()
         {
-            Response res = StudentServices.CheckIfResultsExists(null);
-            return Json(res, JsonRequestBehavior.AllowGet);
+            StudentInfo student = StudentServices.Get(null);
+            return Json(student, JsonRequestBehavior.AllowGet);
         }
     }
 }
