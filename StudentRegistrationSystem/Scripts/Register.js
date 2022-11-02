@@ -174,20 +174,20 @@ function passwordEquality() {
 function emailCheck() {
     var email = $("#emailAddress").val();
     if (email.trim() != '') {
-        return postGetData({ emailAddress: email }, "/Users/EmailAvailability", "POST");
+        return postGetData({ emailAddress: email }, "/Validation/EmailAvailability", "POST");
     
     }
 }
 function phoneNumberCheck(phone) {
     if (phone.trim() != '') {
-        return postGetData({ phoneNumber: phone }, "/Users/PhoneNumberAvailability", "POST");
+        return postGetData({ phoneNumber: phone }, "/Validation/PhoneNumberAvailability", "POST");
 
     }
 }
 function NIDCheck() {
     var NID = $("#NID").val();
     if (NID.trim() != '') {
-        return postGetData({ nationalID: NID }, "/Users/NationalIDAvailability", "POST");
+        return postGetData({ nationalID: NID }, "/Validation/NationalIDAvailability", "POST");
 
     }
 }

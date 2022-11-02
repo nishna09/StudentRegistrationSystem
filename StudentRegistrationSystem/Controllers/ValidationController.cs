@@ -13,12 +13,12 @@ using StudentRegistrationSystem.Authorization;
 
 namespace ResgistrationApplication.Controllers
 {
-    public class UsersController : Controller
+    public class ValidationController : Controller
     {
         private readonly IUserServices UserServices;
         private readonly IValidation Validation;
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        public UsersController(IUserServices userServices,IValidation validation)
+        public ValidationController(IUserServices userServices,IValidation validation)
         {
             UserServices = userServices;
             Validation = validation;
