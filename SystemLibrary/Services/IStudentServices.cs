@@ -18,6 +18,7 @@ namespace ServicesLibrary.Services
         FormattedStudent ReturnFormattedStudentsWithStatus();
         Response BatchUpdateStatus(FormattedStudent model);
         StudentInfo Get(int? studentId);
+        List<StudentSummaryModel> ReturnStudentStatusSummary();
     }
    
 }

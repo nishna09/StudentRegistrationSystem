@@ -1,5 +1,4 @@
 ﻿$(function () {
-    var statusSet = false;
     var formattedList = null;
     postGetData(null, "/Admin/GetSortedStudents", "GET").then((response) => {
         if (response.IsSetStatus) {

@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Grade.cs" />
+    <Compile Include="Models\StudentSummaryModel.cs" />
     <Compile Include="Models\FormattedStudent.cs" />
     <Compile Include="Repository\Database\DatabaseCommand.cs" />
     <Compile Include="Repository\Database\IDatabaseCommand.cs" />

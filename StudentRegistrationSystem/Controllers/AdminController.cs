@@ -38,6 +38,23 @@ namespace StudentRegistrationSystem.Controllers
             
             return Json(studentsObj, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        [CustomAuthorize(Role.Admin)]
+        public JsonResult GetStudentSummary()
+        {
+            List<StudentSummaryModel> summary = null;
+            try
+            {
+                summary = StudentServices.ReturnStudentStatusSummary();
+
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error {err} occured", ex.Message);
+            }
+
+            return Json(summary, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         [CustomAuthorize(Role.Admin)]
         public JsonResult BatchUpdateStudentsStatus(FormattedStudent model)
@@ -54,6 +71,12 @@ namespace StudentRegistrationSystem.Controllers
             }
 
             return Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        [CustomAuthorize(Role.Admin)]
+        public ActionResult Summary()
+        {
+            return View();
         }
 
     }

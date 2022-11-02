@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="~/Content/css/Style.css">
-    <script type="text/javascript" src="~/Scripts/Admin.js"></script>
+    <script type="text/javascript" src="~/Scripts/AdminSummary.js"></script>
     <script type="text/javascript" src="~/Scripts/AjaxScript.js"></script>
     <title>University Registration</title>
 </head>
 <body>
     <div class="topnav">
-        <a class="active"><i class="fa fa-fw fa-home"></i>Home</a>
-        <a href="/Admin/Summary"><i class="fa fa-file-text-o"></i> Student Summary</a>
+        <a href="/Home/HomeAdmin"><i class="fa fa-fw fa-home"></i>Home</a>
+        <a class="active"><i class="fa fa-file-text-o"></i> Student Summary</a>
         <a href="/Login/Logout" class="split"><i class="fa fa-user fa-fw"></i>Logout</a>
     </div>
     <h1>
@@ -23,40 +23,13 @@
     </h1>
     <div class="studentTable">
         <table id="studentsInfo">
-            <thead>
-                <tr>
-                    <td>    </td>
-                    <td>
-                        First Name
-                    </td>
-                    <td>
-                        Last Name
-                    </td>
-                    <td>
-                        Subjects
-                    </td>
-                    <td>
-                        Grade
-                    </td>
-                    <td>
-                        Total Points
-                    </td>
-                    <td>
-                        Status
-                    </td>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
+            
         </table>
         <div class="center space">
-            <button class="center" id="btnStatus">Commit Status</button>
-        </div><br />
-        <div>
-            <span class="error" id="updateErr"></span>
+            <button class="center" id="btnExport">Export As CSV File</button>
         </div>
     </div>
-    
-  
+
+
 </body>
 </html>

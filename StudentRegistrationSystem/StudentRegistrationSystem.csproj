@@ -123,6 +123,7 @@
     <Content Include="Content\Images\log2.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Admin.js" />
+    <Content Include="Scripts\AdminSummary.js" />
     <Content Include="Scripts\AjaxScript.js" />
     <Content Include="Scripts\Login.js" />
     <Content Include="Scripts\Register.js" />
@@ -158,6 +159,7 @@
     <Content Include="Views\Error\Unauthorised.cshtml" />
     <Content Include="Views\Student\UpdateProfile.cshtml" />
     <Content Include="Views\Student\Register.cshtml" />
+    <Content Include="Views\Admin\Summary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -168,7 +170,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Admin\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

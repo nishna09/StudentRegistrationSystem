@@ -118,6 +118,24 @@ namespace ServicesLibrary.Services
             var studentId = StudentId;
             return StudentRepository.UpdateDetails(model, (int)studentId);
         }
+        public List<StudentSummaryModel> ReturnStudentStatusSummary()
+        {
+            List<StudentSummaryModel> response = new List<StudentSummaryModel>();
+            (List<Student> students, bool isSetStatus) = SortStudentsByPoint();
+            if (students!=null)
+            {
+                var statusList = students.Select(studs => studs.StudentStatus).Distinct().ToList();
+                foreach (var status in statusList)
+                {
+                    StudentSummaryModel oneCategory=new StudentSummaryModel();
+                    oneCategory.Status = status.ToString();
+                    List<Student> studentListWithStatus = students.Where(stud => stud.StudentStatus == status).ToList();
+                    oneCategory.Students= studentListWithStatus.Select(stud=>string.Concat(stud.FirstName," ",stud.LastName)).ToList();
+                    response.Add(oneCategory);
+                }
+            }
+            return response;
+        }
         public FormattedStudent ReturnFormattedStudentsWithStatus()
         {
             FormattedStudent formattedStudent=new FormattedStudent();
@@ -148,8 +166,8 @@ namespace ServicesLibrary.Services
             var orderedStudentListByPoints=studentListWithTotalPoints.OrderByDescending(student => student.TotalPoints).ToList();
             var studentListWithStatus=new List<Student>();
             var isSetStatus = false;
-            if (orderedStudentListByPoints[0].StudentStatus == null)
-            {
+            if (orderedStudentListByPoints.Count(stud => stud.StudentStatus == null) > 0)
+                {
                 studentListWithStatus = AssignStatusForAllAstudents(orderedStudentListByPoints);
             }
             else
