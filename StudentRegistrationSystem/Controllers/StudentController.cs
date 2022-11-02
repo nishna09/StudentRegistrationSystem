@@ -1,12 +1,8 @@
-﻿using NLog;
-using RepositoryLibrary.Entities;
+﻿using RepositoryLibrary.Entities;
 using RepositoryLibrary.Models;
 using ServicesLibrary.Services;
 using StudentRegistrationSystem.Authorization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace StudentRegistrationSystem.Controllers

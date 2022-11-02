@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepositoryLibrary.Entities;
+﻿using RepositoryLibrary.Entities;
 using RepositoryLibrary.Models;
+using System.Collections.Generic;
 
 namespace RepositoryLibrary.Repository
 {
