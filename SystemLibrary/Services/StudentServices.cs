@@ -48,12 +48,10 @@ namespace ServicesLibrary.Services
             {
                 return checkNationalID;
             }
-            if (model.Password.Length < 6 || string.IsNullOrEmpty(model.Password))
+            if (!Validation.ValidatePassword(model.Password).Flag)
             {
-                string mssg = "Passwords needs to be specified and has to be at least 6 characters long!";
-                return new Response(false, mssg);
+                return Validation.ValidatePassword(model.Password);
             }
-            
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
             model.Password = hashedPassword;
             Response res = StudentRepository.RegisterStudent(model);

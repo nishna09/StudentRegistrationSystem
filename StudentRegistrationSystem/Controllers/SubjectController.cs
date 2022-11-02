@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using RepositoryLibrary.Entities;
 using ServicesLibrary.Services;
-using RepositoryLibrary.Entities;
-using NLog;
-using System.Security.Policy;
 using StudentRegistrationSystem.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace StudentRegistrationSystem.Controllers
 {
-    public class ResultController : BaseController
+    public class SubjectController : BaseController
     {
         private readonly IResultServices ResultServices;
-        public ResultController(IResultServices resultServices)
+        public SubjectController(IResultServices resultServices)
         {
 
             ResultServices = resultServices;

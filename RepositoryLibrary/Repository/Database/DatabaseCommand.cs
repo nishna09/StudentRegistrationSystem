@@ -14,7 +14,6 @@ namespace RepositoryLibrary.Repository.Database
     public class DatabaseCommand : IDatabaseCommand
     {
         private SqlConnection conn = null;
-        //private readonly string connectionString = "Data Source=L-PW02X07Y;Initial Catalog=StudentRegistrationSystem;Integrated Security=True";
         private readonly string connectionString = @ConfigurationManager.AppSettings["ConnectionString"];
         private SqlTransaction Transaction;
         public void OpenDbConnection()

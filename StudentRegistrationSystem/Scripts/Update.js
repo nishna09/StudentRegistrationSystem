@@ -5,7 +5,7 @@
         return false;
     });
 
-    postGetData(null, "/Result/GetAllSubjects", "GET").then((subjects) => {
+    postGetData(null, "/Subject/GetAllSubjects", "GET").then((subjects) => {
         if (subjects) {
             for (var i = 0; i < subjects.length; i++) {
                 $('select.subjects').append(`<option value="${subjects[i].SubjectId}">${subjects[i].SubjectName}</option>`);

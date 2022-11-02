@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RepositoryLibrary.Entities;
 using RepositoryLibrary.Repository;
-using RepositoryLibrary.Entities;
+using System.Collections.Generic;
 using System.Web;
-using System.Security.Policy;
-using System.Net.Mail;
 
 namespace ServicesLibrary.Services
 {

@@ -62,13 +62,11 @@ namespace StudentRegistrationSystem.Controllers
             try
             {
                 res = StudentServices.BatchUpdateStatus(model);
-
             }
             catch (Exception exception)
             {
                 LogError(exception);
             }
-
             return Json(res, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]

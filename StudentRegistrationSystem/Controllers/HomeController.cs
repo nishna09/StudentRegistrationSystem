@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using RepositoryLibrary.Entities;
 using StudentRegistrationSystem.Authorization;
-using RepositoryLibrary.Entities;
+using System.Web.Mvc;
 
 namespace StudentRegistrationSystem.Controllers
 {

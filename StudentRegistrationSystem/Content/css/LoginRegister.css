@@ -3,6 +3,8 @@
 body {
     background-image: url("/Content/Images/log2.jpg");
     background-size: cover;
+    position:relative;
+    background-attachment:fixed;
     font-family: 'Times New Roman', serif;
     color: whitesmoke;
     font-size: large;
