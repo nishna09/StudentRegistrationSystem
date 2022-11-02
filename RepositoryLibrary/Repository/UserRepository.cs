@@ -42,10 +42,6 @@ namespace RepositoryLibrary.Repository
                 db.CloseDbConnection();
             return userId;
         }
-        public IEnumerable<User> GetUsers()
-        {
-            return new List<User>();
-        }
         public User GetUser(string queryParameter, object queryValue)
         {
             DBContext.OpenDbConnection();
@@ -64,14 +60,6 @@ namespace RepositoryLibrary.Repository
             }
             DBContext.CloseDbConnection();
             return user;
-        }
-        public bool Update(User user)
-        {
-            return false;
-        }
-        public bool Delete(int userId)
-        {
-            return false;
         }
 
 

@@ -10,17 +10,15 @@ using RepositoryLibrary.Entities;
 using System.Net.Mail;
 using RepositoryLibrary.Models;
 using StudentRegistrationSystem.Authorization;
+using StudentRegistrationSystem.Controllers;
 
 namespace ResgistrationApplication.Controllers
 {
-    public class ValidationController : Controller
+    public class ValidationController : BaseController
     {
-        private readonly IUserServices UserServices;
         private readonly IValidation Validation;
-        private static Logger logger = LogManager.GetCurrentClassLogger();
-        public ValidationController(IUserServices userServices,IValidation validation)
+        public ValidationController(IValidation validation)
         {
-            UserServices = userServices;
             Validation = validation;
         }
         [HttpPost]
@@ -30,9 +28,9 @@ namespace ResgistrationApplication.Controllers
             {
                 return Json(Validation.IsEmailAvailable(emailAddress), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                logger.Error("Error {err} occured", ex.Message);
+                LogError(exception);
                 return Json(new Response(false, "An error occured while validating email address"), JsonRequestBehavior.AllowGet);
             }
         }
@@ -43,9 +41,9 @@ namespace ResgistrationApplication.Controllers
             {
                 return Json(Validation.IsPhoneNumberAvailable(phoneNumber), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                logger.Error("Error {err} occured", ex.Message);
+                LogError(exception);
                 return Json(new Response(false, "An error occured while validating phone number"), JsonRequestBehavior.AllowGet);
             }
         }
@@ -56,11 +54,12 @@ namespace ResgistrationApplication.Controllers
             {
                 return Json(Validation.IsNationalIDAvailable(nationalID), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                logger.Error("Error {err} occured", ex.Message);
+                LogError(exception);
                 return Json(new Response(false, "An error occured while validating national identity number"), JsonRequestBehavior.AllowGet);
             }
         }
+       
     }
 }

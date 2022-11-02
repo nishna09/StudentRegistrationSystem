@@ -14,10 +14,10 @@ namespace RepositoryLibrary.Repository
 {
     public class RoleRepository : IRoleRepository
     {
-        private readonly IDatabaseCommand _dBContext;
+        private readonly IDatabaseCommand DBContext;
         public RoleRepository(IDatabaseCommand dBContext)
         {
-            _dBContext = dBContext;
+            DBContext = dBContext;
         }
         public int AddRole(Role role, int userId, IDatabaseCommand db)
         {
@@ -25,7 +25,7 @@ namespace RepositoryLibrary.Repository
             if (db == null)
             {
                 setDb = true;
-                db = _dBContext;
+                db = DBContext;
                 db.OpenDbConnection();
             }
             string query = SQLQueries.AddUserRoleQuery;
@@ -43,8 +43,8 @@ namespace RepositoryLibrary.Repository
             string query = SQLQueries.GetUserRoles;
             var parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@UserId", userId));
-            _dBContext.OpenDbConnection();
-            DataTable results = _dBContext.QueryWithConditions(query, parameters);
+            DBContext.OpenDbConnection();
+            DataTable results = DBContext.QueryWithConditions(query, parameters);
             if (results.Rows.Count > 0)
             {
                 foreach (DataRow row in results.Rows)
@@ -53,7 +53,7 @@ namespace RepositoryLibrary.Repository
                     roles.Add((Role)roleId);
                 }
             }
-            _dBContext.CloseDbConnection();
+            DBContext.CloseDbConnection();
             return roles;
         }
     }

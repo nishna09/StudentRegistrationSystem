@@ -11,10 +11,9 @@ using System.Web.Mvc;
 
 namespace StudentRegistrationSystem.Controllers
 {
-    public class StudentController : Controller
+    public class StudentController : BaseController
     {
         private readonly IStudentServices StudentServices;
-        private static Logger logger = LogManager.GetCurrentClassLogger();
         public StudentController(IStudentServices studentServices)
         {
             StudentServices = studentServices;
@@ -38,9 +37,9 @@ namespace StudentRegistrationSystem.Controllers
             {
                 res = StudentServices.RegisterStudent(model);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                logger.Error("Error {err} occured", ex.Message);
+                LogError(exception);
             }
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -53,9 +52,9 @@ namespace StudentRegistrationSystem.Controllers
             {
                 res = StudentServices.UpdateDetails(model);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                logger.Error("Error {err} occured", ex.Message);
+                LogError(exception);
             }
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -63,7 +62,15 @@ namespace StudentRegistrationSystem.Controllers
         [CustomAuthorize(Role.Student, Role.Admin)]
         public JsonResult GetStudent()
         {
-            StudentInfo student = StudentServices.Get(null);
+            StudentInfo student = null;
+            try
+            {
+                student= StudentServices.Get(null);
+            }
+            catch (Exception exception)
+            {
+                LogError(exception);
+            }
             return Json(student, JsonRequestBehavior.AllowGet);
         }
     }

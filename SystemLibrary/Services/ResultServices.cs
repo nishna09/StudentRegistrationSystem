@@ -10,14 +10,14 @@ namespace ServicesLibrary.Services
 {
     public class ResultServices : IResultServices
     {
-        private readonly IResultRepository _resultRepository;
+        private readonly IResultRepository ResultRepository;
         public ResultServices(IResultRepository repository)
         {
-            _resultRepository = repository;
+            ResultRepository = repository;
         }
         public List<Subject> GetAllSubjects()
         {
-            List<Subject> subjects = _resultRepository.GetAllSubjects();
+            List<Subject> subjects = ResultRepository.GetAllSubjects();
             return subjects;
         }
 

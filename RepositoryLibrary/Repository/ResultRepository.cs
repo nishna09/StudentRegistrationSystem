@@ -12,18 +12,18 @@ namespace RepositoryLibrary.Repository
 {
     public class ResultRepository : IResultRepository
     {
-        private readonly IDatabaseCommand _dbContext;
+        private readonly IDatabaseCommand DBContext;
         public ResultRepository(IDatabaseCommand dbContext)
         {
-            _dbContext = dbContext;
+            DBContext = dbContext;
         }
         public List<Subject> GetAllSubjects()
         {
             var subjects = new List<Subject>();
-            _dbContext.OpenDbConnection();
+            DBContext.OpenDbConnection();
 
             string query = SQLQueries.GetSubjects;
-            DataTable results = _dbContext.QueryWithConditions(query, null);
+            DataTable results = DBContext.QueryWithConditions(query, null);
 
             if (results.Rows.Count > 0)
             {
@@ -34,7 +34,7 @@ namespace RepositoryLibrary.Repository
                     subjects.Add(subject);
                 }
             }
-            _dbContext.CloseDbConnection();
+            DBContext.CloseDbConnection();
             return subjects;
         }
     }

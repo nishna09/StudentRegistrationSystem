@@ -11,13 +11,12 @@ using System.Reflection;
 
 namespace StudentRegistrationSystem.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
-        private readonly IUserServices _userServices;
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly IUserServices UserServices;
         public LoginController(IUserServices userServices)
         {
-            _userServices = userServices;
+            UserServices = userServices;
         }
         [HttpGet]
         public ActionResult Index()
@@ -31,11 +30,11 @@ namespace StudentRegistrationSystem.Controllers
             Response response = null;
             try
             {
-                response = _userServices.Authenticate(emailAddress, password);
+                response = UserServices.Authenticate(emailAddress, password);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                logger.Error("Error {err} occured", ex.Message);
+                LogError(exception);
             }
           
             return Json(response, JsonRequestBehavior.AllowGet);

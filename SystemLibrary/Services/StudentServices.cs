@@ -13,17 +13,13 @@ namespace ServicesLibrary.Services
 {
     public class StudentServices : IStudentServices
     {
-        private readonly IUserServices UserServices;
         private readonly IStudentRepository StudentRepository;
-        private readonly IUserRepository UserRepository;
         private readonly IValidation Validation;
         private readonly int? StudentId = null;
 
-        public StudentServices(IUserServices userServices, IStudentRepository studentRepository, IUserRepository userRepository,IValidation validation)
+        public StudentServices( IStudentRepository studentRepository,IValidation validation)
         {
-            UserServices = userServices;
             StudentRepository = studentRepository;
-            UserRepository = userRepository;
             Validation = validation;
             if (HttpContext.Current.Session["UserId"] != null)
             {

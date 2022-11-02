@@ -22,7 +22,6 @@ namespace ServicesLibrary.Services
             StudentRepository = studentRepository;
             UserRepository = userRepository;
         }
-
         public Response ValidateEmail(string email)
         {
             bool valid = true;

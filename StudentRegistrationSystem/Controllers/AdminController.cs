@@ -13,10 +13,9 @@ using System.Web.Mvc;
 
 namespace StudentRegistrationSystem.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         private readonly IStudentServices StudentServices;
-        private static Logger logger = LogManager.GetCurrentClassLogger();
         public AdminController(IStudentServices studentServices)
         {
             StudentServices = studentServices;
@@ -31,9 +30,9 @@ namespace StudentRegistrationSystem.Controllers
                 studentsObj = StudentServices.ReturnFormattedStudentsWithStatus();
                 
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                logger.Error("Error {err} occured", ex.Message);
+                LogError(exception);
             }
             
             return Json(studentsObj, JsonRequestBehavior.AllowGet);
@@ -48,9 +47,9 @@ namespace StudentRegistrationSystem.Controllers
                 summary = StudentServices.ReturnStudentStatusSummary();
 
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                logger.Error("Error {err} occured", ex.Message);
+                LogError(exception);
             }
 
             return Json(summary, JsonRequestBehavior.AllowGet);
@@ -65,9 +64,9 @@ namespace StudentRegistrationSystem.Controllers
                 res = StudentServices.BatchUpdateStatus(model);
 
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                logger.Error("Error {err} occured", ex.Message);
+                LogError(exception);
             }
 
             return Json(res, JsonRequestBehavior.AllowGet);

@@ -11,17 +11,14 @@ using StudentRegistrationSystem.Authorization;
 
 namespace StudentRegistrationSystem.Controllers
 {
-    public class ResultController : Controller
+    public class ResultController : BaseController
     {
         private readonly IResultServices ResultServices;
-        private static Logger logger = LogManager.GetCurrentClassLogger();
         public ResultController(IResultServices resultServices)
         {
 
             ResultServices = resultServices;
         }
-     
-
         [HttpGet]
         [CustomAuthorize]
         public JsonResult GetAllSubjects()
@@ -31,9 +28,9 @@ namespace StudentRegistrationSystem.Controllers
             {
                 subjects = ResultServices.GetAllSubjects();
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                logger.Error("Error {err} occured", ex.Message);
+                LogError(exception);
             }
             return Json(subjects, JsonRequestBehavior.AllowGet);
         }

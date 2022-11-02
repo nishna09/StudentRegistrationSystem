@@ -13,10 +13,7 @@ namespace RepositoryLibrary.Repository
     public interface IUserRepository
     {
         int AddUser(User user, IDatabaseCommand db);
-        IEnumerable<User> GetUsers();
         User GetUser(string queryParameter, object queryValue);
-        bool Update(User user);
-        bool Delete(int userId);
     }
 
     
