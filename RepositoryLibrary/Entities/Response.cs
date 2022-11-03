@@ -6,9 +6,7 @@
         public string Message { get; set; }
         public string Url { get; set; }
 
-        public Response()
-        {
-        }
+        public Response() {}
         public Response(bool flag, string message)
         {
             Flag = flag;
