@@ -140,7 +140,7 @@ namespace RepositoryLibrary.Repository
                 }
                 catch
                 {
-                    student.StudentStatus = null;
+                    student.StudentStatus = null; 
                 }
                 try
                 {

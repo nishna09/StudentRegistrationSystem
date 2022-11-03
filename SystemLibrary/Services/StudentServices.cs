@@ -145,7 +145,7 @@ namespace ServicesLibrary.Services
         }
         private (List<Student>, bool) SortStudentsByPoint()
         {
-            List<Student> students = GetAllStudentResults();
+            List<Student> students = StudentRepository.GetAllStudentsWithResult();
             if (students == null)
                 return (null, false);
             List<Student> studentListWithTotalPoints = new List<Student>();
@@ -179,11 +179,6 @@ namespace ServicesLibrary.Services
                 }
             }
             return totalPoints;
-        }
-        private List<Student> GetAllStudentResults()
-        {
-            List<Student> students =StudentRepository.GetAllStudentsWithResult();
-            return students;
         }
         private List<Student> AssignStatusForAllAstudents(List<Student> students)
         {
