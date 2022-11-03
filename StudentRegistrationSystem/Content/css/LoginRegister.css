@@ -1,6 +1,4 @@
-﻿/* Styling the Body element i.e. Color,
-		Font, Alignment */
-body {
+﻿body {
     background-image: url("/Content/Images/log2.jpg");
     background-size: cover;
     position:relative;
@@ -10,26 +8,20 @@ body {
     font-size: large;
     font-weight: normal;
 }
-
-/* Styling the Form (Color, Padding, Shadow) */
 #form {
     max-width: 500px;
     margin: 50px auto;
     padding: 30px 20px;
     box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
 }
-
-/* Styling form-control Class */
 .form-control {
     text-align: left;
     margin-bottom: 25px;
 }
-
-    /* Styling form-control Label */
-    .form-control label {
-        display: block;
-        margin-bottom: 10px;
-    }
+.form-control label {
+    display: block;
+    margin-bottom: 10px;
+}
 
 legend {
     text-align: center;
